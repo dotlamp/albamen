@@ -1,21 +1,14 @@
-show databases;
-use albamen;
-show tables;
-
 /* albamen 유저 추가 */
 use mysql;
 select host, user from user;
 create user 'albamen'@localhost identified by 'albamen';
 grant all privileges on albamen.* to 'albamen'@localhost identified by 'albamen';
-
 /* albamen 유저 삭제 */
 delete from user where user = 'albamen';
 
-/* test */
-create table test(
-    id int not null
-);
-drop table test;
+show databases;
+use albamen;
+show tables;
 
 /* member */
 create table member( /*회원*/
@@ -31,13 +24,6 @@ create table member( /*회원*/
                        constraint member_id_uk unique key (id)
 );
 ALTER TABLE member convert to charset utf8;
-drop table member;
-
-insert into member(id, password, name, tel, mStatus, cno)
-    value("test", "test", "tester", "01012341234", 0, null);
-
-show full columns from member;
-
 /* company */
 create table company( /*회사테이블*/
                         cno int auto_increment comment '회사시퀀스' ,
@@ -51,14 +37,6 @@ create table company( /*회사테이블*/
                         constraint company_id_uk unique key (id)
 );
 ALTER TABLE company convert to charset utf8;
-drop table company;
-
-
-insert into company (id, password, name, ceo, cStatus)
-values ("1234", "1234", "맥도날드", "대표", 0);
-
-select * from company;
-
 /* branch */
 create table branch( /* 회사 지점 테이블*/
                        bno int auto_increment  comment '번호',
@@ -74,10 +52,6 @@ create table branch( /* 회사 지점 테이블*/
                        constraint branch_cno_fk foreign key(cno) references company(cno)
 );
 ALTER TABLE branch convert to charset utf8;
-drop table branch;
-insert into branch (cno, bname, btel, post, address, manager, mTel)
-values (1, "동명대점", "0511234567", "00001", "부산시 남구 용당동", "관리자", "01012341234");
-
 create  table auth(
                       ano int auto_increment comment '번호',
                       mno int comment '회원시퀀스',
@@ -87,14 +61,12 @@ create  table auth(
                       constraint auth_mno_fk foreign key (mno) references member(mno),
                       constraint auth_cno_fk foreign key (cno) references company(cno)
 );
-drop table auth;
 create table persistent_logins(
                       username varchar(64) not null,
                       series varchar(64) primary key,
                       token varchar(64) not null,
                       last_used timestamp not null
 );
-drop table persistent_logins;
 select * from persistent_logins;
 /* attach */
 create table attach( /*첨부파일 테이블*/
@@ -109,8 +81,6 @@ create table attach( /*첨부파일 테이블*/
                        constraint attach_mno_fk foreign key (mno) references member(mno),
                        constraint attach_cno_fk foreign key (cno) references company(cno)
 );
-drop table attach;
-
 /* salary */
 create table member_salary(/*회원급여테이블*/
                               mno int not null  comment '회원시퀀스' ,
@@ -120,10 +90,6 @@ create table member_salary(/*회원급여테이블*/
                               constraint member_salary_mno_pk primary key (mno),
                               constraint member_salary_mno_fk foreign key (mno) references member(mno)
 );
-
-
-drop table member_salary;
-
 /* salary_info*/
 create table salary_info(/*계좌정보*/
                             si_no int auto_increment comment '계좌정보시퀀스' ,
@@ -136,9 +102,6 @@ create table salary_info(/*계좌정보*/
                             constraint salary_info_mno_fk foreign key (mno) references member(mno),
                             constraint salary_info_cno_fk foreign key (cno) references company(cno)
 );
-
-drop table salary_info;
-
 /* time_schdule */
 create table time_schedule(/*근무시간*/
                               tno int auto_increment comment '근무시간시퀀스' ,
@@ -147,8 +110,6 @@ create table time_schedule(/*근무시간*/
                               breakTime datetime comment '휴게시간' ,
                               constraint time_schedule_tno_pk primary key (tno)
 );
-drop table time_schedule;
-
 /* schedule_management */
 create table schedule_management(/*일정관리*/
                                     sno int auto_increment comment '일정관리시퀀스' ,
@@ -160,8 +121,6 @@ create table schedule_management(/*일정관리*/
                                     constraint schedule_management_tno_fk foreign key (tno) references time_schedule(tno),
                                     constraint schedule_management_mno_fk foreign key (mno) references member(mno)
 );
-
-drop table schedule_management;
 /* work_managemanet */
 create table work_management(/*당일근무여부*/
                                 wno int auto_increment comment '당일근무여부시퀀스',
@@ -178,12 +137,23 @@ create table work_management(/*당일근무여부*/
                                 constraint work_management_sno_fk foreign key (sno) references schedule_management(sno)
 );
 
+drop table member;
+drop table company;
+drop table branch;
+drop table auth;
+drop table persistent_logins;
+drop table attach;
+drop table member_salary;
+drop table salary_info;
+drop table time_schedule;
+drop table schedule_management;
 drop table work_management;
 
+insert into member(id, password, name, tel, mStatus, cno)
+    value("test", "test", "tester", "01012341234", 0, null);
 
-show tables;
-delete from company where id = 1;
+insert into company (id, password, name, ceo, cStatus)
+values ("1234", "1234", "맥도날드", "대표", 0);
 
-select * from auth;
-insert into auth (cno, auth)
-values (3, "ROLE_ADMIN");
+insert into branch (cno, bname, btel, post, address, manager, mTel)
+values (1, "동명대점", "0511234567", "00001", "부산시 남구 용당동", "관리자", "01012341234");
