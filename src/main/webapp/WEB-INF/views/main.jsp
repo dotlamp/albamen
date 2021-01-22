@@ -12,6 +12,7 @@
 </head>
 <body>
     <div>
+        <a href="/login">login</a>
         <a href="/">home</a>
         <a href="/member">member</a>
         <a href="/company">company</a>

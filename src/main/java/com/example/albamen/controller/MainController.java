@@ -14,7 +14,7 @@ public class MainController {
 
     @RequestMapping(value = "/company", method = RequestMethod.GET)
     public String company(){
-        return "company/company";
+        return "redirect:/company/";
     }
 
     @RequestMapping(value = "/member", method = RequestMethod.GET)

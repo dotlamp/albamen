@@ -11,6 +11,7 @@ use albamen;
 show tables;
 
 /* member */
+ALTER TABLE company convert to charset utf8;
 create table member( /*회원*/
                        mno int auto_increment  comment '회원시퀀스' ,
                        id varchar(30) not null  comment '회원아이디(이메일)' ,
@@ -36,7 +37,6 @@ create table company( /*회사테이블*/
                         constraint company_cno_pk primary key (cno),
                         constraint company_id_uk unique key (id)
 );
-ALTER TABLE company convert to charset utf8;
 /* branch */
 create table branch( /* 회사 지점 테이블*/
                        bno int auto_increment  comment '번호',

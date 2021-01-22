@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.albamen.mapper.company.CompanyMapper">
+
+   <resultMap id="companyMap" type="com.example.albamen.dto.company.CompanyDTO" >
+        <id property="cno" column="cno"/>
+        <result property="id" column="id"/>
+        <result property="password" column="password"/>
+        <result property="name" column="name"/>
+        <result property="ceo" column="ceo"/>
+        <result property="regDate" column="regDate"/>
+        <result property="cStatus" column="cStatus"/>
+       <collection property="branchList" resultMap="branchMap"></collection>
+       <collection property="authList" resultMap="authMap"></collection>
+    </resultMap>
+    <resultMap id="branchMap" type="com.example.albamen.dto.company.BranchDTO">
+        <result property="bno" column="bno" />
+        <result property="cno" column="cno" />
+        <result property="bname" column="bname" />
+        <result property="btel" column="btel" />
+        <result property="post" column="post" />
+        <result property="address" column="address" />
+        <result property="manager" column="manager" />
+        <result property="mtel" column="mtel" />
+        <result property="regDate" column="bregDate" />
+    </resultMap>
+    <resultMap id="authMap" type="com.example.albamen.dto.security.AuthDTO">
+        <result property="ano" column="ano"/>
+        <result property="mno" column="mno"/>
+        <result property="cno" column="cno"/>
+        <result property="auth" column="auth"/>
+    </resultMap>
+
+    <sql id="criteria">
+        <trim prefix="(" suffix=") AND " prefixOverrides="OR">
+            <foreach item='type' collection="typeArr">
+                <trim prefix="OR">
+                    <choose>
+                        <when test="type == 'N'.toString()">
+                            name like '%'||#{keyword}||'%'
+                        </when>
+                    </choose>
+                </trim>
+            </foreach>
+        </trim>
+    </sql>
+
+    <select id="getCompany" resultMap="companyMap">
+        select c.cno, c.id, c.password,
+               b.bno, b.bname, a.ano, a.auth
+        from company c
+        left join branch b on c.cno = b.cno
+        left join auth a on c.cno = a.cno
+        where id = #{id}
+    </select>
+
+    <insert id="insertCompany">
+        insert into company(id, password, name, ceo)
+        values(#{id}, #{password}, #{name}, #{ceo})
+    </insert>
+
+    <select id="selectCompany" resultMap="companyMap">
+        select cno, id, password, name, ceo, regDate, cStatus
+        from company
+        where cno = #{cno}
+    </select>
+    <select id="selectCompanyList" resultMap="companyMap">
+        <![CDATA[
+        select *
+            from( select AAA.*, @rownum:=@rownum+1 rn
+                from( select c.cno, c.id, c.password, c.name, c.ceo, c.regDate, c.cStatus,
+          b.bno, b.bname, b.btel, b.post, b.address, b.manager, b.mtel, b.regDate as bregdate
+                  from company c
+                  left join branch b
+                  on c.cno = b.cno
+                  join (select @rownum:=0) R
+        ]]>
+                  <include refid="criteria"></include>
+        <![CDATA[
+                ) AAA
+            ) BBB
+        where rn between ((#{pageNum}-1)*#{amount}) and (#{pageNum}*#{amount})
+        ]]>
+
+
+    </select>
+    <update id="updateCompany">
+        update company
+        set name = #{name}, ceo = #{ceo}
+        where cno = #{cno}
+    </update>
+    <delete id="deleteCompany">
+        delete from company where cno = #{cno}
+    </delete>
+
+    <select id="searchCompany" resultMap="companyMap">
+        select cno, name
+        from company
+        where name like #{name}
+    </select>
+
+    <insert id="changeStatus">
+        update company
+        set cStatus = #{cStatus}
+        where cno = #{cno}
+    </insert>
+
+    <select id="idCheck" resultType="int">
+        select count(id)
+        from company
+        where id = #{id}
+    </select>
+
+
+    <insert id="insertBranch">
+        insert into branch(cno, bname, btel, post, address, manager, mtel)
+        values(#{cno}, #{bname}, #{btel}, #{post}, #{address},  #{manager}, #{mtel})
+    </insert>
+    <select id="selectBranch" resultMap="branchMap">
+        select bno, cno, bname, btel, post, address, manager, mtel, regDate as bregDate
+        from branch
+        where bno = #{bno}
+    </select>
+    <select id="selectBranchList" resultMap="branchMap">
+        select bno, cno, bname, btel, post, address, manager, mtel, regDate as bregDate
+        from branch
+    </select>
+    <select id="searchBranch" resultMap="branchMap">
+        select bno, cno, bname, btel, post, address, manager, mtel, regDate as bregDate
+        from branch
+        where bname like #{name}
+    </select>
+    <insert id="updateBranch">
+        update branch
+        set bname = #{bname}, btel = #{btel}, post= #{post}, manager = #{manager}, mtel = #{mtel}, address = #{address}
+        where bno = #{bno}
+    </insert>
+    <delete id="deleteBranch">
+        delete from branch
+        where bno = #{bno}
+    </delete>
+
+    <insert id="insertAuth">
+        insert into auth(cno, auth)
+        values (#{cno}, #{auth})
+    </insert>
+
+    <delete id="deleteAuth">
+        delete from auth where cno = #{cno} and auth = #{auth}
+    </delete>
+
+    <select id="selectAuth">
+        select ano, cno, auth
+        from auth
+        where cno = #{cno}
+    </select>
+
+    <select id="selectAuthList" resultMap="companyMap">
+        select ano, cno, auth
+        from auth
+    </select>
+
+    <select id="getTotalCount" resultType="int">
+        select count(*) from company
+        where cno > 0
+    </select>
+
+</mapper>
+
