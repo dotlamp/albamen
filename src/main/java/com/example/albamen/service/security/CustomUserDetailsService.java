@@ -31,18 +31,14 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
-        CompanyDTO company = companyMapper.getCompany(id);
-        MemberDTO member = memberMapper.getMember(id);
         try {
+            CompanyDTO company = companyMapper.getCompany(id);
             if(company != null){
-                log.info("===================================================================");
-                log.info("company login service");
-                return company == null ? null : new SecurityAlbamen(company);
+                return new SecurityAlbamen(company);
             }
+            MemberDTO member = memberMapper.getMember(id);
             if(member != null){
-                log.info("===================================================================");
-                log.info("member login service");
-                return member == null ? null : new SecurityAlbamen(member);
+                return new SecurityAlbamen(member);
             }
         }catch (Exception e){
             e.printStackTrace();
