@@ -14,8 +14,8 @@
         <result property="tel" column="tel"/>
         <result property="mstatus" column="mstatus"/>
         <result property="cno" column="cno"/>
+        <collection property="authList" resultMap="authMap"></collection>
         <collection property="work_mList" resultMap="work_mMap"></collection>
-        <collection property="companyList" resultMap="companyMap"></collection>
     </resultMap>
 
     <resultMap id="work_mMap" type="com.example.albamen.dto.member.Work_MDTO">
@@ -29,15 +29,13 @@
         <result property="wstatus" column="wStatus"/>
     </resultMap>
 
-    <resultMap id="companyMap" type="com.example.albamen.dto.company.CompanyDTO" >
-        <id property="cno" column="cno"/>
-        <result property="id" column="id"/>
-        <result property="password" column="password"/>
-        <result property="name" column="cname"/>
-        <result property="regDate" column="regDate"/>
-        <result property="cstatus" column="cStatus"/>
-<!--        <collection property="branchList" resultMap="branchMap"> </collection>-->
+    <resultMap id="authMap" type="com.example.albamen.dto.security.AuthDTO">
+        <result property="ano" column="ano"/>
+        <result property="mno" column="mno"/>
+        <result property="cno" column="cno"/>
+        <result property="auth" column="auth"/>
     </resultMap>
+
 
 
     <insert id="insertMember">
@@ -59,11 +57,6 @@
 <!--    <select id="selectMember" resultType="memberMap">-->
 <!--        select * from member where id=#{id}-->
 <!--    </select>-->
-    <select id="loginMember" resultMap="memberMap">
-        select mno, m.id , m.password, m.name, m.tel, m.mstatus, m.regDate, c.name as cname
-        from member m, company c
-        where m.id=#{id} and m.password=#{password} and m.cno = c.cno
-    </select>
 
     <update id="updateMember">
         update member set password = #{password}, tel = #{tel} where id = #{id}
@@ -73,6 +66,34 @@
         from member m, work_management w
         where m.mno = w.mno and m.cno = w.cno and m.id = #{id}
     </select>
+
+    <select id="getMember" resultMap="memberMap">
+        select m.mno, m.id , m.password, m.name, c.cno, c.name as cname, a.ano, a.auth
+        from member m
+        left join company c on c.cno = m.cno
+        left join auth a on m.mno = a.mno
+        where m.id = #{id}
+    </select>
+    <insert id="insertAuth">
+        insert into auth(mno, auth)
+        values (#{mno}, #{auth})
+    </insert>
+
+    <delete id="deleteAuth">
+        delete from auth where mno = #{mno} and auth = #{auth}
+    </delete>
+
+    <select id="selectAuth">
+        select ano, mno, auth
+        from auth
+        where mno = #{mno}
+    </select>
+
+    <select id="selectAuthList" resultMap="memberMap">
+        select ano, mno, auth
+        from auth
+    </select>
+
 
 </mapper>
 

@@ -15,7 +15,5 @@ public interface MemberService {
     void updateMember(MemberDTO dto);
     //회원조회
     //MemberDTO selectMember(String id);
-    //로그인
-    MemberDTO loginMember(MemberDTO dto);
 
 }

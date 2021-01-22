@@ -2,6 +2,7 @@ package com.example.albamen.controller.member;
 
 import com.example.albamen.dto.member.MemberDTO;
 import com.example.albamen.service.member.MemberService;
+import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +19,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 @Controller
+@RequestMapping("/member")
+@AllArgsConstructor
 @Log4j2
 public class MemberController {
 
@@ -27,19 +30,19 @@ public class MemberController {
     MemberService memberService;
 
     //회원가입 get
-    @RequestMapping(value = "/join", method = RequestMethod.GET)
+    @RequestMapping(value = "/register", method = RequestMethod.GET)
     public void getInsert(){
         logger.info("get insert");
     }
     //회원가입post
-    @RequestMapping(value = "/join",method = RequestMethod.POST)
+    @RequestMapping(value = "/register",method = RequestMethod.POST)
     public String postInsert(MemberDTO dto){
         logger.info("post Insert");
         int result = memberService.idCheck(dto);
         try{
             if(result==1){
 
-                return "member/join";
+                return "member/register";
             }else if(result ==0){
                 memberService.insertMember(dto);
             }
@@ -51,42 +54,42 @@ public class MemberController {
     }
     //아이디체크
     @ResponseBody
-    @RequestMapping(value = "/idCheck", method = RequestMethod.POST)
+    @RequestMapping(value = "/idCheck", method = RequestMethod.GET)
     public int idCheck(MemberDTO dto){
         int result = memberService.idCheck(dto);
         return result;
     }
 
-    //로그인
-    @RequestMapping(value="/loginMember",method = RequestMethod.POST)
-    public ModelAndView loginMember(@ModelAttribute MemberDTO dto, HttpServletRequest req, RedirectAttributes rttr){
-        logger.info("post login");
-        HttpSession session = req.getSession();
-        MemberDTO login = memberService.loginMember(dto);
-        ModelAndView mav = new ModelAndView();
-
-        if(login == null){ //로그인 실패
-            session.setAttribute("member",null);
-            rttr.addFlashAttribute("msg", false);
-            mav.setViewName("member/login");
-
-        }else{ //로그인 성공
-            session.setAttribute("member", login);
-            mav.setViewName("member/workCheck");
-        }
-        return mav;
-    }
-    //로그아웃
-    @RequestMapping(value = "/logoutMember", method = RequestMethod.GET)
-    public String logoutMember(HttpSession session){
-        session.invalidate();
-        return "redirect:/login";
-    }
+//    //로그인
+//    @RequestMapping(value="/loginMember",method = RequestMethod.POST)
+//    public ModelAndView loginMember(@ModelAttribute MemberDTO dto, HttpServletRequest req, RedirectAttributes rttr){
+//        logger.info("post login");
+//        HttpSession session = req.getSession();
+//        MemberDTO login = memberService.loginMember(dto);
+//        ModelAndView mav = new ModelAndView();
+//
+//        if(login == null){ //로그인 실패
+//            session.setAttribute("member",null);
+//            rttr.addFlashAttribute("msg", false);
+//            mav.setViewName("member/login");
+//
+//        }else{ //로그인 성공
+//            session.setAttribute("member", login);
+//            mav.setViewName("member/workCheck");
+//        }
+//        return mav;
+//    }
+//    //로그아웃
+//    @RequestMapping(value = "/logoutMember", method = RequestMethod.GET)
+//    public String logoutMember(HttpSession session){
+//        session.invalidate();
+//        return "redirect:/login";
+//    }
 
     //회원정보수정
     @RequestMapping(value = "/update", method = RequestMethod.GET)
     public String updateMemberView(@ModelAttribute MemberDTO dto){
-        memberService.loginMember(dto);
+//        memberService.loginMember(dto);
         return "update";
     }
 

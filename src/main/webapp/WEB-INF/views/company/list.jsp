@@ -75,7 +75,7 @@
 </body>
 <%--actionForm--%>
 <form id="actionForm"  action="/company/list" method="post">
-<%--    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>--%>
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
     <input type='hidden' name='amount' class='amount_input' value='${pageMaker.cri.amount }' >
     <input type='hidden' name='type' value='<c:out value="${pageMaker.cri.type }"/>'>
     <input type='hidden' name='keyword' value='<c:out value="${pageMaker.cri.keyword }"/>'>

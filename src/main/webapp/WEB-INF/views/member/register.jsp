@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -58,8 +59,8 @@
     })
     function fn_idChk(){
         $.ajax({
-            url : "/idCheck",
-            type : "post",
+            url : "/member/idCheck",
+            type : "get",
             dataType : "json",
             data : {"id" : $("#id").val()},
             success : function(data){
@@ -82,7 +83,7 @@
 </script>
 <body>
 <section id="container">
-    <form action="/join" method="post" >
+    <form action="/member/register" method="post" >
         <div class="form-group has-feedback">
             <label class="control-label" for="id">아이디</label>
             <input class="form-control" type="text" id="id" name="id" />
@@ -108,6 +109,7 @@
             <button class="btn btn-success" type="submit" id="submit">회원가입</button>
             <button class="cencle btn btn-danger" type="button">취소</button>
         </div>
+        <security:csrfInput/>
     </form>
 </section>
 

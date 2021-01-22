@@ -1,5 +1,7 @@
 package com.example.albamen.dto.member;
 
+import com.example.albamen.dto.company.CompanyDTO;
+import com.example.albamen.dto.security.AuthDTO;
 import lombok.Data;
 
 import java.util.Date;
@@ -17,7 +19,15 @@ public class MemberDTO{
     private int mstatus;
     private int cno;
     private List<Work_MDTO> work_mList;
-//    private List<CompanyDTO> companyList;
+    private List<CompanyDTO> companyList;
+    private List<AuthDTO> authList;
 
-
+    public boolean hasAuth(String role) {
+        for (AuthDTO auth : authList) {
+            if (auth.isAuth(role)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

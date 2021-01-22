@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -29,7 +30,8 @@
             <a href="/member/register">Create an Account [member]</a>
             <a href="/company/register">Create an Account [company]</a>
             <button type="submit" class="btn w-100 text-white mb-3" style="background-color:#bd5d38">login</button>
-            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+            <security:csrfInput/>
+<%--            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>--%>
         </form>
     </div>
 

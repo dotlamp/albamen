@@ -5,6 +5,7 @@ import com.example.albamen.mapper.member.MemberMapper;
 import com.example.albamen.service.member.MemberService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,8 +19,13 @@ public class MemberServiceImpl implements MemberService{
 
     @Override
     public void insertMember(MemberDTO dto){
-        System.out.println("memberServiceImpl=====================================");
+        String rowPs = dto.getPassword();
+        String encPs = new BCryptPasswordEncoder().encode(rowPs);
+        dto.setPassword(encPs);
         memberMapper.insertMember(dto);
+        MemberDTO dto2 = memberMapper.getMember(dto.getId());
+        memberMapper.insertAuth(dto2.getMno(), "ROLE_EMPLOYEE");
+
 
     }
     @Override
@@ -31,11 +37,6 @@ public class MemberServiceImpl implements MemberService{
 //    public MemberDTO selectMember(String id){
 //        return memberMapper.selectMember(id);
 //    }
-
-    @Override
-    public MemberDTO loginMember(MemberDTO dto) {
-        return memberMapper.loginMember(dto);
-    }
 
     @Override
     public int idCheck(MemberDTO dto) {

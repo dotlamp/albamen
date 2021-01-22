@@ -137,17 +137,17 @@ create table work_management(/*당일근무여부*/
                                 constraint work_management_sno_fk foreign key (sno) references schedule_management(sno)
 );
 
-drop table member;
-drop table company;
-drop table branch;
-drop table auth;
-drop table persistent_logins;
-drop table attach;
-drop table member_salary;
-drop table salary_info;
-drop table time_schedule;
-drop table schedule_management;
 drop table work_management;
+drop table schedule_management;
+drop table time_schedule;
+drop table salary_info;
+drop table member_salary;
+drop table attach;
+drop table persistent_logins;
+drop table auth;
+drop table branch;
+drop table company;
+drop table member;
 
 insert into member(id, password, name, tel, mStatus, cno)
     value("test", "test", "tester", "01012341234", 0, null);
@@ -157,3 +157,23 @@ values ("1234", "1234", "맥도날드", "대표", 0);
 
 insert into branch (cno, bname, btel, post, address, manager, mTel)
 values (1, "동명대점", "0511234567", "00001", "부산시 남구 용당동", "관리자", "01012341234");
+
+insert into auth(mno, auth)
+values (1, "ROLE_EMPLOYEE");
+
+select * from member;
+update member
+set cno = 1
+where mno = 1;
+select m.mno, m.id , m.password, m.name, c.cno, c.name as cname, a.ano, a.auth
+       from member m
+       left join company c on c.cno = m.cno
+       left join auth a on m.mno = a.mno
+where m.id = '12';
+
+select c.cno, c.id, c.password,
+       b.bno, b.bname, a.ano, a.auth
+from company c
+         left join branch b on c.cno = b.cno
+         left join auth a on c.cno = a.cno
+where id = '12';

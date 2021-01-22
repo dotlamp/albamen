@@ -21,7 +21,7 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
             roleNames.add(authority.getAuthority());
         });
         response.setStatus(HttpServletResponse.SC_OK);
-        response.sendRedirect("/company/");
+        response.sendRedirect("/");
     }
 
 }

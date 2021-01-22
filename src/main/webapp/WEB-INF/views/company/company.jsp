@@ -22,13 +22,13 @@
 </head>
 <body>
 <div>
+<sec:authorize access="isAnonymous()">
+    <a href="/login">login</a>
+</sec:authorize>
     <a href="/">home</a>
     <a href="/member">member</a>
     <a href="/company">company</a>
 </div>
-<sec:authorize access="isAnonymous()">
-    <a href="/login">login</a>
-</sec:authorize>
 <sec:authorize access="isAuthenticated()">
     <div>
     <p>principal : <sec:authentication property="principal"/></p>
