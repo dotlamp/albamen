@@ -63,8 +63,8 @@
         <a href="/company/list"><button>comanylist</button></a>
         <a href="/company/auth"><button>authList</button></a>
     </sec:authorize>
-    <form action="/company/logout" method="post">
-        <input type="hidden"name="${_csrf.parameterName}"value="${CSRF_TOKEN}"/>
+    <form action="/logout" method="post">
+        <s:csrfInput/>
         <button type="submit">logout</button>
     </form>
 </sec:authorize>
