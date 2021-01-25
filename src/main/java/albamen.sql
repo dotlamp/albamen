@@ -11,7 +11,6 @@ use albamen;
 show tables;
 
 /* member */
-ALTER TABLE company convert to charset utf8;
 create table member( /*회원*/
                        mno int auto_increment  comment '회원시퀀스' ,
                        id varchar(30) not null  comment '회원아이디(이메일)' ,
@@ -37,6 +36,7 @@ create table company( /*회사테이블*/
                         constraint company_cno_pk primary key (cno),
                         constraint company_id_uk unique key (id)
 );
+ALTER TABLE company convert to charset utf8;
 /* branch */
 create table branch( /* 회사 지점 테이블*/
                        bno int auto_increment  comment '번호',
@@ -161,19 +161,3 @@ values (1, "동명대점", "0511234567", "00001", "부산시 남구 용당동", 
 insert into auth(mno, auth)
 values (1, "ROLE_EMPLOYEE");
 
-select * from member;
-update member
-set cno = 1
-where mno = 1;
-select m.mno, m.id , m.password, m.name, c.cno, c.name as cname, a.ano, a.auth
-       from member m
-       left join company c on c.cno = m.cno
-       left join auth a on m.mno = a.mno
-where m.id = '12';
-
-select c.cno, c.id, c.password,
-       b.bno, b.bname, a.ano, a.auth
-from company c
-         left join branch b on c.cno = b.cno
-         left join auth a on c.cno = a.cno
-where id = '12';
