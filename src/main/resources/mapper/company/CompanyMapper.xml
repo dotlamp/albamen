@@ -70,10 +70,7 @@
     <include refid="search"></include>
     </select>
     <sql id="search">
-        <if test="keyword == null or keyword == ''">
-            name like '%'
-        </if>
-        <if test="keyword != null or keyword != ''">
+        <if test="keyword != null">
             <choose>
                 <when test="type != null or type != ''">
                     <choose>
@@ -86,6 +83,9 @@
                     </choose>
                 </when>
             </choose>
+        </if>
+        <if test="keyword == null">
+            name like '%'
         </if>
     </sql>
     <update id="updateCompany">
