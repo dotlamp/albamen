@@ -4,10 +4,10 @@ package com.example.albamen.dto.page;
 import org.springframework.web.util.UriComponentsBuilder;
 
 public class Criteria {
-    private int pageNum;
-    private int amount;
-    private String type;
-    private String keyword;
+    private int pageNum; //페이지 번호
+    private int amount; //출력할 페이지 사이즈
+    private String type; //검색 유형
+    private String keyword; //검색 키워드
 
     public Criteria(int pageNum, int amount){
         this.pageNum = pageNum;
