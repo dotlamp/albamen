@@ -27,8 +27,9 @@
                 <label class="form-check-label" for="exampleCheck1">Remember me</label>
                 <a href="#" class="ml-3">Forgot Password?</a>
             </div>
-            <a href="/member/register">Create an Account [member]</a>
-            <a href="/company/register">Create an Account [company]</a>
+            Create an Account
+            <a href="/member/register">[member]</a>
+            <a href="/company/register">[company]</a>
             <button type="submit" class="btn w-100 text-white mb-3" style="background-color:#bd5d38">login</button>
             <security:csrfInput/>
 <%--            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>--%>
