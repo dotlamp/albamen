@@ -81,6 +81,11 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
+    public List<BranchDTO> selectCompanyOfBranchList(int cno) {
+        return companyMapper.selectCompanyOfBranchList(cno);
+    }
+
+    @Override
     public List<BranchDTO> selectBranchList(Criteria criteria) {
         return companyMapper.selectBranchList(criteria);
     }

@@ -22,6 +22,7 @@ public interface CompanyMapper {
 
 	void insertBranch(BranchDTO branchDTO); //지점 등록
 	BranchDTO selectBranch(int bno); //지점 조회
+	List<BranchDTO> selectCompanyOfBranchList(int cno); // 회사의 지점 전체 조회
 	List<BranchDTO> selectBranchList(Criteria cri); //지점 전체 조회
 	boolean updateBranch(BranchDTO branchDTO); //지점 수정
 	List<CompanyDTO> searchBranch(String name); //지점 검색

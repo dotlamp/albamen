@@ -33,19 +33,6 @@
         <result property="auth" column="auth"/>
     </resultMap>
 
-    <sql id="criteria">
-        <trim prefix="(" suffix=") AND " prefixOverrides="OR">
-            <foreach item='type' collection="typeArr">
-                <trim prefix="OR">
-                    <choose>
-                        <when test="type == 'N'.toString()">
-                            name like '%'||#{keyword}||'%'
-                        </when>
-                    </choose>
-                </trim>
-            </foreach>
-        </trim>
-    </sql>
 
     <select id="getCompany" resultMap="companyMap">
         select c.cno, c.id, c.password,
@@ -67,25 +54,40 @@
         where cno = #{cno}
     </select>
     <select id="selectCompanyList" resultMap="companyMap">
-        <![CDATA[
-        select *
-            from( select AAA.*, @rownum:=@rownum+1 rn
-                from( select c.cno, c.id, c.password, c.name, c.ceo, c.regDate, c.cStatus,
-          b.bno, b.bname, b.btel, b.post, b.address, b.manager, b.mtel, b.regDate as bregdate
-                  from company c
-                  left join branch b
-                  on c.cno = b.cno
-                  join (select @rownum:=0) R
-        ]]>
-                  <include refid="criteria"></include>
-        <![CDATA[
-                ) AAA
+    select AAA.*, b.*
+        from( select BBB.*
+            from( select @rownum:=@rownum+1 rn, CCC.*
+                from( select *
+                    from company) CCC
+                join (select @rownum:=0) R
+                order by regDate desc
             ) BBB
-        where rn between ((#{pageNum}-1)*#{amount}) and (#{pageNum}*#{amount})
-        ]]>
-
-
+            where rn between ((#{pageNum}-1)*#{amount}) and (#{pageNum}*#{amount})
+        ) AAA
+    left join branch b
+    on b.cno = AAA.cno
+    where
+    <include refid="search"></include>
     </select>
+    <sql id="search">
+        <if test="keyword == null or keyword == ''">
+            name like '%'
+        </if>
+        <if test="keyword != null or keyword != ''">
+            <choose>
+                <when test="type != null or type != ''">
+                    <choose>
+                        <when test="type == 'N'.toString()">
+                            name like concat('%', #{keyword}, '%')
+                        </when>
+                        <when test="type == 'B'.toString()">
+                            bname like concat('%', #{keyword}, '%')
+                        </when>
+                    </choose>
+                </when>
+            </choose>
+        </if>
+    </sql>
     <update id="updateCompany">
         update company
         set name = #{name}, ceo = #{ceo}
@@ -126,6 +128,11 @@
     <select id="selectBranchList" resultMap="branchMap">
         select bno, cno, bname, btel, post, address, manager, mtel, regDate as bregDate
         from branch
+    </select>
+    <select id="selectCompanyOfBranchList" resultMap="branchMap">
+        select bno, cno, bname, btel, post, address, manager, mtel, regDate as bregDate
+        from branch
+        where cno = #{cno}
     </select>
     <select id="searchBranch" resultMap="branchMap">
         select bno, cno, bname, btel, post, address, manager, mtel, regDate as bregDate

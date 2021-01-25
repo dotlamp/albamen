@@ -19,7 +19,8 @@ public interface CompanyService{
     List<CompanyDTO> searchCompany(String name); //회사 검색
 
     void insertBranch(BranchDTO branchDTO); //지점 등록
-    BranchDTO selectBranch(int bno); //지점 조회
+    BranchDTO selectBranch(int bno); //특정 지점 조회
+    List<BranchDTO> selectCompanyOfBranchList(int cno); // 회사의 지점 조회
     List<BranchDTO> selectBranchList(Criteria criteria); //지점 전체 조회
     boolean updateBranch(BranchDTO branchDTO); //지점 수정
     List<CompanyDTO> searchBranch(String name); //지점 검색
