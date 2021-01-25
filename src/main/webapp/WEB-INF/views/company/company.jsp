@@ -1,8 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib prefix="s" uri="http://www.springframework.org/security/tags" %>
+
 
 <%@include file="../includes/header.jsp" %>
-company
+<div>
+    매니저 :
+    <a href="/company/branch/register">지점 등록</a>
+</div>
+<div>
+    관리자 :
+    <a href="/company/list">기업리스트</a>
+</div>
 <%@include file="../includes/footer.jsp" %>

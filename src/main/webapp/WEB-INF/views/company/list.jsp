@@ -1,30 +1,27 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
-<%@ page contentType="text/html; charset=utf-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib prefix="s" uri="http://www.springframework.org/security/tags" %>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@include file="../includes/header.jsp" %>
+    <%-- search--%>
+    <div>
+        <form id="searchForm" action="/company/list" method="get">
+            <select name="type">
+                <option value="N" <c:out value="${pageMaker.cri.type eq 'N' ? 'selected': ''}"/>>
+                    회사명
+                </option>
+                <option value="B" <c:out value="${pageMaker.cri.type eq 'B' ? 'selected': ''}"/>>
+                    지점명
+                </option>
+            </select>
+            <input type="text" name="keyword" value="<c:out value="${pageMaker.cri.keyword}"/>"/>
+            <input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum }' />
+            <input type='hidden' name='amount' value='${pageMaker.cri.amount }' />
+            <button>검색</button>
+        </form>
+    </div>
+    <hr>
 
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <style>
-        .resume-section {
-            min-width: 95%;
-        }
-    </style>
-    <title>albamen - company list</title>
-</head>
-
-<body>
+    <%-- table list --%>
     <table>
+
         <tr>
             <th>번호</th>
             <th>아이디</th>
@@ -33,68 +30,87 @@
             <th>가입일</th>
             <th>지점</th>
         </tr>
-        <c:forEach items="${companylist}" var="company">
+        <c:forEach items="${companyList}" var="company">
         <tr>
             <td><c:out value='${company.cno}'/></td>
             <td><c:out value='${company.id}'/> </td>
             <td><c:out value='${company.name}'/> </td>
             <td><c:out value='${company.ceo}'/> </td>
             <td><fmt:formatDate pattern="yyyy-MM-dd" value="${company.regDate}"/> </td>
-            <c:forEach items="${branchList}" var="branch">
-            <c:if test="${company.cno eq branch.cno}">
             <td>
-                <a class="move" href="<c:out value="${branch.bno}"/>">
+            <c:forEach items="${company.branchList}" var="branch">
+                <a class="branch" href="<c:out value="${branch.bno}"/>">
                     <c:out value="${branch.bname}"/>
                 </a>
-            </td>
-            </c:if>
             </c:forEach>
+            </td>
         </tr>
         </c:forEach>
     </table>
+
     <%--페이징--%>
-    <div class="page">
-        <ul>
+    <hr>
+    <p>
+        total : <c:out value="${pageMaker.total}"/>,
+        page: <c:out value="${pageMaker.cri.pageNum}"/>,
+        amount :
+    <select class="amount">
+        <option name="amount" value="10">10</option>
+        <option name="amount" value="20">20</option>
+        <option name="amount" value="50">50</option>
+        <option name="amount" value="100">100</option>
+    </select>
+    </p>
+    <div class="paging">
+        <p>
             <c:if test="${pageMaker.prev}">
-                <li>
                     <a href="${pageMaker.startPage-1}">Previous</a>
-                </li>
             </c:if>
             <c:forEach var="num" begin="${pageMaker.startPage}" end="${pageMaker.endPage}">
-                <li>
                     <a href="${num}" >${num}</a>
-                </li>
             </c:forEach>
             <c:if test="${pageMaker.next}">
-                <li>
                     <a href="${pageMaker.endPage+1}" >Next</a>
-                </li>
             </c:if>
-        </ul>
+        </p>
     </div>
-</body>
-<%--actionForm--%>
-<form id="actionForm"  action="/company/list" method="post">
-    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-    <input type='hidden' name='amount' class='amount_input' value='${pageMaker.cri.amount }' >
+
+<form id="actionForm"  action="/company/list" method="get">
     <input type='hidden' name='type' value='<c:out value="${pageMaker.cri.type }"/>'>
     <input type='hidden' name='keyword' value='<c:out value="${pageMaker.cri.keyword }"/>'>
     <input type='hidden' name='pageNum' class='pageNum_input' value='${pageMaker.cri.pageNum }' >
+    <input type='hidden' name='amount' class='amount_input' value='${pageMaker.cri.amount }' >
 </form>
-</html>
+
+<%@include file="../includes/footer.jsp" %>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
     $(document).ready(function () {
         var actionForm = $("#actionForm");
-        $('.move').click(function (e) {
+        /* 지점 페이지 이동 */
+        $('.branch').click(function (e) {
             e.preventDefault();
             actionForm.append("<input type='hidden' name='bno' value='"+ $(this).attr("href")+"'>");
             actionForm.attr("action", "/company/branch");
             actionForm.submit();
         })
 
-        $('.page').click(function (e) {
+        $('.amount').change(function () {
+            var amount_value = $("option:selected", this).val();
+            $('.amount_input').val(amount_value);
+            $('.pageNum_input').val("1");
+            actionForm.val($(this).attr("href"));
+            actionForm.submit();
+        })
+        $('.amount option').each(function () {
+            if($(this).val() == "${pageMaker.cri.amount }"){
+                $(this).attr("selected", "selected");
+            }
+        });
+
+        /*페이징 버튼 처리 */
+        $('.paging a').click(function (e) {
             e.preventDefault();
             actionForm.find("input[name='pageNum']").val($(this).attr("href"));
             actionForm.submit();

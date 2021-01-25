@@ -17,6 +17,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequestMapping("/company")
@@ -54,16 +56,16 @@ public class CompanyController {
 
 
 
+//	@Secured({"ROLE_ADMIN"})
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	@Secured({"ROLE_ADMIN"})
-	public void postList(Criteria criteria, Model model){
-	    model.addAttribute("companylist", companyService.selectCompanyList(criteria));
-	    model.addAttribute("branchList", companyService.selectBranchList(criteria));
+	public void getList(Criteria criteria, Model model){
+		List<CompanyDTO> companyList = companyService.selectCompanyList(criteria);
+	    model.addAttribute("companyList", companyList);
 		int total = companyService.getTotalCount(criteria);
 		model.addAttribute("pageMaker", new PageDTO(criteria, total));
 	}
 
-	@RequestMapping(value = "/branch", method = RequestMethod.POST)
+	@RequestMapping(value = "/branch", method = RequestMethod.GET)
 	public void postBranch(@RequestParam("bno") int bno, Model model){
 		model.addAttribute("branch", companyService.selectBranch(bno));
 	}
