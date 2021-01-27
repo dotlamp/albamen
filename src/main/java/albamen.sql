@@ -6,6 +6,12 @@ grant all privileges on albamen.* to 'albamen'@localhost identified by 'albamen'
 /* albamen 유저 삭제 */
 delete from user where user = 'albamen';
 
+/*mysql 8.0*/
+use mysql;
+select host, user from user;
+create user 'albamen'@localhost identified by 'albamen';
+grant all privileges on *.* to 'albamen'@localhost;
+
 show databases;
 use albamen;
 show tables;
@@ -20,6 +26,7 @@ create table member( /*회원*/
                        regDate datetime default now() comment '가입일' ,
                        mStatus int not null default 0 comment '상태(0입사대기/1입사/2퇴사)' ,
                        cno int comment '회사번호' ,
+                       bno int comment '지점번호' ,
                        constraint member_mno_pk primary key (mno),
                        constraint member_id_uk unique key (id)
 );
@@ -161,3 +168,73 @@ values (1, "동명대점", "0511234567", "00001", "부산시 남구 용당동", 
 insert into auth(mno, auth)
 values (1, "ROLE_EMPLOYEE");
 
+
+select *
+from(
+        select @rownum:=@rownum+1 rn, AAA.*
+        from(
+                select c.cno, id, name, ceo, c.regDate, cStatus,
+                       b.bno, bname, btel, post, address, manager, mTel, b.regDate as bregDate
+                from company c
+                         left join branch b on c.cno = b.cno
+            ) AAA
+                join( select @rownum:= 0 ) R
+            order by cno asc
+    ) BBB;
+
+
+select BBB.*
+from (
+         select @rownum := @rownum + 1 rn, AAA.*
+         from (
+                  select *
+                  from company
+              ) AAA
+                  join (select @rownum := 0) R
+     ) BBB
+         left join branch b
+                   on b.cno = BBB.cno;
+
+select BBB.*, group_concat(bname) as bnames
+from (
+         select @rownum := @rownum + 1 rn, AAA.*
+         from (
+                  select *
+                  from company
+              ) AAA
+                  join (select @rownum := 0) R
+     ) BBB
+    left join branch b
+    on b.cno = BBB.cno
+    group by cno
+    order by cno asc
+
+
+
+SELECT
+    @rownum := @rownum + 1 AS row_num,
+    c.cno, c.id, c.password, c.name, c.ceo, c.regDate, c.cStatus, bname
+FROM company c
+         LEFT JOIN branch b ON c.cno = b.cno
+  AND (@rownum := 0)=0;
+
+
+SELECT
+    ROW_NUMBER() OVER(
+        PARTITION BY cno
+        ORDER BY bno DESC
+        ) row_num,
+    c.cno, b.bno, c.id, c.password, c.name, c.ceo, c.regDate, c.cStatus
+FROM company c
+         LEFT JOIN branch b ON c.cno = b.cno
+WHERE id IN(10,17);
+
+# con 별 카운팅
+
+
+
+SELECT @RANKT := @RANK + 1 ELSE @RANK := 1 END AS RANKING
+      ,@GROUPING := c.cno,
+		c.cno, b.bno, c.id, c.password, c.name, c.ceo, c.regDate, c.cStatus
+FROM company c, (SELECT @GROUPING := '', @RANK := 0) XX
+    LEFT JOIN branch b ON c.cno = b.cno;
