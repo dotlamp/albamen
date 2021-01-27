@@ -14,6 +14,7 @@
         <result property="tel" column="tel"/>
         <result property="mstatus" column="mstatus"/>
         <result property="cno" column="cno"/>
+        <result property="bno" column="bno"/>
         <collection property="authList" resultMap="authMap"></collection>
         <collection property="work_mList" resultMap="work_mMap"></collection>
     </resultMap>
@@ -68,7 +69,7 @@
     </select>
 
     <select id="getMember" resultMap="memberMap">
-        select m.mno, m.id , m.password, m.name, c.cno, c.name as cname, a.ano, a.auth
+        select m.mno, m.id , m.password, m.name, m.cno, m.bno, c.name as cname, a.ano, a.auth
         from member m
         left join company c on c.cno = m.cno
         left join auth a on m.mno = a.mno

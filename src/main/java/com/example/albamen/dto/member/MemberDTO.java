@@ -18,6 +18,7 @@ public class MemberDTO{
     private Date regDate;
     private int mstatus;
     private int cno;
+    private int bno;
     private List<Work_MDTO> work_mList;
     private List<CompanyDTO> companyList;
     private List<AuthDTO> authList;
