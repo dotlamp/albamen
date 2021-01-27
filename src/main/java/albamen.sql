@@ -227,31 +227,26 @@ from (
     order by cno asc
 
 
-
+SELECT * from (
 SELECT
     @rownum := @rownum + 1 AS row_num,
     c.cno, c.id, c.password, c.name, c.ceo, c.regDate, c.cStatus, bname
 FROM company c
          LEFT JOIN branch b ON c.cno = b.cno
-  AND (@rownum := 0)=0;
+  AND (@rownum := 0)=0
+              ) A
+where
+row_num between 1 and 10;
 
-
+SELECT * FROM (
 SELECT
-    ROW_NUMBER() OVER(
-        PARTITION BY cno
-        ORDER BY bno DESC
-        ) row_num,
+    DENSE_RANK() OVER (ORDER BY c.cno) AS row_num,
     c.cno, b.bno, c.id, c.password, c.name, c.ceo, c.regDate, c.cStatus
 FROM company c
          LEFT JOIN branch b ON c.cno = b.cno
-WHERE id IN(10,17);
+              ) A
+WHERE
+row_num between 1 and 10;
 
-# con 별 카운팅
-
-
-
-SELECT @RANKT := @RANK + 1 ELSE @RANK := 1 END AS RANKING
-      ,@GROUPING := c.cno,
-		c.cno, b.bno, c.id, c.password, c.name, c.ceo, c.regDate, c.cStatus
-FROM company c, (SELECT @GROUPING := '', @RANK := 0) XX
-    LEFT JOIN branch b ON c.cno = b.cno;
+select count(cno) from
+    company;

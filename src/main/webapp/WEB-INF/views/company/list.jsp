@@ -31,20 +31,20 @@
             <th>지점</th>
         </tr>
         <c:forEach items="${companyList}" var="company">
-        <c:forEach var="branchList" items="${company.branchList}">
         <tr>
             <td><c:out value='${company.cno}'/></td>
             <td><c:out value='${company.id}'/> </td>
             <td><c:out value='${company.name}'/> </td>
             <td><c:out value='${company.ceo}'/> </td>
             <td><fmt:formatDate pattern="yyyy-MM-dd" value="${company.regDate}"/> </td>
+            <c:forEach var="branchList" items="${company.branchList}">
             <td>
                 <a class="branch" href="<c:out value="${branchList.bno}"/>">
                     <c:out value="${branchList.bname}"/>
                 </a>
             </td>
-        </tr>
             </c:forEach>
+        </tr>
         </c:forEach>
     </table>
 
