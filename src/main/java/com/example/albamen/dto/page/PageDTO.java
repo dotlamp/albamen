@@ -9,12 +9,12 @@ public class PageDTO {
     private int total;
     private Criteria cri;
 
-    public PageDTO(Criteria cri, int total){
+    public PageDTO(Criteria cri, int total, int pageNum){
         this.cri = cri;
         this.total = total;
 
-        this.endPage = (int)(Math.ceil(cri.getPageNum()/10.0))*10;
-        this.startPage = this.endPage-9;
+        this.endPage = (int)(Math.ceil(cri.getPageNum()/(float)pageNum))*pageNum;
+        this.startPage = this.endPage-(pageNum-1);
         int realEnd = (int)(Math.ceil((total*1.0)/cri.getAmount()));
         if(realEnd < this.endPage){
             this.endPage = realEnd;

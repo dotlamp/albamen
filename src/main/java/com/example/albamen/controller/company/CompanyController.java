@@ -59,10 +59,9 @@ public class CompanyController {
 //	@Secured({"ROLE_ADMIN"})
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public void getList(Criteria criteria, Model model){
-		List<CompanyDTO> companyList = companyService.selectCompanyList(criteria);
-	    model.addAttribute("companyList", companyList);
+	    model.addAttribute("companyList", companyService.selectCompanyList(criteria));
 		int total = companyService.getTotalCount(criteria);
-		model.addAttribute("pageMaker", new PageDTO(criteria, total));
+		model.addAttribute("pageMaker", new PageDTO(criteria, total, 10));
 	}
 
 	@RequestMapping(value = "/branch", method = RequestMethod.GET)
@@ -83,8 +82,11 @@ public class CompanyController {
 	}
 
 	@RequestMapping(value = "/search", method = RequestMethod.GET)
-	public void findCompany(@RequestParam("name") String name, Model model){
-		model.addAttribute("list", companyService.searchCompany(name));
+	public void findCompany(Criteria criteria, Model model){
+ 		model.addAttribute("companyList", companyService.selectCompanyList(criteria));
+		int total = companyService.getTotalCount(criteria);
+		log.info(new PageDTO(criteria, total, 10).toString());
+		model.addAttribute("pageMaker", new PageDTO(criteria, total, 5));
 	}
 
 	@RequestMapping(value = "idChk", method = RequestMethod.GET)
