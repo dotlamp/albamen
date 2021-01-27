@@ -31,6 +31,7 @@
             <th>지점</th>
         </tr>
         <c:forEach items="${companyList}" var="company">
+        <c:forEach var="branchList" items="${company.branchList}">
         <tr>
             <td><c:out value='${company.cno}'/></td>
             <td><c:out value='${company.id}'/> </td>
@@ -38,13 +39,12 @@
             <td><c:out value='${company.ceo}'/> </td>
             <td><fmt:formatDate pattern="yyyy-MM-dd" value="${company.regDate}"/> </td>
             <td>
-            <c:forEach items="${company.branchList}" var="branch">
-                <a class="branch" href="<c:out value="${branch.bno}"/>">
-                    <c:out value="${branch.bname}"/>
+                <a class="branch" href="<c:out value="${branchList.bno}"/>">
+                    <c:out value="${branchList.bname}"/>
                 </a>
-            </c:forEach>
             </td>
         </tr>
+            </c:forEach>
         </c:forEach>
     </table>
 
@@ -96,6 +96,7 @@
             actionForm.submit();
         })
 
+        /* 페이지 당 출력 수 조절 */
         $('.amount').change(function () {
             var amount_value = $("option:selected", this).val();
             $('.amount_input').val(amount_value);
@@ -115,5 +116,13 @@
             actionForm.find("input[name='pageNum']").val($(this).attr("href"));
             actionForm.submit();
         })
+
+        /* 검색 시 1페이지로 */
+        var searchForm = $("#searchForm");
+        $("#searchForm button").on("click", function(e){
+            e.preventDefault();
+            searchForm.find("input[name='pageNum']").val("1");
+            searchForm.submit();
+        });
     });
 </script>
