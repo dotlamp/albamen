@@ -1,27 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
-<%@ page contentType="text/html; charset=utf-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@include file="../includes/header.jsp" %>
 
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <style>
-        .resume-section {
-            min-width: 95%;
-        }
-    </style>
-    <title>albamen - branch </title>
-</head>
-
-<body>
     <table>
         <tr>
             <th>지점명</th>
@@ -42,7 +21,13 @@
             <td><fmt:formatDate pattern="yyyy-MM-dd" value="${branch.regDate}"/> </td>
         </tr>
     </table>
-</body>
+    <div>
+        <button type="button" onclick="goBack();">뒤로가기</button>
+    </div>
+<%@include file="../includes/footer.jsp" %>
 
-</html>
-
+<script>
+    function goBack() {
+        window.history.back();
+    }
+</script>

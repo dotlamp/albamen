@@ -46,14 +46,12 @@
             <td><fmt:formatDate pattern="yyyy-MM-dd" value="${company.regDate}"/> </td>
             <c:if test="${branchList.bno != '0'}">
             <td>
-                <a class="branch" href="<c:out value="${branchList.bno}"/>">
-                    <c:out value="${branchList.bname}"/>
-                </a>
+                <a class="branch" href="<c:out value="${branchList.bno}"/>"><c:out value="${branchList.bname}"/></a>
             </td>
-                <td style="display: none"><c:out value="${company.cno}"/></td>
-                <td style="display: none"><c:out  value="${company.name}"/></td>
-                <td style="display: none"><c:out  value="${branchList.bno}"/></td>
-                <td style="display: none"><c:out  value="${branchList.bname}"/></td>
+            <td style="display: none"><c:out value="${company.cno}"/></td>
+            <td style="display: none"><c:out  value="${company.name}"/></td>
+            <td style="display: none"><c:out  value="${branchList.bno}"/></td>
+            <td style="display: none"><c:out  value="${branchList.bname}"/></td>
             <td><input type="button" class="selectBranch" value="선택"></td>
             </c:if>
         </tr>

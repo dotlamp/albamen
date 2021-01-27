@@ -35,6 +35,7 @@ public class CompanyController {
 	public String company(@AuthenticationPrincipal SecurityAlbamen albamen, Model model){
 		if (albamen != null){
 			model.addAttribute("company", albamen.getCompany());
+			model.addAttribute("branchList", companyService.selectCompanyOfBranchList(albamen.getCompany().getCno()));
 		}
 		return "/company/company";
 	}
@@ -70,8 +71,8 @@ public class CompanyController {
 	}
 
 
+//	@Secured({"ROLE_ADMIN", "ROLE_MANAGER"})
 	@RequestMapping(value = "/branch/register", method = RequestMethod.GET)
-	@Secured({"ROLE_ADMIN", "ROLE_MANAGER"})
 	public void getBranch(){	}
 	@RequestMapping(value = "/branch/register", method = RequestMethod.POST)
 	@Secured({"ROLE_ADMIN", "ROLE_MANAGER"})
@@ -80,6 +81,18 @@ public class CompanyController {
 		companyService.insertBranch(branchDTO);
 		return "redirect:/";
 	}
+
+	@RequestMapping(value = "/branch/info", method = RequestMethod.GET)
+	public void getBranchInfo(@RequestParam("bno") int bno, Model model){
+		model.addAttribute("branch", companyService.selectBranch(bno));
+	}
+	@RequestMapping(value = "/branch/info", method = RequestMethod.POST)
+	public String postBranchInfo(BranchDTO branchDTO){
+		log.info(branchDTO);
+		companyService.updateBranch(branchDTO);
+		return "redirect:/company/";
+	}
+
 
 	@RequestMapping(value = "/search", method = RequestMethod.GET)
 	public void findCompany(Criteria criteria, Model model){

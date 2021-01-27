@@ -6,8 +6,6 @@
 
 <head>
     <title>albamen - branch register</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <script>
@@ -64,14 +62,14 @@
             </div>
             <div class="form-group has-feedback">
                 <label class="control-label" for="sample6_postcode">주소</label>
-                <input type="text" id="sample6_postcode" name ="post" placeholder="우편번호">
+                <input readonly type="text" id="sample6_postcode" name ="post" placeholder="우편번호">
                 <input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br>
                 <input type="text" id="sample6_address" style="width:300px" name="address" placeholder="주소"><br>
 
             </div>
             <div class="form-group has-feedback">
                 <button class="btn btn-success" type="submit" id="submit">등록</button>
-                <button class="cencle btn btn-danger" type="button">취소</button>
+                <button class="cencle btn btn-danger" type="button" onclick="goBack()">취소</button>
             </div>
         </form>
     </section>
@@ -79,3 +77,11 @@
 </body>
 
 </html>
+
+<script>
+    $(document).ready(function () {
+        function goBack() {
+            window.history.back();
+        }
+    }
+</script>
