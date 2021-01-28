@@ -104,7 +104,7 @@ create table salary_info(/*계좌정보*/
                             payDay datetime comment '급여일' ,
                             mno int comment '회원시퀀스' ,
                             constraint salary_info_no_pk primary key (si_no),
-                            constraint salary_info_mno_fk foreign key (mno) references member(mno),
+                            constraint salary_info_mno_fk foreign key (mno) references member(mno)
 );
 /* time_schdule */
 create table time_schedule(/*근무시간*/
