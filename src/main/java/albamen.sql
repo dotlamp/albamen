@@ -241,12 +241,32 @@ row_num between 1 and 10;
 SELECT * FROM (
 SELECT
     DENSE_RANK() OVER (ORDER BY c.cno) AS row_num,
-    c.cno, b.bno, c.id, c.password, c.name, c.ceo, c.regDate, c.cStatus
+    c.cno, c.id, c.password, c.name, c.ceo, c.regDate, c.cStatus, b.bno, b.bname
 FROM company c
          LEFT JOIN branch b ON c.cno = b.cno
+    WHERE bname like "%"
               ) A
 WHERE
-row_num between 1 and 10;
+row_num between 11 and 20;
 
-select count(cno) from
-    company;
+select count(distinct c.cno) from
+    company c left join branch b on c.cno = b.cno
+where
+    bname like "용호%";
+
+select count(distinct c.cno) from
+    company c left join branch b on c.cno = b.cno
+where
+        name like '%'
+  and c.cno > 0
+
+select * from member;
+select b.*, m.*
+from branch b
+left join member m on b.bno = m.bno
+where b.bno = 11 ;
+
+select m.mno, m.id, m.name, m.tel, m.regDate, m.mStatus, m.cno, m.bno, a.ano, a.mno, a.auth
+from member m
+         left join auth a on m.mno = a.mno
+where bno = 11;

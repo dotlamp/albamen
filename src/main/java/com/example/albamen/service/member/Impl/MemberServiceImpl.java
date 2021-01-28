@@ -52,4 +52,10 @@ public class MemberServiceImpl implements MemberService{
 //    public List<Work_MDTO> ListWork_M(String id){
 //        return memberMapper.ListWork_M(id);
 //    }
+
+
+    @Override
+    public List<MemberDTO> selectBranchOfMember(int bno) {
+        return memberMapper.selectBranchOfMember(bno);
+    }
 }

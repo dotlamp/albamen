@@ -16,4 +16,6 @@ public interface MemberService {
     //회원조회
     //MemberDTO selectMember(String id);
 
+    //지점의 회원(직원) 리스트
+    List<MemberDTO> selectBranchOfMember(int bno);
 }

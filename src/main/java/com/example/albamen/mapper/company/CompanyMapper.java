@@ -2,6 +2,7 @@ package com.example.albamen.mapper.company;
 
 import com.example.albamen.dto.company.BranchDTO;
 import com.example.albamen.dto.company.CompanyDTO;
+import com.example.albamen.dto.member.MemberDTO;
 import com.example.albamen.dto.page.Criteria;
 import com.example.albamen.dto.security.AuthDTO;
 import org.apache.ibatis.annotations.Mapper;

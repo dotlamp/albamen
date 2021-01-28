@@ -40,13 +40,14 @@
 
 
     <insert id="insertMember">
-        insert into member(id, password, name, tel, cno)
+        insert into member(id, password, name, tel, cno, bno)
         values(
         #{id},
         #{password},
         #{name},
         #{tel},
-        #{cno}
+        #{cno},
+        #{bno}
         )
     </insert>
     <select id="listMember" resultMap="memberMap">
@@ -93,6 +94,13 @@
     <select id="selectAuthList" resultMap="memberMap">
         select ano, mno, auth
         from auth
+    </select>
+    
+    <select id="selectBranchOfMember" resultMap="memberMap">
+        select m.mno, m.id, m.name, m.tel, m.regDate, m.mStatus, m.cno, m.bno, a.ano, a.mno, a.auth
+        from member m
+        left join auth a on m.mno = a.mno
+        where bno = #{bno}
     </select>
 
 

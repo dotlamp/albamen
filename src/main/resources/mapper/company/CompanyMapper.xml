@@ -54,17 +54,15 @@
         where cno = #{cno}
     </select>
     <select id="selectCompanyList" resultMap="companyMap">
-        SELECT * FROM (
-                          SELECT
-                              DENSE_RANK() OVER (ORDER BY c.cno) AS row_num,
-                              c.cno, c.id, c.password, c.name, c.ceo, c.regDate, c.cStatus, b.bno, b.bname
-                          FROM company c
-                                   LEFT JOIN branch b ON c.cno = b.cno
-                      ) A
-    where
-        <include refid="search"></include>
-          and
-        row_num between ((#{pageNum}-1)*#{amount}) and (#{pageNum}*#{amount})
+        SELECT *
+        FROM ( SELECT DENSE_RANK() OVER (ORDER BY c.cno) AS row_num,
+                      c.cno, c.id, c.password, c.name, c.ceo, c.regDate, c.cStatus, b.bno, b.bname
+            FROM company c
+            LEFT JOIN branch b ON c.cno = b.cno
+        where <include refid="search"></include>
+        ) A
+        where
+        row_num between ((#{pageNum}-1)*#{amount})+1 and (#{pageNum}*#{amount})
     </select>
     <sql id="search">
         <if test="keyword != null and keyword != ''">
@@ -167,11 +165,11 @@
     </select>
 
     <select id="getTotalCount" resultType="int">
-        select count(cno) from
-        company
+        select count(distinct c.cno) from
+        company c left join branch b on c.cno = b.cno
         where
         <include refid="search" />
-        and cno > 0
+        and c.cno > 0
     </select>
 
 </mapper>

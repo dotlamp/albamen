@@ -32,5 +32,6 @@ public interface MemberMapper {
     AuthDTO selectAuth(); //권한 조회
     List<AuthDTO> selectAuthList(Criteria cri); //권한 전체 조회
 
+    List<MemberDTO> selectBranchOfMember(int bno);
 
 }

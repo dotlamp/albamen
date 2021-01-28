@@ -7,6 +7,7 @@ import com.example.albamen.dto.page.Criteria;
 import com.example.albamen.dto.page.PageDTO;
 import com.example.albamen.dto.security.SecurityAlbamen;
 import com.example.albamen.service.company.CompanyService;
+import com.example.albamen.service.member.MemberService;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,14 +27,23 @@ import java.util.List;
 @Log4j2
 public class CompanyController {
 	private CompanyService companyService;
+	private MemberService memberService;
+
 	@Autowired
 	public void setCompanyService(CompanyService companyService){
 		this.companyService = companyService;
+	}
+	@Autowired
+	public void setMemberService(MemberService memberService) {
+		this.memberService = memberService;
 	}
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String company(@AuthenticationPrincipal SecurityAlbamen albamen, Model model){
 		if (albamen != null){
+			if(albamen.getMember() !=null){
+				return "/company/company";
+			}
 			model.addAttribute("company", albamen.getCompany());
 			model.addAttribute("branchList", companyService.selectCompanyOfBranchList(albamen.getCompany().getCno()));
 		}
@@ -93,6 +103,10 @@ public class CompanyController {
 		return "redirect:/company/";
 	}
 
+	@RequestMapping(value = "/branch/member", method = RequestMethod.GET)
+	public void getBranchOfMember(@RequestParam("bno") int bno, Model model){
+		model.addAttribute("memberList", memberService.selectBranchOfMember(bno));
+	}
 
 	@RequestMapping(value = "/search", method = RequestMethod.GET)
 	public void findCompany(Criteria criteria, Model model){
