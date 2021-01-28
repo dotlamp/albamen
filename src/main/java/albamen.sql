@@ -105,10 +105,10 @@ create table salary_info(/*계좌정보*/
                             account varchar(20) not null  comment '계좌번호' ,
                             payDay datetime comment '급여일' ,
                             mno int comment '회원시퀀스' ,
-                            cno int comment '회사시퀀스' ,
+                            bno int comment '회사시퀀스' ,
                             constraint salary_info_no_pk primary key (si_no),
                             constraint salary_info_mno_fk foreign key (mno) references member(mno),
-                            constraint salary_info_cno_fk foreign key (cno) references company(cno)
+                            constraint salary_info_cno_fk foreign key (bno) references company(cno)
 );
 /* time_schdule */
 create table time_schedule(/*근무시간*/
@@ -134,14 +134,14 @@ create table work_management(/*당일근무여부*/
                                 wno int auto_increment comment '당일근무여부시퀀스',
                                 wDay datetime default now() comment '출근일',
                                 mno int comment '회원시퀀스(회원테이블)',
-                                cno int comment '회사시퀀스(회사테이블)',
+                                bno int comment '회사시퀀스(회사테이블)',
                                 sno int comment '일정관리시퀀스(일정관리테이블)',
                                 startTime datetime comment '출근시간',
                                 endTime datetime comment '퇴근시간',
                                 wStatus int comment '0휴가1근무2지각3결근',
                                 constraint work_management_wno_pk primary key (wno),
                                 constraint work_management_mno_fk foreign key (mno) references member(mno),
-                                constraint work_management_cno_fk foreign key (cno) references company(cno),
+                                constraint work_management_cno_fk foreign key (bno) references company(cno),
                                 constraint work_management_sno_fk foreign key (sno) references schedule_management(sno)
 );
 
