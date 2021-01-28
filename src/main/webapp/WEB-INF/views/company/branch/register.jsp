@@ -53,14 +53,6 @@
                 <input class="form-control" type="text" id="btel" name="btel" />
             </div>
             <div class="form-group has-feedback">
-                <label class="control-label" for="manager">관리자</label>
-                <input class="form-control" type="text" id="manager" name="manager" />
-            </div>
-            <div class="form-group has-feedback">
-                <label class="control-label" for="mtel">관리자 전화번호</label>
-                <input class="form-control" type="text" id="mtel" name="mtel" />
-            </div>
-            <div class="form-group has-feedback">
                 <label class="control-label" for="sample6_postcode">주소</label>
                 <input readonly type="text" id="sample6_postcode" name ="post" placeholder="우편번호">
                 <input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br>

@@ -9,8 +9,6 @@ public class BranchDTO{
 	private String btel;
 	private String post;
 	private String address;
-	private String manager;
-	private String mtel;
 	private Date regDate;
 
 	@Override
@@ -22,8 +20,6 @@ public class BranchDTO{
 				", btel='" + btel + '\'' +
 				", post='" + post + '\'' +
 				", address='" + address + '\'' +
-				", manager='" + manager + '\'' +
-				", mtel='" + mtel + '\'' +
 				", regDate=" + regDate +
 				'}';
 	}
@@ -76,21 +72,6 @@ public class BranchDTO{
 		this.address = address;
 	}
 
-	public String getManager() {
-		return manager;
-	}
-
-	public void setManager(String manager) {
-		this.manager = manager;
-	}
-
-	public String getMtel() {
-		return mtel;
-	}
-
-	public void setMtel(String mtel) {
-		this.mtel = mtel;
-	}
 
 	public Date getRegDate() {
 		return regDate;

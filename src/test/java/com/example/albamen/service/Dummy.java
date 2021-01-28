@@ -53,8 +53,6 @@ public class Dummy {
                 branchDTO.setCno(i);
                 branchDTO.setBname("지점"+random);
                 branchDTO.setBtel("지점전화번호"+z);
-                branchDTO.setManager("관리자"+i);
-                branchDTO.setMtel("관리자전화번호"+i);
                 branchDTO.setPost("우편번호"+i);
                 branchDTO.setAddress("주소"+i);
                 companyService.insertBranch(branchDTO);

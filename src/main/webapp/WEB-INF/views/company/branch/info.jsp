@@ -8,8 +8,6 @@
             <th>전화번호</th>
             <th>우편번호</th>
             <th>주소 <input type="button" onclick="sample6_execDaumPostcode()" value="주소변경"></th>
-            <th>관리자</th>
-            <th>전화번호</th>
             <th>등록일</th>
         </tr>
         <form action="/company/branch/info" method="post">
@@ -18,8 +16,6 @@
             <td><input type="text" name="btel" value="<c:out value="${branch.btel}"/>"/></td>
             <td><input readonly type="text" id="sample6_postcode" name="post" value="< c:out value="${branch.post}"/>"/></td>
             <td><input type="text" id="sample6_address" name="address" value="<c:out value="${branch.address}"/>"/></td>
-            <td><input type="text" name="manager" value="<c:out value="${branch.manager}"/>"/></td>
-            <td><input type="text" name="mtel" value="<c:out value="${branch.mtel}"/>"/></td>
             <td><input type="text" value="<fmt:formatDate pattern="yyyy-MM-dd" value="${branch.regDate}"/>"/></td>
             <input type="hidden" name="c no" value="<c:out value='${branch.cno}'/>"/>
             <input type="hidden" name="bno" value="<c:out value='${branch.bno}'/>"/>

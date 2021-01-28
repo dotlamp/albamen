@@ -22,8 +22,6 @@
         <result property="btel" column="btel" />
         <result property="post" column="post" />
         <result property="address" column="address" />
-        <result property="manager" column="manager" />
-        <result property="mtel" column="mtel" />
         <result property="regDate" column="bregDate" />
     </resultMap>
     <resultMap id="authMap" type="com.example.albamen.dto.security.AuthDTO">
@@ -112,31 +110,31 @@
 
 
     <insert id="insertBranch">
-        insert into branch(cno, bname, btel, post, address, manager, mtel)
-        values(#{cno}, #{bname}, #{btel}, #{post}, #{address},  #{manager}, #{mtel})
+        insert into branch(cno, bname, btel, post, address)
+        values(#{cno}, #{bname}, #{btel}, #{post}, #{address})
     </insert>
     <select id="selectBranch" resultMap="branchMap">
-        select bno, cno, bname, btel, post, address, manager, mtel, regDate as bregDate
+        select bno, cno, bname, btel, post, address, regDate as bregDate
         from branch
         where bno = #{bno}
     </select>
     <select id="selectBranchList" resultMap="branchMap">
-        select bno, cno, bname, btel, post, address, manager, mtel, regDate as bregDate
+        select bno, cno, bname, btel, post, address, regDate as bregDate
         from branch
     </select>
     <select id="selectCompanyOfBranchList" resultMap="branchMap">
-        select bno, cno, bname, btel, post, address, manager, mtel, regDate as bregDate
+        select bno, cno, bname, btel, post, address, regDate as bregDate
         from branch
         where cno = #{cno}
     </select>
     <select id="searchBranch" resultMap="branchMap">
-        select bno, cno, bname, btel, post, address, manager, mtel, regDate as bregDate
+        select bno, cno, bname, btel, post, address, regDate as bregDate
         from branch
         where bname like #{name}
     </select>
     <insert id="updateBranch">
         update branch
-        set bname = #{bname}, btel = #{btel}, post= #{post}, manager = #{manager}, mtel = #{mtel}, address = #{address}
+        set bname = #{bname}, btel = #{btel}, post= #{post}, address = #{address}
         where bno = #{bno}
     </insert>
     <delete id="deleteBranch">

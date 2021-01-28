@@ -53,8 +53,6 @@ create table branch( /* 회사 지점 테이블*/
                        btel varchar(12) not null comment '전화번호',
                        post varchar(10) not null comment '우편번호',
                        address varchar(20) not null comment '주소',
-                       manager varchar(20) not null comment '관리자이름',
-                       mTel varchar(12) not null comment '관리자전화번호',
                        regDate datetime default now() comment '등록일',
                        constraint branch_cno_pk primary key (bno),
                        constraint branch_cno_fk foreign key(cno) references company(cno)
@@ -105,10 +103,8 @@ create table salary_info(/*계좌정보*/
                             account varchar(20) not null  comment '계좌번호' ,
                             payDay datetime comment '급여일' ,
                             mno int comment '회원시퀀스' ,
-                            bno int comment '회사시퀀스' ,
                             constraint salary_info_no_pk primary key (si_no),
                             constraint salary_info_mno_fk foreign key (mno) references member(mno),
-                            constraint salary_info_cno_fk foreign key (bno) references company(cno)
 );
 /* time_schdule */
 create table time_schedule(/*근무시간*/
