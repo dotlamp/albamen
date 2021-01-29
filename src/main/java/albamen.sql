@@ -112,10 +112,12 @@ create table salary_info(/*계좌정보*/
 /* time_schdule */
 create table time_schedule(/*근무시간*/
                               tno int auto_increment comment '근무시간시퀀스' ,
+                              bno int comment '회사시퀀스(회사테이블)',
                               startTime time comment '출근시간' ,
                               endTime time comment '퇴근시간' ,
                               breakTime time comment '휴게시간' ,
-                              constraint time_schedule_tno_pk primary key (tno)
+                              constraint time_schedule_tno_pk primary key (tno),
+                              constraint time_schedule_cno_fk foreign key (bno) references company(cno)
 );
 /* schedule_management */
 create table schedule_management(/*일정관리*/
@@ -123,12 +125,11 @@ create table schedule_management(/*일정관리*/
                                     sDay date comment '지정일',
                                     tno int comment '근무시간시퀀스(근무시간테이블)' ,
                                     mno int comment '회원시퀀스(회원테이블)' ,
-                                    bno int comment '회사시퀀스(회사테이블)',
                                     sStatus int comment '0휴가1근무',
                                     constraint schedule_management_sno_pk primary key (sno),
                                     constraint schedule_management_tno_fk foreign key (tno) references time_schedule(tno),
-                                    constraint schedule_management_mno_fk foreign key (mno) references member(mno),
-                                    constraint schedule_management_cno_fk foreign key (bno) references company(cno)
+                                    constraint schedule_management_mno_fk foreign key (mno) references member(mno)
+
 );
 /* work_managemanet */
 create table work_management(/*당일근무여부*/
