@@ -10,7 +10,7 @@
             <th>주소 <input type="button" onclick="sample6_execDaumPostcode()" value="주소변경"></th>
             <th>등록일</th>
         </tr>
-        <form action="/company/branch/info" method="post">
+        <form action="/company/branch/modify" method="post">
         <tr>
             <td><input type="text" name="bname" value="<c:out value="${branch.bname}"/>"/> </td>
             <td><input type="text" name="btel" value="<c:out value="${branch.btel}"/>"/></td>

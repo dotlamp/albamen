@@ -15,37 +15,28 @@
     <security:csrfInput/>
     <input type="submit" value="추가하기">
 </form>
+<div id="timeList"></div>
+
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
     $(document).ready(function () {
+            var formData = new FormData();
+            formData.append("timeList", timeList);
             var bno = $('#bno').val();
             $.ajax({
                 type: "get",
-                url: "./timeList" + bno,
-                dataType: 'json',
+                url: "/company/branch/timeList?bno=" + bno,
+                dataType: 'text',
+                data: formData,
+                contentType: false,
                 success: function (data) {
-                    if (data == 1) {
-                        $("#idchk").text("중복된 아이디 입니다.");
-                        $("#idchk").css("color", 'red');
-                        $("#membercheck").attr("disabled", true);
-                    } else {
-                        if (idJ.test(id)) {
-                            $("#idchk").text("");
-                            /*                            $("#idchk").css("color", 'blue');*/
-                            $("#membercheck").attr("disabled", false);
-                        } else if (id == '') {
-                            $("#idchk").text("아이디를 입력해주세요");
-                            $("#idchk").css("color", 'red');
-                            $("#membercheck").attr("disabled", true);
-                        } else {
-                            $("#idchk").text("사업자등록번호 입력해주세요");
-                            $("#idchk").css("color", 'red');
-                            $("#membercheck").attr("disabled", true);
-                        }
-                    }
+                    console.log(data)
+                    var contents = html.find("div").html();
+                },
+                error: function (error) {
+                    alert(error)
                 }
             })
-        })
     });
 </script>
