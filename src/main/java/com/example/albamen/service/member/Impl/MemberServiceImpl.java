@@ -25,8 +25,6 @@ public class MemberServiceImpl implements MemberService{
         memberMapper.insertMember(dto);
         MemberDTO dto2 = memberMapper.getMember(dto.getId());
         memberMapper.insertAuth(dto2.getMno(), "ROLE_EMPLOYEE");
-
-
     }
     @Override
     public List<MemberDTO> listMember(){
@@ -48,11 +46,6 @@ public class MemberServiceImpl implements MemberService{
     public void updateMember(MemberDTO dto) {
         memberMapper.updateMember(dto);
     }
-//    @Override
-//    public List<Work_MDTO> ListWork_M(String id){
-//        return memberMapper.ListWork_M(id);
-//    }
-
 
     @Override
     public MemberDTO workList(String id) {

@@ -11,7 +11,6 @@ public class Work_MDTO {
     private Date wday;
     private int mno;
     private int cno;
-    private int sno;
     private Date startTime;
     private Date endTime;
     private int wstatus;

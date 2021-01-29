@@ -103,12 +103,6 @@ public class MemberController {
         session.invalidate();
         return "redirect:/login";
     }
-    @RequestMapping("/workCheck")
-    public String ListWork_M(){
-
-        return "workCheck";
-
-    }
     @RequestMapping("/login")
     public String login(){
 

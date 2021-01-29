@@ -22,7 +22,7 @@
 </head>
 <body id="page-top">
 
-<jsp:include page="navbar1.jsp"></jsp:include>
+<jsp:include page="navbar.jsp"></jsp:include>
 
 <div class="container-fluid p-0">
 

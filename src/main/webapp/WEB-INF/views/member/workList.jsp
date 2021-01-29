@@ -13,11 +13,9 @@
 
 <body>
 
-
+<jsp:include page="navbar.jsp"></jsp:include>
 <c:out value="${branch.bname}"/>
 <table>
-
-
 
 <tr>
     <th>번호</th>
@@ -28,33 +26,32 @@
 
 </tr>
     <c:choose>
-        <c:when test="${fn:length(member.work_mList)>0}">
-            <c:forEach items="${work.work_mList}" var="work">
-                <tr>
-                    <td><c:out value='${work.wno}'/></td>
-                    <td><fmt:formatDate pattern="yyyy-MM-dd[E]" value="${work.wday}"/> </td>
-                    <td><fmt:formatDate pattern="a hh:mm:ss" value="${work.startTime}"/> </td>
-                    <td>
-                        <c:choose>
-                            <c:when test="${work.endTime eq null}">
-                                <c:out value="미등록"/>
-                            </c:when>
-                            <c:otherwise>
-                                <fmt:formatDate pattern="a hh:mm:ss" value="${work.endTime}"/>
-                            </c:otherwise>
-                        </c:choose>
-                    </td>
-                    <td><c:out value='${work.wstatus}'/> </td>
-                </tr>
-            </c:forEach>
-        </c:when>
-        <c:otherwise>
+    <c:when test="${fn:length(work.work_mList)>0}">
+        <c:forEach items="${work.work_mList}" var="work">
             <tr>
-                <td>출퇴근 기록이 없습니다.</td>
+                <td><c:out value='${work.wno}'/></td>
+                <td><fmt:formatDate pattern="yyyy-MM-dd[E]" value="${work.wday}"/> </td>
+                <td><fmt:formatDate pattern="a hh:mm:ss" value="${work.startTime}"/> </td>
+                <td>
+                    <c:choose>
+                    <c:when test="${work.endTime eq null}">
+                        <c:out value="미등록"/>
+                    </c:when>
+                    <c:otherwise>
+                        <fmt:formatDate pattern="a hh:mm:ss" value="${work.endTime}"/>
+                    </c:otherwise>
+                    </c:choose>
+                </td>
+                <td><c:out value='${work.wstatus}'/> </td>
             </tr>
-         </c:otherwise>
+        </c:forEach>
+    </c:when>
+    <c:otherwise>
+        <tr>
+            <td colspan="5">출퇴근 기록이 없습니다.</td>
+        </tr>
+    </c:otherwise>
     </c:choose>
-    <c:out value="${branch}"/>
-    <c:out value="${member}"/>
+
 </body>
 </html>

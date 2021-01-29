@@ -20,10 +20,6 @@ public interface MemberMapper {
     void updateMember(MemberDTO dto);
     //회원조회
     MemberDTO selectMember(String id);
-    //출퇴근 기록
-    //List<Work_MDTO> ListWork_M(String id);
-
-
 
     MemberDTO getMember(String id); //로그인
     void insertAuth(@Param("mno") int mno, @Param("auth") String auth); //권한 등록
@@ -33,7 +29,7 @@ public interface MemberMapper {
 
     List<MemberDTO> selectBranchOfMember(int bno);
 
-
+    //출퇴근 기록
     MemberDTO workList(String id);
     void insertWork(MemberDTO dto);
     void updateWork(MemberDTO dto);

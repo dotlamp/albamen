@@ -73,20 +73,18 @@
         order by wno desc
     </select>
     <insert id="insertWork">
-        insert into work_management(mno,bno,sno,startTime,endTime,wStatus)
-        select #{mno},#{bno},#{sno},now(),null,#{wStatus}
+        insert into work_management(mno,wDay,bno,startTime,endTime,wStatus)
+        select #{mno},now(),#{bno},now(),null,#{wStatus}
         where not exists(
-        select date_format(wDay,'%Y-%m-%d') from work_management
-        where date_format(wDay,'%Y-%m-%d') = date_format(curdate(),'%Y-%m-%d')
-        )
+        select wDay from work_management
+        where wDay = date(now()))
     </insert>
     <update id="updateWork">
         update work_management set endTime = now()
-        where date_format(wDay,'%Y-%m-%d') =date_format(curdate(),'%Y-%m-%d')
+        where wDay=date(now())
         and endTime is null
         and mno = #{mno}
         and bno = #{bno}
-        and sno = #{sno}
     </update>
 
     <select id="getMember" resultMap="memberMap">

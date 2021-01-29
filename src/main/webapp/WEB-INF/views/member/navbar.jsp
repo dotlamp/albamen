@@ -1,6 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
-
+<%@ taglib prefix="s" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -48,40 +48,31 @@
     <a class="navbar-brand js-scroll-trigger m-0" href="#page-top">
         <div class="row mt-2">
             <div class="col text-left">
-                <p class="mt-1">사업장 1 <i class="fas fa-caret-down mr-2"></i></p><%-- <i class="fa fa-sync ml-2 fa-sm"></i> --%>
-            </div>
-            <div class="col p-0 text-right">
-                <c:if  test="${sessionScope.member.id != null}">
-                    ${sessionScope.member.name}
-                </c:if>
+                <p class="mt-1"> <c:out value="${member.name}"/>님</p>
             </div>
         </div>
 
     </a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
     <div class="collapse navbar-collapse text-left text-white">
         <ol>
             <li>
-                <a href="workCheck">출퇴근</a>
+                <a href="workList">출퇴근</a>
             </li>
             <li>
                 <a href="update">회원수정</a>
             </li>
         </ol>
     </div>
-    <div>
-        <c:choose>
-            <c:when test="${sessionScope.member.id == null}">
-                <a href="/">LOGIN</a>
-            </c:when>
-            <c:otherwise>
-                <a href="/logoutMember">LOGOUT</a>
-
-            </c:otherwise>
-        </c:choose>
-
+    <div class="collapse navbar-collapse text-center text-white">
+            <s:authorize access="isAnonymous()">
+                <button type="submit" style="width: 116px; height: 56px; font-size: 20px; background-color: #ffe8a1; color: chocolate;border-color: darksalmon;"><a href="/login">LOGIN</a></button>
+            </s:authorize>
+            <s:authorize access="isAuthenticated()">
+                <form action="/logout" method="post" style="padding-left: 60px;">
+                    <button type="submit" style="width: 116px; height: 56px; font-size: 20px;background-color: #ffe8a1; color: chocolate; border-color: darksalmon;" >LOGOUT</button>
+                    <s:csrfInput/>
+                </form>
+            </s:authorize>
     </div>
 </nav>
 
