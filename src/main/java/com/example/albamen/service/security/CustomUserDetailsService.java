@@ -2,7 +2,7 @@ package com.example.albamen.service.security;
 
 import com.example.albamen.dto.company.CompanyDTO;
 import com.example.albamen.dto.member.MemberDTO;
-import com.example.albamen.dto.security.SecurityAlbamen;
+import com.example.albamen.dto.security.Albamen;
 import com.example.albamen.mapper.company.CompanyMapper;
 import com.example.albamen.mapper.member.MemberMapper;
 import lombok.extern.log4j.Log4j2;
@@ -34,11 +34,11 @@ public class CustomUserDetailsService implements UserDetailsService {
         try {
             CompanyDTO company = companyMapper.getCompany(id);
             if(company != null){
-                return new SecurityAlbamen(company);
+                return new Albamen(company);
             }
             MemberDTO member = memberMapper.getMember(id);
             if(member != null){
-                return new SecurityAlbamen(member);
+                return new Albamen(member);
             }
         }catch (Exception e){
             e.printStackTrace();

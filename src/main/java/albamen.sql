@@ -20,7 +20,6 @@ select * from member;
 
 
 /* member */
-
 create table member( /*회원*/
                        mno int auto_increment  comment '회원시퀀스' ,
                        id varchar(30) not null  comment '회원아이디(이메일)' ,
@@ -61,6 +60,7 @@ create table branch( /* 회사 지점 테이블*/
                        constraint branch_cno_fk foreign key(cno) references company(cno)
 );
 ALTER TABLE branch convert to charset utf8;
+/* auth */
 create  table auth(
                       ano int auto_increment comment '번호',
                       mno int comment '회원시퀀스',
@@ -70,13 +70,13 @@ create  table auth(
                       constraint auth_mno_fk foreign key (mno) references member(mno),
                       constraint auth_cno_fk foreign key (cno) references company(cno)
 );
+/* persistent_logins */
 create table persistent_logins(
                       username varchar(64) not null,
                       series varchar(64) primary key,
                       token varchar(64) not null,
                       last_used timestamp not null
 );
-select * from persistent_logins;
 /* attach */
 create table attach( /*첨부파일 테이블*/
                        fno int auto_increment comment '첨부파일번호' ,
@@ -112,10 +112,12 @@ create table salary_info(/*계좌정보*/
 /* time_schdule */
 create table time_schedule(/*근무시간*/
                               tno int auto_increment comment '근무시간시퀀스' ,
+                              tname varchar(20) comment '근무명',
                               bno int comment '회사시퀀스(회사테이블)',
                               startTime time comment '출근시간' ,
                               endTime time comment '퇴근시간' ,
-                              breakTime time comment '휴게시간' ,
+                              breakStartTime time comment '휴게시간' ,
+                              breakEndTime time comment '휴게시간' ,
                               constraint time_schedule_tno_pk primary key (tno),
                               constraint time_schedule_cno_fk foreign key (bno) references company(cno)
 );
@@ -145,6 +147,7 @@ create table work_management(/*당일근무여부*/
                                 constraint work_management_cno_fk foreign key (bno) references company(cno)
 );
 
+
 drop table work_management;
 drop table schedule_management;
 drop table time_schedule;
@@ -156,3 +159,17 @@ drop table auth;
 drop table branch;
 drop table company;
 drop table member;
+
+create table time_schedule2(/*근무시간*/
+                              startTime time comment '출근시간' ,
+                              endTime time comment '퇴근시간' ,
+                              breakTime time comment '휴게시간'
+);
+
+drop table time_schedule2;
+insert into time_schedule2
+values ("09:30", "18:30", "00:10");
+select * from time_schedule2;
+select (endTime-startTime)/10000 as time from time_schedule2;
+
+select * from time_schedule;

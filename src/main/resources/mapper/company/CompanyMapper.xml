@@ -132,11 +132,11 @@
         from branch
         where bname like #{name}
     </select>
-    <insert id="updateBranch">
+    <update id="updateBranch">
         update branch
         set bname = #{bname}, btel = #{btel}, post= #{post}, address = #{address}
         where bno = #{bno}
-    </insert>
+    </update>
     <delete id="deleteBranch">
         delete from branch
         where bno = #{bno}
@@ -177,4 +177,3 @@
     </select>
 
 </mapper>
-
