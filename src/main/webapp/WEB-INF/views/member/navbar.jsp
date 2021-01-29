@@ -65,11 +65,11 @@
     </div>
     <div class="collapse navbar-collapse text-center text-white">
             <s:authorize access="isAnonymous()">
-                <button type="submit" style="width: 116px; height: 56px; font-size: 20px; background-color: #ffe8a1; color: chocolate;border-color: darksalmon;"><a href="/login">LOGIN</a></button>
+                <button type="submit" style="width: 116px; height: 56px; font-size: 20px; background-color: #ffe8a1; font-weight: bolder; color: chocolate;border-color: darksalmon;"><a href="/login">LOGIN</a></button>
             </s:authorize>
             <s:authorize access="isAuthenticated()">
                 <form action="/logout" method="post" style="padding-left: 60px;">
-                    <button type="submit" style="width: 116px; height: 56px; font-size: 20px;background-color: #ffe8a1; color: chocolate; border-color: darksalmon;" >LOGOUT</button>
+                    <button type="submit" style="width: 116px; height: 56px; font-weight: bolder; font-size: 20px;background-color: #ffe8a1; color: chocolate; border-color: darksalmon;" >LOGOUT</button>
                     <s:csrfInput/>
                 </form>
             </s:authorize>

@@ -49,6 +49,14 @@
         where bno = #{bno}
     </select>
 
+    <select id="selectTSchedule" resultMap="scheduleMap">
+        select *
+        from time_schedule t, schedule_management s
+        where t.tno = s.tno
+        and s.mno = #{mno}
+        and s.sDay = date(now())
+    </select>
+
 
 </mapper>
 
