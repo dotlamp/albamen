@@ -55,7 +55,7 @@
                         </div>
             --%>
 
-            <div class="row" style="height: 35vh">
+            `
                 <div class="col-2">
                     <div class="card border-success mb-3">
                         <div class="card-header border-success"><img class="img-fluid img-profile rounded-circle mx-auto" src="static/img/man2.png" style="width: 25px;"> 김ㅇㅇ (지각)</div>

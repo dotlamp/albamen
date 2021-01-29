@@ -14,8 +14,12 @@ public interface MemberService {
     //회원수정
     void updateMember(MemberDTO dto);
     //회원조회
-    //MemberDTO selectMember(String id);
+    MemberDTO selectMember(String id);
 
     //지점의 회원(직원) 리스트
     List<MemberDTO> selectBranchOfMember(int bno);
+
+    MemberDTO workList(String id);
+    void insertWork(MemberDTO dto);
+    void updateWork(MemberDTO dto);
 }

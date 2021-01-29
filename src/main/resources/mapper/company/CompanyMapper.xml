@@ -170,5 +170,11 @@
         and c.cno > 0
     </select>
 
+    <select id="getBranch" resultMap="branchMap">
+        select *
+        from branch b
+        where bno =#{bno}
+    </select>
+
 </mapper>
 

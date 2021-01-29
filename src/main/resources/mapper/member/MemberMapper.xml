@@ -21,7 +21,7 @@
 
     <resultMap id="work_mMap" type="com.example.albamen.dto.member.Work_MDTO">
         <id property="wno" column="wno"/>
-        <result property="wDay" column="wDay"/>
+        <result property="wday" column="wDay"/>
         <result property="mno" column="mno"/>
         <result property="cno" column="cno"/>
         <result property="sno" column="sno"/>
@@ -50,32 +50,52 @@
         #{bno}
         )
     </insert>
-    <select id="listMember" resultMap="memberMap">
-        select * from member
-    </select>
     <select id="idCheck" resultType="int">
         select count(*) from member where id=#{id}
     </select>
-<!--    <select id="selectMember" resultType="memberMap">-->
-<!--        select * from member where id=#{id}-->
-<!--    </select>-->
+    <select id="listMember" resultMap="memberMap">
+        select * from member
+    </select>
+
+    <select id="selectMember" resultMap="memberMap">
+        select m.*, a.* from member m
+        left join auth a on m.mno = a.mno
+        where id = #{id}
+    </select>
 
     <update id="updateMember">
         update member set password = #{password}, tel = #{tel} where id = #{id}
     </update>
-    <select id="listWork_M" resultMap="work_mMap">
+    <select id="workList" resultMap="memberMap">
         select *
         from member m, work_management w
-        where m.mno = w.mno and m.cno = w.cno and m.id = #{id}
+        where m.mno = w.mno and m.id = #{id}
+        order by wno desc
     </select>
+    <insert id="insertWork">
+        insert into work_management(mno,bno,sno,startTime,endTime,wStatus)
+        select #{mno},#{bno},#{sno},now(),null,#{wStatus}
+        where not exists(
+        select date_format(wDay,'%Y-%m-%d') from work_management
+        where date_format(wDay,'%Y-%m-%d') = date_format(curdate(),'%Y-%m-%d')
+        )
+    </insert>
+    <update id="updateWork">
+        update work_management set endTime = now()
+        where date_format(wDay,'%Y-%m-%d') =date_format(curdate(),'%Y-%m-%d')
+        and endTime is null
+        and mno = #{mno}
+        and bno = #{bno}
+        and sno = #{sno}
+    </update>
 
     <select id="getMember" resultMap="memberMap">
-        select m.mno, m.id , m.password, m.name, m.cno, m.bno, c.name as cname, a.ano, a.auth
+        select m.mno, m.id , m.password, m.name, m.cno, m.bno, a.ano, a.auth
         from member m
-        left join company c on c.cno = m.cno
         left join auth a on m.mno = a.mno
         where m.id = #{id}
     </select>
+
     <insert id="insertAuth">
         insert into auth(mno, auth)
         values (#{mno}, #{auth})

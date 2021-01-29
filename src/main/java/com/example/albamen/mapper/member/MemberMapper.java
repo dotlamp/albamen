@@ -19,8 +19,7 @@ public interface MemberMapper {
     //회원수정
     void updateMember(MemberDTO dto);
     //회원조회
-    //MemberDTO selectMember(String id);
-
+    MemberDTO selectMember(String id);
     //출퇴근 기록
     //List<Work_MDTO> ListWork_M(String id);
 
@@ -34,4 +33,8 @@ public interface MemberMapper {
 
     List<MemberDTO> selectBranchOfMember(int bno);
 
+
+    MemberDTO workList(String id);
+    void insertWork(MemberDTO dto);
+    void updateWork(MemberDTO dto);
 }

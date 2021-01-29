@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 public class LoginController {
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String getLogin(String error, String logout, Model model, HttpServletRequest request){
+    public String getLogin(String error, String logout, Model model){
         if(error != null){
             model.addAttribute("error", "아이디 또는 패스워드 확인바랍니다.");
         }

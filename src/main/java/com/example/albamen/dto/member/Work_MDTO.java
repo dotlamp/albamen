@@ -8,7 +8,7 @@ import java.util.Date;
 public class Work_MDTO {
 
     private int wno;
-    private Date wDay;
+    private Date wday;
     private int mno;
     private int cno;
     private int sno;

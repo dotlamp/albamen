@@ -33,4 +33,6 @@ public interface CompanyService{
     List<AuthDTO> selectAuthList(Criteria criteria); //권한 전체 조회
 
     int getTotalCount(Criteria cri);
+
+    BranchDTO getBranch(int cno);
 }

@@ -16,8 +16,11 @@ show databases;
 create database albamen;
 use albamen;
 show tables;
+select * from member;
+
 
 /* member */
+
 create table member( /*회원*/
                        mno int auto_increment  comment '회원시퀀스' ,
                        id varchar(30) not null  comment '회원아이디(이메일)' ,

@@ -134,4 +134,7 @@ public class CompanyServiceImpl implements CompanyService {
     public int getTotalCount(Criteria cri) {
         return companyMapper.getTotalCount(cri);
     }
+
+    @Override
+    public BranchDTO getBranch(int cno) { return companyMapper.getBranch(cno); }
 }

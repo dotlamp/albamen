@@ -36,4 +36,6 @@ public interface CompanyMapper {
 	List<AuthDTO> selectAuthList(Criteria cri); //권한 전체 조회
 
 	int getTotalCount(Criteria cri);
+
+	BranchDTO getBranch(int cno);
 }

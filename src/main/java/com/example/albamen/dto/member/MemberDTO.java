@@ -20,7 +20,6 @@ public class MemberDTO{
     private int cno;
     private int bno;
     private List<Work_MDTO> work_mList;
-    private List<CompanyDTO> companyList;
     private List<AuthDTO> authList;
 
     public boolean hasAuth(String role) {

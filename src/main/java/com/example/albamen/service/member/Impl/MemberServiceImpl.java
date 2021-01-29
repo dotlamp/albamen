@@ -33,10 +33,10 @@ public class MemberServiceImpl implements MemberService{
         System.out.println("memberServiceimpl===========================");
        return memberMapper.listMember();
     }
-//    @Override
-//    public MemberDTO selectMember(String id){
-//        return memberMapper.selectMember(id);
-//    }
+    @Override
+    public MemberDTO selectMember(String id){
+        return memberMapper.selectMember(id);
+    }
 
     @Override
     public int idCheck(MemberDTO dto) {
@@ -53,6 +53,21 @@ public class MemberServiceImpl implements MemberService{
 //        return memberMapper.ListWork_M(id);
 //    }
 
+
+    @Override
+    public MemberDTO workList(String id) {
+        return memberMapper.workList(id);
+    }
+
+    @Override
+    public void insertWork(MemberDTO dto) {
+        memberMapper.insertWork(dto);
+    }
+
+    @Override
+    public void updateWork(MemberDTO dto) {
+        memberMapper.updateWork(dto);
+    }
 
     @Override
     public List<MemberDTO> selectBranchOfMember(int bno) {

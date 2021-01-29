@@ -62,13 +62,13 @@ public class Dummy {
 
     @Test void insertMember(){
         MemberDTO memberDTO = new MemberDTO();
-        for(int i=100; i<200; i++){
+        for(int i=1; i<100; i++){
             memberDTO.setId(String.valueOf(i));
             memberDTO.setPassword(String.valueOf(i));
             memberDTO.setName("이름"+String.valueOf(i));
             memberDTO.setTel("전화번호"+String.valueOf(i));
-            memberDTO.setCno(i/2);
-            memberDTO.setBno(i/2);
+            memberDTO.setCno(i);
+            memberDTO.setBno(i);
             memberService.insertMember(memberDTO);
         }
     }
