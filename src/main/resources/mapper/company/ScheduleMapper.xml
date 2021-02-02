@@ -5,7 +5,7 @@
 
 <mapper namespace="com.example.albamen.mapper.company.ScheduleMapper">
 
-    <resultMap id="scheduleMap" type="com.example.albamen.dto.company.work.ScheduleDTO">
+    <resultMap id="scheduleMap" type="com.example.albamen.dto.company.ScheduleDTO">
         <id property="sno" column="sno"/>
         <result property="sDay" column="sDay"/>
         <result property="tno" column="tno"/>
@@ -14,7 +14,7 @@
         <collection property="timeList" resultMap="timeMap"></collection>
     </resultMap>
 
-    <resultMap id="timeMap" type="com.example.albamen.dto.company.work.TimeDTO">
+    <resultMap id="timeMap" type="com.example.albamen.dto.company.TimeDTO">
         <id property="tno" column="tno"/>
         <result property="tname" column="tname"/>
         <result property="bno" column="bno"/>

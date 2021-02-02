@@ -1,7 +1,7 @@
-package com.example.albamen.service.work;
+package com.example.albamen.service.company;
 
-import com.example.albamen.dto.company.work.ScheduleDTO;
-import com.example.albamen.dto.company.work.TimeDTO;
+import com.example.albamen.dto.company.ScheduleDTO;
+import com.example.albamen.dto.company.TimeDTO;
 
 import java.util.List;
 

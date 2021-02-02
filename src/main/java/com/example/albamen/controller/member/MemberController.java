@@ -2,14 +2,12 @@ package com.example.albamen.controller.member;
 
 import com.example.albamen.dto.company.BranchDTO;
 import com.example.albamen.dto.company.CompanyDTO;
-import com.example.albamen.dto.company.work.ScheduleDTO;
-import com.example.albamen.dto.company.work.TimeDTO;
+import com.example.albamen.dto.company.ScheduleDTO;
 import com.example.albamen.dto.member.MemberDTO;
 import com.example.albamen.dto.member.Work_MDTO;
-import com.example.albamen.mapper.company.ScheduleMapper;
 import com.example.albamen.service.company.CompanyService;
 import com.example.albamen.service.member.MemberService;
-import com.example.albamen.service.work.ScheduleService;
+import com.example.albamen.service.company.ScheduleService;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.slf4j.Logger;
@@ -24,8 +22,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
 import java.security.Principal;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 @Controller
 @RequestMapping("/member")

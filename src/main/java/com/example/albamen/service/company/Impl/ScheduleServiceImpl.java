@@ -1,9 +1,9 @@
-package com.example.albamen.service.work.Impl;
+package com.example.albamen.service.company.Impl;
 
-import com.example.albamen.dto.company.work.ScheduleDTO;
-import com.example.albamen.dto.company.work.TimeDTO;
+import com.example.albamen.dto.company.ScheduleDTO;
+import com.example.albamen.dto.company.TimeDTO;
 import com.example.albamen.mapper.company.ScheduleMapper;
-import com.example.albamen.service.work.ScheduleService;
+import com.example.albamen.service.company.ScheduleService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
