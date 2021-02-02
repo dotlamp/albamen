@@ -132,8 +132,9 @@ public class CompanyController {
 	}
 	@RequestMapping(value = "/branch/timeList", method = RequestMethod.GET)
 	@ResponseBody
-	public void getTimeList(@RequestParam("bno") int bno){
-		scheduleService.selectTimeList(bno);
+	public void getTimeList(@RequestParam("bno") int bno, Model model){
+		log.info("------------------------------------------------------------------------------");
+		model.addAttribute("timeList", scheduleService.selectTimeList(bno));
 	}
 
 	@RequestMapping(value = "/branch/member", method = RequestMethod.POST)

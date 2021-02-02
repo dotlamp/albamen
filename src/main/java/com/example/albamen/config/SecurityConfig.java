@@ -22,7 +22,7 @@ import javax.sql.DataSource;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(securedEnabled = true) //권한체크 @Secured 사용하기위함
+@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true) //권한체크
 @Log4j2
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
