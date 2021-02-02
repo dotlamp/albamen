@@ -2,29 +2,30 @@ package com.example.albamen.controller.member;
 
 import com.example.albamen.dto.company.BranchDTO;
 import com.example.albamen.dto.company.CompanyDTO;
+import com.example.albamen.dto.company.work.ScheduleDTO;
+import com.example.albamen.dto.company.work.TimeDTO;
 import com.example.albamen.dto.member.MemberDTO;
-import com.example.albamen.dto.security.SecurityAlbamen;
+import com.example.albamen.dto.member.Work_MDTO;
+import com.example.albamen.mapper.company.ScheduleMapper;
 import com.example.albamen.service.company.CompanyService;
 import com.example.albamen.service.member.MemberService;
+import com.example.albamen.service.work.ScheduleService;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.security.Principal;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @Controller
 @RequestMapping("/member")
@@ -37,6 +38,7 @@ public class MemberController {
     @Autowired
     MemberService memberService;
     CompanyService companyService;
+    ScheduleService scheduleService;
 
     //회원가입 get
     @RequestMapping(value = "/register", method = RequestMethod.GET)
@@ -87,7 +89,20 @@ public class MemberController {
         model.addAttribute("branch", branchDTO);
         MemberDTO memberDTO_1 = memberService.workList(memberDTO.getId());
         model.addAttribute("work", memberDTO_1);
+        ScheduleDTO scheduleDTO = scheduleService.selectTSchedule(memberDTO.getMno());
+        model.addAttribute("schedule", scheduleDTO);
+    }
 
+    //출근입력
+    @RequestMapping(value = "/insertWork")
+    public String insertWork(Work_MDTO dto){
+        memberService.insertWork(dto);
+        return "redirect:workList";
+    }
+    @RequestMapping(value = "/updateWork", method = RequestMethod.POST)
+    public String updateWork(Work_MDTO dto){
+        memberService.updateWork(dto);
+        return "workList";
     }
 
     //회원정보수정

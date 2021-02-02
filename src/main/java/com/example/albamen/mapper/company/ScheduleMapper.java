@@ -1,11 +1,13 @@
 package com.example.albamen.mapper.company;
 
-import com.example.albamen.dto.company.TimeDTO;
+import com.example.albamen.dto.company.work.ScheduleDTO;
+import com.example.albamen.dto.company.work.TimeDTO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
 @Mapper
+
 public interface ScheduleMapper {
     /* schdule */
 
@@ -15,4 +17,6 @@ public interface ScheduleMapper {
     boolean updateTime(TimeDTO timeDTO); //근무 시간 변경
     boolean deleteTime(int tno); //근무 시간 삭제
     List<TimeDTO> selectTimeList(int bno); //근무 시간 전체 조회
+
+    ScheduleDTO selectTSchedule(int mno);//근무+스케줄정보 조회
 }

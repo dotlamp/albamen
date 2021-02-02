@@ -1,6 +1,7 @@
 package com.example.albamen.mapper.member;
 
 import com.example.albamen.dto.member.MemberDTO;
+import com.example.albamen.dto.member.Work_MDTO;
 import com.example.albamen.dto.page.Criteria;
 import com.example.albamen.dto.security.AuthDTO;
 import org.apache.ibatis.annotations.Mapper;
@@ -31,6 +32,6 @@ public interface MemberMapper {
 
     //출퇴근 기록
     MemberDTO workList(String id);
-    void insertWork(MemberDTO dto);
-    void updateWork(MemberDTO dto);
+    void insertWork(Work_MDTO dto);
+    void updateWork(Work_MDTO dto);
 }

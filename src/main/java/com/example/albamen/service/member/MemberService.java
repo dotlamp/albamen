@@ -1,6 +1,7 @@
 package com.example.albamen.service.member;
 
 import com.example.albamen.dto.member.MemberDTO;
+import com.example.albamen.dto.member.Work_MDTO;
 
 import java.util.List;
 
@@ -20,6 +21,6 @@ public interface MemberService {
     List<MemberDTO> selectBranchOfMember(int bno);
 
     MemberDTO workList(String id);
-    void insertWork(MemberDTO dto);
-    void updateWork(MemberDTO dto);
+    void insertWork(Work_MDTO dto);
+    void updateWork(Work_MDTO dto);
 }

@@ -6,7 +6,7 @@ import com.example.albamen.dto.company.CompanyDTO;
 import com.example.albamen.dto.page.Criteria;
 import com.example.albamen.dto.page.PageDTO;
 import com.example.albamen.dto.security.Albamen;
-import com.example.albamen.dto.company.TimeDTO;
+import com.example.albamen.dto.company.work.TimeDTO;
 import com.example.albamen.service.company.CompanyService;
 import com.example.albamen.service.member.MemberService;
 import com.example.albamen.service.work.ScheduleService;

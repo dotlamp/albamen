@@ -1,6 +1,7 @@
 package com.example.albamen.service.work.Impl;
 
-import com.example.albamen.dto.company.TimeDTO;
+import com.example.albamen.dto.company.work.ScheduleDTO;
+import com.example.albamen.dto.company.work.TimeDTO;
 import com.example.albamen.mapper.company.ScheduleMapper;
 import com.example.albamen.service.work.ScheduleService;
 import lombok.extern.log4j.Log4j2;
@@ -43,5 +44,10 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Override
     public List<TimeDTO> selectTimeList(int bno) {
         return scheduleMapper.selectTimeList(bno);
+    }
+
+    @Override
+    public ScheduleDTO selectTSchedule(int mno) {
+        return scheduleMapper.selectTSchedule(mno);
     }
 }

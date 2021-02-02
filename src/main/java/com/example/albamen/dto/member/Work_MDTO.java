@@ -10,7 +10,7 @@ public class Work_MDTO {
     private int wno;
     private Date wday;
     private int mno;
-    private int cno;
+    private int bno;
     private Date startTime;
     private Date endTime;
     private int wstatus;

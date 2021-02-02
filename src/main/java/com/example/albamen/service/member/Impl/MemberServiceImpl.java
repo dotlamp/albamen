@@ -1,6 +1,7 @@
 package com.example.albamen.service.member.Impl;
 
 import com.example.albamen.dto.member.MemberDTO;
+import com.example.albamen.dto.member.Work_MDTO;
 import com.example.albamen.mapper.member.MemberMapper;
 import com.example.albamen.service.member.MemberService;
 import lombok.extern.log4j.Log4j2;
@@ -53,12 +54,12 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
-    public void insertWork(MemberDTO dto) {
+    public void insertWork(Work_MDTO dto) {
         memberMapper.insertWork(dto);
     }
 
     @Override
-    public void updateWork(MemberDTO dto) {
+    public void updateWork(Work_MDTO dto) {
         memberMapper.updateWork(dto);
     }
 

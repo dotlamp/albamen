@@ -1,6 +1,7 @@
 package com.example.albamen.service.work;
 
-import com.example.albamen.dto.company.TimeDTO;
+import com.example.albamen.dto.company.work.ScheduleDTO;
+import com.example.albamen.dto.company.work.TimeDTO;
 
 import java.util.List;
 
@@ -10,4 +11,6 @@ public interface ScheduleService {
     boolean updateTime(TimeDTO timeDTO); //근무 시간 변경
     boolean deleteTime(int tno); //근무 시간 삭제
     List<TimeDTO> selectTimeList(int bno); //근무 시간 전체 조회
+
+    ScheduleDTO selectTSchedule(int mno);
 }

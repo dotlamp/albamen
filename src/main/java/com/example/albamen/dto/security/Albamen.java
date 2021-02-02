@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.User;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
-public class SecurityAlbamen extends User {
+public class Albamen extends User {
     private static final long serialVersionUID = 1L;
     private CompanyDTO company;
     private MemberDTO member;
@@ -22,18 +22,18 @@ public class SecurityAlbamen extends User {
         return member;
     }
 
-    public SecurityAlbamen(String username, String password,
-                           Collection<? extends GrantedAuthority> authorities){
+    public Albamen(String username, String password,
+                   Collection<? extends GrantedAuthority> authorities){
         super(username, password, authorities);
     }
 
-    public SecurityAlbamen(CompanyDTO company){
+    public Albamen(CompanyDTO company){
         super(company.getId(), company.getPassword(), company.getAuthList()
                 .stream().map(authDTO -> new SimpleGrantedAuthority(authDTO.getAuth())).collect(Collectors.toList()));
         this.company = company;
     }
 
-    public SecurityAlbamen(MemberDTO member){
+    public Albamen(MemberDTO member){
         super(member.getId(), member.getPassword(), member.getAuthList()
                 .stream().map(authDTO -> new SimpleGrantedAuthority(authDTO.getAuth())).collect(Collectors.toList()));
         this.member = member;

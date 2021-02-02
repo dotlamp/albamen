@@ -23,11 +23,10 @@
         <id property="wno" column="wno"/>
         <result property="wday" column="wDay"/>
         <result property="mno" column="mno"/>
-        <result property="cno" column="cno"/>
-        <result property="sno" column="sno"/>
+        <result property="bno" column="bno"/>
         <result property="startTime" column="startTime"/>
         <result property="endTime" column="endTime"/>
-        <result property="wstatus" column="wStatus"/>
+        <result property="wstatus" column="wstatus"/>
     </resultMap>
 
     <resultMap id="authMap" type="com.example.albamen.dto.security.AuthDTO">
@@ -72,13 +71,15 @@
         where m.mno = w.mno and m.id = #{id}
         order by wno desc
     </select>
+<!--    출근입력-->
     <insert id="insertWork">
-        insert into work_management(mno,wDay,bno,startTime,endTime,wStatus)
-        select #{mno},now(),#{bno},now(),null,#{wStatus}
+        insert into work_management(mno,wDay,bno,startTime,endTime,wstatus)
+        select #{mno},now(),#{bno},now(),null,#{wstatus}
         where not exists(
         select wDay from work_management
         where wDay = date(now()))
     </insert>
+    <!--    퇴근입력-->
     <update id="updateWork">
         update work_management set endTime = now()
         where wDay=date(now())

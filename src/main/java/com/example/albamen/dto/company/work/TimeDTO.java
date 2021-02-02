@@ -1,4 +1,4 @@
-package com.example.albamen.dto.company;
+package com.example.albamen.dto.company.work;
 
 import lombok.Data;
 

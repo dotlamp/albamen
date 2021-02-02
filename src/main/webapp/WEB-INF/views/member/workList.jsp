@@ -1,9 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib prefix="s" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-
+<jsp:useBean id="now" class="java.util.Date"/>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -22,12 +22,16 @@
         var currentSeconds =  addZeros(currentDate.getSeconds(),2);
 
         if(currentHours >= 12){ // 시간이 12보다 클 때 PM으로 세팅, 12를 빼줌
+            if(currentHours == 12){
+                amPm = 'PM';
+            }else{
             amPm = 'PM';
             currentHours = addZeros(currentHours - 12,2);
+            }
         }
 
-        if(currentSeconds >= 50){// 50초 이상일 때 색을 변환해 준다.
-            currentSeconds = '<span style="color:#de1951;">'+currentSeconds+'</span>'
+        if(currentMinute >= 55){// 50초 이상일 때 색을 변환해 준다.
+            currentMinute = '<span style="color:#de1951;">'+currentMinute+'</span>'
         }
         clock.innerHTML = calendar+" "+currentHours+":"+currentMinute+":"+currentSeconds +" <span style='font-size:20px;'>"+ amPm+"</span>"; //날짜를 출력해 줌
 
@@ -44,11 +48,14 @@
         }
         return zero + num;
     }
+    function timeCheck(){
+
+    }
 
 </script>
 <body>
 
-<jsp:include page="navbar.jsp"></jsp:include>
+<jsp:include page="../includes/navbar.jsp"></jsp:include>
 <div>
 <c:out value="${branch.bname}"/>
 </div>
@@ -56,16 +63,7 @@
     <div style="border:1px solid #dedede; color:#666;font-size:20px; text-align:center;" id="clock">
     </div>
 </body>
-<div>
-    <form>
-        <button type = "submit" id="on" name="on">출근</button>
-    </form>
-</div>
-<div>
-    <form>
-        <button type = "submit" id="off" name="off" >퇴근</button>
-    </form>
-</div>
+
 <table>
 
 <tr>
@@ -103,5 +101,46 @@
         </tr>
     </c:otherwise>
     </c:choose>
+
+    <form action="/member/insertWork" method="post">
+        <input type="text" id ="mno" name="mno" value="${member.mno}"/>
+        <input type="text" id ="bno" name="bno" value="${member.bno}"/>
+        <fmt:formatDate value="${now}" pattern="HH:mm:ss" var="today"/>
+        <c:forEach var="schedule" items="${schedule.timeList}">
+        <c:if test="${today <schedule.startTime}">
+            <input type="text" id ="wstatus" name="wstatus" value="1"/>
+        </c:if>
+        <c:if test="${today >=schedule.startTime}">
+            <input type="text" id ="wstatus" name="wstatus" value="2"/>
+        </c:if>
+        </c:forEach>
+        <button type = "submit" id="on" name="on">출근</button>
+        <security:csrfInput/>
+    </form>
+    <form action="/member/updateWork" method="post">
+        <input type="text" id = "mno1" name="mno" value="${member.mno}"/>
+        <input type="text" id = "bno1" name="bno" value="${member.bno}"/>
+        <button type = "submit" id="off" name="off" >퇴근</button>
+        <security:csrfInput/>
+    </form>
+
+    <div>
+    회원 <br>
+    <c:out value="${member}"/>
+    </div>
+    <div>
+
+    회사    <br>
+    <c:out value="${branch}"/>
+    </div>
+    <div>
+    출퇴근리스트<br>
+    <c:out value="${work}"/>
+    </div>
+    <div>
+        스케줄<br>
+    <c:out value="${schedule}"/>
+    </div>
+
 </body>
 </html>
