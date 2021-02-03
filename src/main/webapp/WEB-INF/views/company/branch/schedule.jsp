@@ -109,16 +109,16 @@
 </div>
 
 <form action="/company/branch/schedule" method="post">
-<input type="date" name="sDay">
-<input type="hidden" id="mno" name="mno">
-<input type="text" id="name" name="name" readonly>
-<input type="button" value="멤버선택" onclick="memberList(${branch.bno})">
-<input type="hidden" id="tno" name="tno">
-<input type="text" id="tname" name="tname" readonly>
-<input type="button" value="근무시간선택" onclick="timeList(${branch.bno})">
-<input type="hidden" name="bno" value="${branch.bno}">
-<s:csrfInput/>
-<input type="submit" name="addSchedule" value="일정추가">
+    <input type="date" id=sDay" name="sDay" value="">
+    <input type="hidden" id="mno" name="mno">
+    <input type="text" id="name" name="name" readonly>
+    <input type="button" value="멤버선택" onclick="memberList(${branch.bno})">
+    <input type="hidden" id="tno" name="tno">
+    <input type="text" id="tname" name="tname" readonly>
+    <input type="button" value="근무시간선택" onclick="timeList(${branch.bno})">
+    <input type="hidden" name="bno" value="${branch.bno}">
+    <s:csrfInput/>
+    <input type="submit" name="addSchedule" value="일정추가">
 </form>
 
 <div class="modal fade bd-example-modal-lg" id="confirmmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -180,12 +180,15 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="/static/js/LunarCalendar.js"></script>
 <script>
+
     function memberList(s) {
         window.open("/company/branch/member?bno="+s, "width=800, height=600");
     }
     function timeList(s) {
         window.open("/company/branch/timeList?bno="+s, "width=800, height=600");
     }
+
+
     function prevmonth() {
 
         if($("#thisMonth").text().indexOf('월')==-1){

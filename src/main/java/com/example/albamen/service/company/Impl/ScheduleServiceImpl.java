@@ -27,8 +27,18 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    public void selectTime(int tno) {
-        scheduleMapper.selectTime(tno);
+    public ScheduleDTO selectTSchedule(int mno) {
+        return scheduleMapper.selectTSchedule(mno);
+    }
+
+    @Override
+    public List<ScheduleDTO> selectScheduleList(int bno, String sDay) {
+        return scheduleMapper.selectScheduleList(bno, sDay);
+    }
+
+    @Override
+    public TimeDTO selectTime(int tno) {
+        return scheduleMapper.selectTime(tno);
     }
 
     @Override
@@ -51,13 +61,4 @@ public class ScheduleServiceImpl implements ScheduleService {
         return scheduleMapper.selectTimeList(bno);
     }
 
-    @Override
-    public ScheduleDTO selectTSchedule(int mno) {
-        return scheduleMapper.selectTSchedule(mno);
-    }
-
-    @Override
-    public TimeDTO selectTime1(int tno) {
-        return scheduleMapper.selectTime1(tno);
-    }
 }

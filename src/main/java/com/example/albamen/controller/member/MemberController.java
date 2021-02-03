@@ -100,7 +100,7 @@ public class MemberController {
 
         MemberDTO memberDTO = memberService.selectMember(principal.getName());
         ScheduleDTO scheduleDTO = scheduleService.selectTSchedule(memberDTO.getMno());
-        TimeDTO timeDTO = scheduleService.selectTime1(scheduleDTO.getTno());
+        TimeDTO timeDTO = scheduleService.selectTime(scheduleDTO.getTno());
         System.out.println("sssssssssssssssssss"+scheduleDTO);
         System.out.println("tttttttttttttttttttttt"+timeDTO);
         String time1 = timeDTO.getStartTime();

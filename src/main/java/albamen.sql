@@ -175,3 +175,12 @@ select * from time_schedule2;
 select (endTime-startTime)/10000 as time from time_schedule2;
 
 select * from time_schedule;
+
+select s.*, t.*
+from schedule_management s
+left join time_schedule t on s.tno = t.tno
+where bno = 3 and sDay = '2021-02-04';
+
+select sno, sDay, sStatus, mno, s.tno, tname, bno, startTime, endTime, breakStartTime, breakEndTime
+from schedule_management s
+         left join time_schedule ts on s.tno = ts.tno;

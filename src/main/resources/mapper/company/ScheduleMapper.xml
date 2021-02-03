@@ -28,6 +28,12 @@
         insert into schedule_management(sDay, tno, mno)
         values (#{sDay}, #{tno}, #{mno})
     </insert>
+    <select id="selectScheduleList">
+        select sno, sDay, sStatus, mno, s.tno, tname, bno, startTime, endTime, breakStartTime, breakEndTime
+        from schedule_management s
+        left join time_schedule ts on s.tno = ts.tno
+        where bno = #{bno} and sDay = #{sDay}
+    </select>
 
     <select id="selectTime" resultMap="timeMap">
         select tno, bno, tname, startTime, endTime, breakStartTime, breakEndTime
