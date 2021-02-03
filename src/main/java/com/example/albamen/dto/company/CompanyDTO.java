@@ -102,6 +102,17 @@ public class CompanyDTO{
 		return branchList;
 	}
 
+	public boolean searchBranchList(int bno){
+		int temp = 0;
+		for(int i=0; i<branchList.size(); i++){
+			temp = branchList.get(i).getBno();
+			if(temp == bno){
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public void setBranchList(List<BranchDTO> branchList) {
 		this.branchList = branchList;
 	}
