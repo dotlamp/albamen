@@ -17,7 +17,7 @@
             <td><input readonly type="text" id="sample6_postcode" name="post" value="< c:out value="${branch.post}"/>"/></td>
             <td><input type="text" id="sample6_address" name="address" value="<c:out value="${branch.address}"/>"/></td>
             <td><input type="text" value="<fmt:formatDate pattern="yyyy-MM-dd" value="${branch.regDate}"/>"/></td>
-            <input type="hidden" name="c no" value="<c:out value='${branch.cno}'/>"/>
+            <input type="hidden" name="cno" value="<c:out value='${branch.cno}'/>"/>
             <input type="hidden" name="bno" value="<c:out value='${branch.bno}'/>"/>
            <s:csrfInput/>
         </tr>
