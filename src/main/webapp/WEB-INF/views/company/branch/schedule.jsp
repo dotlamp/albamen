@@ -40,12 +40,14 @@
         }
     </style>
 <%@include file="../../includes/header.jsp" %>
+
 <div>
     <form action="/company/branch/time" method="get">
         <input type="hidden" name="bno" value="${branch.bno}">
         <input type="submit" value="근무시간관리">
     </form>
 </div>
+
 <body id="page-top" <%--onload="buildCalendar();"--%>>
 <div class="container-fluid p-0">
     <section class="resume-section p-3 p-lg-5 d-flex align-items-center" id="education">
@@ -106,64 +108,84 @@
     </section>
 </div>
 
-<%--<div class="modal fade bd-example-modal-lg" id="confirmmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"--%>
-<%--     aria-hidden="true">--%>
-<%--    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">--%>
-<%--        <div class="modal-content">--%>
-<%--            <div class="modal-content">--%>
-<%--                <div class="modal-header">--%>
-<%--                    <h5 class="modal-title" id="title"></h5>--%>
-<%--                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">--%>
-<%--                        <span aria-hidden="true">&times;</span>--%>
-<%--                    </button>--%>
-<%--                </div>--%>
-<%--                <div class="modal-body text-center">--%>
-<%--                    <table class="table">--%>
-<%--                        <thead class="thead-dark">--%>
-<%--                        <tr>--%>
-<%--                            <th scope="col">근무타입</th>--%>
-<%--                            <th scope="col">이름</th>--%>
-<%--                            <th scope="col">근무일정</th>--%>
-<%--                            <th scope="col">총 근무시간</th>--%>
-<%--                            <th scope="col">상태</th>--%>
-<%--                            <th scope="col">관리</th>--%>
-<%--                        </tr>--%>
-<%--                        </thead>--%>
-<%--                        <tbody>--%>
-<%--                        <tr class="bg-warning">--%>
-<%--                            <th scope="row">매니저</th>--%>
-<%--                            <td>Larry</td>--%>
-<%--                            <td>13:30~21:30</td>--%>
-<%--                            <td>8시간</td>--%>
-<%--                            <td>근무중</td>--%>
-<%--                            <td>--%>
-<%--                                ---%>
-<%--                            </td>--%>
-<%--                        </tr>--%>
-<%--                        <tr>--%>
-<%--                            <th scope="row"><t class="type"></t> C</th>--%>
-<%--                            <td>Larry</td>--%>
-<%--                            <td>16:30~22:00</td>--%>
-<%--                            <td>5시간30분</td>--%>
-<%--                            <td>예정</td>--%>
-<%--                            <td>--%>
-<%--                                <button class="btn m-0 p-0 mr-2"><i class="fa fa-pen fa-sm text-secondary" onclick="updatebtn()"></i></button>--%>
-<%--                                <button class="btn m-0 p-0"><i class="fa fa-times fa-sm text-secondary" onclick="delbtn();"></i></button>--%>
-<%--                            </td>--%>
-<%--                        </tr>--%>
-<%--                        </tbody>--%>
-<%--                    </table>--%>
-<%--                </div>--%>
-<%--            </div>--%>
-<%--        </div>--%>
-<%--    </div>--%>
-<%--</div>--%>
+<form action="/company/branch/schedule" method="post">
+<input type="date" name="sDay">
+<input type="hidden" id="mno" name="mno">
+<input type="text" id="name" name="name" readonly>
+<input type="button" value="멤버선택" onclick="memberList(${branch.bno})">
+<input type="hidden" id="tno" name="tno">
+<input type="text" id="tname" name="tname" readonly>
+<input type="button" value="근무시간선택" onclick="timeList(${branch.bno})">
+<input type="hidden" name="bno" value="${branch.bno}">
+<s:csrfInput/>
+<input type="submit" name="addSchedule" value="일정추가">
+</form>
+
+<div class="modal fade bd-example-modal-lg" id="confirmmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="title"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body text-center">
+
+                    <table class="table">
+                        <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">근무타입</th>
+                            <th scope="col">이름</th>
+                            <th scope="col">근무일정</th>
+                            <th scope="col">총 근무시간</th>
+                            <th scope="col">상태</th>
+                            <th scope="col">관리</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class="bg-warning">
+                            <th scope="row">매니저</th>
+                            <td>Larry</td>
+                            <td>13:30~21:30</td>
+                            <td>8시간</td>
+                            <td>근무중</td>
+                            <td>
+                                -
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row"><t class="type"></t> C</th>
+                            <td>Larry</td>
+                            <td>16:30~22:00</td>
+                            <td>5시간30분</td>
+                            <td>예정</td>
+                            <td>
+                                <button class="btn m-0 p-0 mr-2"><i class="fa fa-pen fa-sm text-secondary" onclick="updatebtn()"></i></button>
+                                <button class="btn m-0 p-0"><i class="fa fa-times fa-sm text-secondary" onclick="delbtn();"></i></button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <%@include file="../../includes/footer.jsp" %>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="/static/js/LunarCalendar.js"></script>
 <script>
+    function memberList(s) {
+        window.open("/company/branch/member?bno="+s, "width=800, height=600");
+    }
+    function timeList(s) {
+        window.open("/company/branch/timeList?bno="+s, "width=800, height=600");
+    }
     function prevmonth() {
 
         if($("#thisMonth").text().indexOf('월')==-1){
@@ -344,13 +366,13 @@
         $("#calendar_table").append(calendar);
 
         if(d!=1){
-            $(".m"+(m+1)+"_"+(d-1)).append("<br><t class='fa-sm gray'>09:00~12:30 김ㅇㅇ</t><br><t class='fa-sm gray'>12:30~18:30 이ㅇㅇ</t>");
-            $(".m"+(m+1)+"_"+d).append("<br><t class='fa-sm text-dark font-weight-bold'>09:00~12:30 김ㅇㅇ</t>");
+            $(".m"+(m+1)+"_"+(d-1)).append("<br><t class='fa-sm gray'>A</t><br><t class='fa-sm gray'>B</t>");
+            $(".m"+(m+1)+"_"+d).append("<br><t class='fa-sm text-dark font-weight-bold'>C</t>");
         }else{
-            $(".m"+(m+1)+"_"+d).append("<br><t class='fa-sm text-dark'>09:00~12:30 김ㅇㅇ</t>");
+            $(".m"+(m+1)+"_"+d).append("<br><t class='fa-sm text-dark'>D</t>");
         }
 
-        $(".m"+(m+1)+"_"+(d+1)).append("<br><t class='fa-sm text-dark'>09:00~12:30 김ㅇㅇ</t>")
+        $(".m"+(m+1)+"_"+(d+1)).append("<br><t class='fa-sm text-dark'>E</t>")
     }
 
     buildCalender(new Date());
