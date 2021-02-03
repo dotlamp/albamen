@@ -36,7 +36,7 @@
             <td><c:out value="${timeList.startTime}"/>~<c:out value="${timeList.endTime}"/></td>
             <td><c:out value="${timeList.breakStartTime}"/>~<c:out value="${timeList.breakEndTime}"/></td>
             <td><input type="button" value="remove" onclick="remove('${timeList.tno}');"></td>
-            <td><input type="button" id="modify" value="modify" onclick="modify('${timeList.tno}');"></td>
+            <td><input type="button" id="modify" value="modify X" onclick="modify('${timeList.tno}');"></td>
         </tr>
     </c:forEach>
 </table>
