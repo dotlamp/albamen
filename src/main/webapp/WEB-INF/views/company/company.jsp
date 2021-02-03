@@ -9,10 +9,8 @@
 
     <p> 지점 :
 <c:forEach items="${branchList}" var="branchList">
-    <form action="/company/branch/" method="post">
-        <input type="hidden" name="cno" value="${branchList.cno}">
+    <form action="/company/branch/manage" method="get">
         <input type="hidden" name="bno" value="${branchList.bno}">
-        <s:csrfInput/>
         <input type="submit" value="${branchList.bname}">
     </form>
 </c:forEach>
