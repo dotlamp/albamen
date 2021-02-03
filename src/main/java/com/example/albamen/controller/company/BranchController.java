@@ -81,9 +81,14 @@ public class BranchController {
     }
     @RequestMapping(value = "/schedule", method = RequestMethod.POST)
     public String postSchedule(@RequestParam("bno") int bno, ScheduleDTO scheduleDTO){
-//        log.info(scheduleDTO.getSDay());
         scheduleService.insertSchedule(scheduleDTO);
         return "redirect:/company/branch/schedule"+"?bno="+bno;
+    }
+    @PreAuthorize("isAuthenticated() and #albamen.company.searchBranchList(#bno)")
+    @RequestMapping(value = "/scheduleList", method = RequestMethod.POST)
+    public void postScheduleList(@AuthenticationPrincipal Albamen albamen,
+                            @RequestParam("bno") int bno, String sDay, Model model){
+        model.addAttribute("scList", scheduleService.selectScheduleList(bno, sDay));
     }
 
     @PreAuthorize("isAuthenticated() and #albamen.company.searchBranchList(#bno)")
@@ -102,12 +107,10 @@ public class BranchController {
     @RequestMapping(value = "/timeList", method = RequestMethod.GET)
     public void getTimeList(int bno, Model model){
         model.addAttribute("timeList", scheduleService.selectTimeList(bno));
-//        return "company/branch/timeList";
     }
     @RequestMapping(value = "/removeTime", method = RequestMethod.POST)
     public void removeTime(int tno){
         scheduleService.deleteTime(tno);
-//        return "company/branch/timeList";
     }
 
 

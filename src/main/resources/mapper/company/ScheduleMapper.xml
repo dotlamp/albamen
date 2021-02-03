@@ -7,11 +7,12 @@
 
     <resultMap id="scheduleMap" type="com.example.albamen.dto.company.ScheduleDTO">
         <id property="sno" column="sno"/>
-        <result property="sDay" column="sDay"/>
+        <result property="sday" column="sDay"/>
         <result property="tno" column="tno"/>
         <result property="mno" column="mno"/>
-        <result property="sStatus" column="sStatus"/>
+        <result property="sstatus" column="sStatus"/>
         <collection property="timeList" resultMap="timeMap"></collection>
+        <collection property="memberList" resultMap="memberMap"></collection>
     </resultMap>
 
     <resultMap id="timeMap" type="com.example.albamen.dto.company.TimeDTO">
@@ -23,16 +24,21 @@
         <result property="breakStartTime" column="breakStartTime"/>
         <result property="breakEndTime" column="breakEndTime"/>
     </resultMap>
+    <resultMap id="memberMap" type="com.example.albamen.dto.member.MemberDTO">
+        <id property="mno" column="mno"/>
+        <result property="name" column="name"/>
+    </resultMap>
 
     <insert id="insertSchedule">
-        insert into schedule_management(sDay, tno, mno)
-        values (#{sDay}, #{tno}, #{mno})
+        insert into schedule_management(sDay, tno, mno, sStatus)
+        values (#{sDay}, #{tno}, #{mno}, #{sStatus})
     </insert>
-    <select id="selectScheduleList">
-        select sno, sDay, sStatus, mno, s.tno, tname, bno, startTime, endTime, breakStartTime, breakEndTime
+    <select id="selectScheduleList" resultMap="scheduleMap">
+        select sno, sDay, sStatus, s.mno, name, s.tno, tname, ts.bno, startTime, endTime, breakStartTime, breakEndTime
         from schedule_management s
         left join time_schedule ts on s.tno = ts.tno
-        where bno = #{bno} and sDay = #{sDay}
+        left join member m on s.mno = m.mno
+        where ts.bno = #{bno} and sDay = #{sDay}
     </select>
 
     <select id="selectTime" resultMap="timeMap">
@@ -67,11 +73,7 @@
         and s.mno = #{mno}
         and s.sDay = date(now())
     </select>
-    <select id="selectTime1" resultMap="timeMap">
-        select tno, bno, tname, startTime, endTime, breakStartTime, breakEndTime
-        from time_schedule
-        where tno = #{tno}
-    </select>
+
 
 
 

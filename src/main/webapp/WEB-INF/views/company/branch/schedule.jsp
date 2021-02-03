@@ -43,7 +43,7 @@
 
 <div>
     <form action="/company/branch/time" method="get">
-        <input type="hidden" name="bno" value="${branch.bno}">
+        <input type="hidden" id="bno" name="bno" value="${branch.bno}">
         <input type="submit" value="근무시간관리">
     </form>
 </div>
@@ -116,11 +116,18 @@
     <input type="hidden" id="tno" name="tno">
     <input type="text" id="tname" name="tname" readonly>
     <input type="button" value="근무시간선택" onclick="timeList(${branch.bno})">
+    <input type="radio" name="sStatus" value="1" checked>근무
+    <input type="radio" name="sStatus" value="0">휴가
     <input type="hidden" name="bno" value="${branch.bno}">
     <s:csrfInput/>
     <input type="submit" name="addSchedule" value="일정추가">
 </form>
 
+근무자 확인 :
+<input type="date" id="scDay" onchange="scList();">
+<div id="scList">
+
+</div>
 <div class="modal fade bd-example-modal-lg" id="confirmmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
      aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
@@ -187,7 +194,27 @@
     function timeList(s) {
         window.open("/company/branch/timeList?bno="+s, "width=800, height=600");
     }
-
+    function scList() {
+        var bno = $('#bno').val();
+        var scDay = $('#scDay').val();
+        console.log(bno);
+        console.log(scDay);
+        $.ajax({
+            url: '/company/branch/scheduleList',
+            type: 'post',
+            dataType: 'text',
+            data: {bno: bno, sDay: scDay},
+            beforeSend: function(xhr){
+                xhr.setRequestHeader("${_csrf.headerName}", "${_csrf.token}");
+            },
+            success: function (data) {
+                $('#scList').html(data);
+            },
+            error: function () {
+                // console.log("error");
+            }
+        }); //ajax
+    }
 
     function prevmonth() {
 
