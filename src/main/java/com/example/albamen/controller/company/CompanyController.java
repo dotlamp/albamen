@@ -40,11 +40,6 @@ public class CompanyController {
 		}
 		return "/company/company";
 	}
-	@RequestMapping(value = "/logout", method = RequestMethod.POST)
-	public String getLogout(){
-		return "/company/company";
-	}
-
 
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
 	public void getCompanyRegister(){ }
@@ -61,6 +56,7 @@ public class CompanyController {
 		int total = companyService.getTotalCount(criteria);
 		model.addAttribute("pageMaker", new PageDTO(criteria, total, 10));
 	}
+
 	@RequestMapping(value = "/branch", method = RequestMethod.GET)
 	public void getBranchInfo(@RequestParam("bno") int bno, Model model){
 		model.addAttribute("branch", companyService.selectBranch(bno));
