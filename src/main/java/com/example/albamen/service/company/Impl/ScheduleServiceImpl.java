@@ -50,4 +50,9 @@ public class ScheduleServiceImpl implements ScheduleService {
     public ScheduleDTO selectTSchedule(int mno) {
         return scheduleMapper.selectTSchedule(mno);
     }
+
+    @Override
+    public TimeDTO selectTime1(int tno) {
+        return scheduleMapper.selectTime1(tno);
+    }
 }

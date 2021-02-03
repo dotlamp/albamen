@@ -26,7 +26,10 @@
         <result property="bno" column="bno"/>
         <result property="startTime" column="startTime"/>
         <result property="endTime" column="endTime"/>
-        <result property="wstatus" column="wstatus"/>
+        <result property="addTime" column="addTime"/>
+        <result property="startstatus" column="startstatus"/>
+        <result property="endstatus" column="endstatus"/>
+
     </resultMap>
 
     <resultMap id="authMap" type="com.example.albamen.dto.security.AuthDTO">
@@ -73,8 +76,8 @@
     </select>
 <!--    출근입력-->
     <insert id="insertWork">
-        insert into work_management(mno,wDay,bno,startTime,endTime,wstatus)
-        select #{mno},now(),#{bno},now(),null,#{wstatus}
+        insert into work_management(mno,wDay,bno,startTime,endTime,addTime,startstatus, endstatus)
+        select #{mno},now(),#{bno},now(),null,null,#{startstatus},0
         where not exists(
         select wDay from work_management
         where wDay = date(now()))

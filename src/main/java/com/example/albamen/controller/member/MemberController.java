@@ -3,8 +3,10 @@ package com.example.albamen.controller.member;
 import com.example.albamen.dto.company.BranchDTO;
 import com.example.albamen.dto.company.CompanyDTO;
 import com.example.albamen.dto.company.ScheduleDTO;
+import com.example.albamen.dto.company.TimeDTO;
 import com.example.albamen.dto.member.MemberDTO;
 import com.example.albamen.dto.member.Work_MDTO;
+import com.example.albamen.dto.security.Albamen;
 import com.example.albamen.service.company.CompanyService;
 import com.example.albamen.service.member.MemberService;
 import com.example.albamen.service.company.ScheduleService;
@@ -13,6 +15,7 @@ import lombok.extern.log4j.Log4j2;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -22,6 +25,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
 import java.security.Principal;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @Controller
 @RequestMapping("/member")
@@ -85,20 +90,42 @@ public class MemberController {
         model.addAttribute("branch", branchDTO);
         MemberDTO memberDTO_1 = memberService.workList(memberDTO.getId());
         model.addAttribute("work", memberDTO_1);
-        ScheduleDTO scheduleDTO = scheduleService.selectTSchedule(memberDTO.getMno());
-        model.addAttribute("schedule", scheduleDTO);
+//        ScheduleDTO scheduleDTO = scheduleService.selectTSchedule(memberDTO.getMno());
+//        model.addAttribute("schedule", scheduleDTO);
     }
 
     //출근입력
     @RequestMapping(value = "/insertWork")
-    public String insertWork(Work_MDTO dto){
+    public String insertWork(Principal principal,Work_MDTO dto){
+
+        MemberDTO memberDTO = memberService.selectMember(principal.getName());
+        ScheduleDTO scheduleDTO = scheduleService.selectTSchedule(memberDTO.getMno());
+        TimeDTO timeDTO = scheduleService.selectTime1(scheduleDTO.getTno());
+        System.out.println("sssssssssssssssssss"+scheduleDTO);
+        System.out.println("tttttttttttttttttttttt"+timeDTO);
+        String time1 = timeDTO.getStartTime();
+        System.out.println("출근시작시간==================="+time1);
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+        Date now = new Date();
+        String time2 = sdf.format(now);
+        int compare = time2.compareTo(time1);
+        System.out.println("현재시간==================="+time2);
+        System.out.println("============================"+compare);
+        if(compare>=0){
+            compare=2;
+            dto.setStartstatus(compare);
+        }else{
+            compare=1;
+            dto.setStartstatus(compare);
+        }
+
         memberService.insertWork(dto);
         return "redirect:workList";
     }
-    @RequestMapping(value = "/updateWork", method = RequestMethod.POST)
+    @RequestMapping(value = "/updateWork")
     public String updateWork(Work_MDTO dto){
         memberService.updateWork(dto);
-        return "workList";
+        return "redirect:workList";
     }
 
     //회원정보수정

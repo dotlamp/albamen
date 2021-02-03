@@ -71,7 +71,9 @@
     <th>날짜</th>
     <th>출근시간</th>
     <th>퇴근시간</th>
-    <th>상태</th>
+    <th>초과시간</th>
+    <th>출근상태</th>
+    <th>퇴근상태</th>
 
 </tr>
     <c:choose>
@@ -84,14 +86,46 @@
                 <td>
                     <c:choose>
                     <c:when test="${work.endTime eq null}">
-                        <c:out value="미등록"/>
+                        <c:out value="-"/>
                     </c:when>
                     <c:otherwise>
                         <fmt:formatDate pattern="a hh:mm:ss" value="${work.endTime}"/>
                     </c:otherwise>
                     </c:choose>
                 </td>
-                <td><c:out value='${work.wstatus}'/> </td>
+                <td>
+                    <c:choose>
+                        <c:when test="${work.addTime eq null}">
+                            <c:out value="-"/>
+                        </c:when>
+                        <c:otherwise>
+                            <fmt:formatDate pattern="a hh:mm:ss" value="${work.addTime}"/>
+                        </c:otherwise>
+                    </c:choose>
+                </td>
+
+                <td>
+                    <c:choose>
+                        <c:when test="${work.startstatus eq 1}" >
+                            정상
+                        </c:when>
+                        <c:otherwise>
+                            지각
+                        </c:otherwise>
+
+                    </c:choose>
+                </td>
+                <td>
+                    <c:choose>
+                        <c:when test="${work.endstatus eq 1}" >
+                            정상
+                        </c:when>
+                        <c:otherwise>
+                            -
+                        </c:otherwise>
+
+                    </c:choose>
+                </td>
             </tr>
         </c:forEach>
     </c:when>
@@ -105,15 +139,6 @@
     <form action="/member/insertWork" method="post">
         <input type="text" id ="mno" name="mno" value="${member.mno}"/>
         <input type="text" id ="bno" name="bno" value="${member.bno}"/>
-        <fmt:formatDate value="${now}" pattern="HH:mm:ss" var="today"/>
-        <c:forEach var="schedule" items="${schedule.timeList}">
-        <c:if test="${today <schedule.startTime}">
-            <input type="text" id ="wstatus" name="wstatus" value="1"/>
-        </c:if>
-        <c:if test="${today >=schedule.startTime}">
-            <input type="text" id ="wstatus" name="wstatus" value="2"/>
-        </c:if>
-        </c:forEach>
         <button type = "submit" id="on" name="on">출근</button>
         <security:csrfInput/>
     </form>
@@ -124,23 +149,6 @@
         <security:csrfInput/>
     </form>
 
-    <div>
-    회원 <br>
-    <c:out value="${member}"/>
-    </div>
-    <div>
-
-    회사    <br>
-    <c:out value="${branch}"/>
-    </div>
-    <div>
-    출퇴근리스트<br>
-    <c:out value="${work}"/>
-    </div>
-    <div>
-        스케줄<br>
-    <c:out value="${schedule}"/>
-    </div>
 
 </body>
 </html>

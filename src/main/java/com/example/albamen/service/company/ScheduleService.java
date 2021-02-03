@@ -13,4 +13,5 @@ public interface ScheduleService {
     List<TimeDTO> selectTimeList(int bno); //근무 시간 전체 조회
 
     ScheduleDTO selectTSchedule(int mno);
+    TimeDTO selectTime1(int tno);
 }

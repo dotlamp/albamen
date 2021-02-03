@@ -56,6 +56,12 @@
         and s.mno = #{mno}
         and s.sDay = date(now())
     </select>
+    <select id="selectTime1" resultMap="timeMap">
+        select tno, bno, tname, startTime, endTime, breakStartTime, breakEndTime
+        from time_schedule
+        where tno = #{tno}
+    </select>
+
 
 
 </mapper>

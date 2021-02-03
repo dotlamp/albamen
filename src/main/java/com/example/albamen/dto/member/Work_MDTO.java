@@ -13,5 +13,7 @@ public class Work_MDTO {
     private int bno;
     private Date startTime;
     private Date endTime;
-    private int wstatus;
+    private Date addTime;
+    private int startstatus;
+    private int endstatus;
 }
