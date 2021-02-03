@@ -16,6 +16,11 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     private ScheduleMapper scheduleMapper;
 
+    @Override
+    public void insertSchedule(ScheduleDTO scheduleDTO) {
+        scheduleMapper.insertSchedule(scheduleDTO);
+    }
+
     @Autowired
     public void setScheduleMapper(ScheduleMapper scheduleMapper) {
         this.scheduleMapper = scheduleMapper;

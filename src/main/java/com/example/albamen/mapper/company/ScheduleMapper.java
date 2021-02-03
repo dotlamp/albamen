@@ -11,6 +11,8 @@ import java.util.List;
 
 public interface ScheduleMapper {
     /* schdule */
+    void selectSchedule(); //근무 일정 조회
+    void insertSchedule(ScheduleDTO scheduleDTO); //근무 일정 입력
 
     /* time */
     void selectTime(int tno); //근무 시간 조회

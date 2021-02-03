@@ -1,6 +1,7 @@
 package com.example.albamen.controller.company;
 
 import com.example.albamen.dto.company.BranchDTO;
+import com.example.albamen.dto.company.ScheduleDTO;
 import com.example.albamen.dto.company.TimeDTO;
 import com.example.albamen.dto.security.Albamen;
 import com.example.albamen.service.company.CompanyService;
@@ -40,7 +41,7 @@ public class BranchController {
         this.memberService = memberService;
     }
 
-    //	@Secured({"ROLE_ADMIN", "ROLE_MANAGER"})
+//    @Secured({"ROLE_ADMIN", "ROLE_MANAGER"})
     @RequestMapping(value = "/register", method = RequestMethod.GET)
     public void getBranchRegister(){	}
     @RequestMapping(value = "/register", method = RequestMethod.POST)
@@ -51,50 +52,70 @@ public class BranchController {
         return "redirect:/";
     }
 
-    @PreAuthorize("isAuthenticated() and #cno == #albamen.company.cno")
-    @RequestMapping(value = "/", method = RequestMethod.POST)
+    @PreAuthorize("isAuthenticated() and #albamen.company.searchBranchList(#bno)")
+    @RequestMapping(value = "/manage", method = RequestMethod.GET)
     public String postBranch(@AuthenticationPrincipal Albamen albamen,
-                             @RequestParam("cno") int cno, @RequestParam("bno") int bno, Model model){
+                             @RequestParam("bno") int bno, Model model){
         model.addAttribute("branch", companyService.selectBranch(bno));
-        return "company/branch/branch";
+        return "company/branch/manage";
     }
 
-    @PreAuthorize("isAuthenticated() and #cno == #albamen.company.cno")
+    @PreAuthorize("isAuthenticated() and #albamen.company.searchBranchList(#bno)")
     @RequestMapping(value = "/modify", method = RequestMethod.GET)
     public void getBranchModify(@AuthenticationPrincipal Albamen albamen,
-                                @RequestParam("cno") int cno, @RequestParam("bno") int bno, Model model){
+                                @RequestParam("bno") int bno, Model model){
         model.addAttribute("branch", companyService.selectBranch(bno));
     }
 
     @RequestMapping(value = "/modify", method = RequestMethod.POST)
     public String postBranchModify(BranchDTO branchDTO){
         companyService.updateBranch(branchDTO);
-        return "redirect:/company/";
+        return "redirect:/company/branch/manage"+"?bno="+branchDTO.getBno();
     }
 
+    @PreAuthorize("isAuthenticated() and #albamen.company.searchBranchList(#bno)")
     @RequestMapping(value = "/schedule", method = RequestMethod.GET)
-    public void getSchedule(@RequestParam("bno") int bno, Model model){
+    public void getSchedule(@AuthenticationPrincipal Albamen albamen,
+                            @RequestParam("bno") int bno, Model model){
         model.addAttribute("branch", companyService.selectBranch(bno));
     }
+    @RequestMapping(value = "/schedule", method = RequestMethod.POST)
+    public String postSchedule(@RequestParam("bno") int bno, ScheduleDTO scheduleDTO){
+//        log.info(scheduleDTO.getSDay());
+        scheduleService.insertSchedule(scheduleDTO);
+        return "redirect:/company/branch/schedule"+"?bno="+bno;
+    }
+
+    @PreAuthorize("isAuthenticated() and #albamen.company.searchBranchList(#bno)")
     @RequestMapping(value = "/time", method = RequestMethod.GET)
-    public void getTime(@RequestParam("bno") int bno, Model model){
+    public void getTime(@AuthenticationPrincipal Albamen albamen,
+                        @RequestParam("bno") int bno, Model model){
         model.addAttribute("branch", companyService.selectBranch(bno));
+        model.addAttribute("timeList", scheduleService.selectTimeList(bno));
     }
     @RequestMapping(value = "/time", method = RequestMethod.POST)
     public String postTime(TimeDTO timeDTO){
-        log.info(timeDTO);
         scheduleService.insertTime(timeDTO);
-        return "company/company";
-    }
-    @RequestMapping(value = "/timeList", method = RequestMethod.GET)
-    @ResponseBody
-    public void getTimeList(@RequestParam("bno") int bno, Model model){
-        log.info("------------------------------------------------------------------------------");
-        model.addAttribute("timeList", scheduleService.selectTimeList(bno));
+        return "redirect:/company/branch/time"+"?bno="+timeDTO.getBno();
     }
 
-    @RequestMapping(value = "/member", method = RequestMethod.POST)
-    public void postBranchOfMember(@RequestParam("bno") int bno, Model model){
+    @RequestMapping(value = "/timeList", method = RequestMethod.GET)
+    public void getTimeList(int bno, Model model){
+        model.addAttribute("timeList", scheduleService.selectTimeList(bno));
+//        return "company/branch/timeList";
+    }
+    @RequestMapping(value = "/removeTime", method = RequestMethod.POST)
+    public void removeTime(int tno){
+        scheduleService.deleteTime(tno);
+//        return "company/branch/timeList";
+    }
+
+
+
+    @PreAuthorize("isAuthenticated() and #albamen.company.searchBranchList(#bno)")
+    @RequestMapping(value = "/member", method = RequestMethod.GET)
+    public void postBranchOfMember(@AuthenticationPrincipal Albamen albamen,
+                                   @RequestParam("bno") int bno, Model model){
         model.addAttribute("memberList", memberService.selectBranchOfMember(bno));
     }
 

@@ -6,6 +6,8 @@ import com.example.albamen.dto.company.TimeDTO;
 import java.util.List;
 
 public interface ScheduleService {
+    void insertSchedule(ScheduleDTO scheduleDTO);
+
     void selectTime(int tno); //근무 시간 조회
     void insertTime(TimeDTO timeDTO); //근무 시간 입력
     boolean updateTime(TimeDTO timeDTO); //근무 시간 변경

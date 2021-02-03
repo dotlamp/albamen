@@ -24,6 +24,11 @@
         <result property="breakEndTime" column="breakEndTime"/>
     </resultMap>
 
+    <insert id="insertSchedule">
+        insert into schedule_management(sDay, tno, mno)
+        values (#{sDay}, #{tno}, #{mno})
+    </insert>
+
     <select id="selectTime" resultMap="timeMap">
         select tno, bno, tname, startTime, endTime, breakStartTime, breakEndTime
         from time_schedule
