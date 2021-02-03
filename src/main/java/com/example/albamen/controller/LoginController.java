@@ -25,4 +25,8 @@ public class LoginController {
         return "login";
     }
 
+    @RequestMapping(value = "/logout", method = RequestMethod.POST)
+    public String getLogout(){
+        return "/";
+    }
 }
