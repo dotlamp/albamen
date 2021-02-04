@@ -116,8 +116,8 @@
     <input type="hidden" id="tno" name="tno">
     <input type="text" id="tname" name="tname" readonly>
     <input type="button" value="근무시간선택" onclick="timeList(${branch.bno})">
-    <input type="radio" name="sStatus" value="1" checked>근무
-    <input type="radio" name="sStatus" value="0">휴가
+    <input type="radio" name="sstatus" value="1" checked>근무
+    <input type="radio" name="sstatus" value="0">휴가
     <input type="hidden" name="bno" value="${branch.bno}">
     <s:csrfInput/>
     <input type="submit" name="addSchedule" value="일정추가">
