@@ -34,5 +34,6 @@ public interface CompanyService{
 
     int getTotalCount(Criteria cri);
 
-    BranchDTO getBranch(int cno);
+    BranchDTO getBranch(int cno); //지점 조회
+    CompanyDTO getCBranch(int bno); //회사+지점조회
 }

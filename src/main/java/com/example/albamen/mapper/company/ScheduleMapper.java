@@ -22,5 +22,4 @@ public interface ScheduleMapper {
     List<TimeDTO> selectTimeList(int bno); //근무 시간 전체 조회
 
     ScheduleDTO selectTSchedule(int mno);//근무+스케줄정보 조회
-    TimeDTO selectTime1(int tno); //근무 시간 조회
 }

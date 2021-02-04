@@ -175,5 +175,11 @@
         from branch b
         where bno =#{bno}
     </select>
+    <select id="getCBranch" resultMap="companyMap">
+        select *
+        from branch b, company c
+        where b.cno = c.cno
+        and b.bno = #{bno}
+    </select>
 
 </mapper>

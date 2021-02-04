@@ -137,4 +137,9 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public BranchDTO getBranch(int cno) { return companyMapper.getBranch(cno); }
+
+    @Override
+    public CompanyDTO getCBranch(int bno) {
+        return companyMapper.getCBranch(bno);
+    }
 }
