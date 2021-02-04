@@ -109,7 +109,7 @@
 </div>
 
 <form action="/company/branch/schedule" method="post">
-    <input type="date" id=sDay" name="sDay" value="">
+    <input type="date" id=sday" name="sday" value="">
     <input type="hidden" id="mno" name="mno">
     <input type="text" id="name" name="name" readonly>
     <input type="button" value="멤버선택" onclick="memberList(${branch.bno})">
@@ -203,7 +203,7 @@
             url: '/company/branch/scheduleList',
             type: 'post',
             dataType: 'text',
-            data: {bno: bno, sDay: scDay},
+            data: {bno: bno, sday: scDay},
             beforeSend: function(xhr){
                 xhr.setRequestHeader("${_csrf.headerName}", "${_csrf.token}");
             },

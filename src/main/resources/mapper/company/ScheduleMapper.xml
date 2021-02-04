@@ -7,10 +7,10 @@
 
     <resultMap id="scheduleMap" type="com.example.albamen.dto.company.ScheduleDTO">
         <id property="sno" column="sno"/>
-        <result property="sday" column="sDay"/>
+        <result property="sday" column="sday"/>
         <result property="tno" column="tno"/>
         <result property="mno" column="mno"/>
-        <result property="sstatus" column="sStatus"/>
+        <result property="sstatus" column="sstatus"/>
         <collection property="timeList" resultMap="timeMap"></collection>
         <collection property="memberList" resultMap="memberMap"></collection>
     </resultMap>
@@ -30,15 +30,15 @@
     </resultMap>
 
     <insert id="insertSchedule">
-        insert into schedule_management(sDay, tno, mno, sStatus)
-        values (#{sDay}, #{tno}, #{mno}, #{sStatus})
+        insert into schedule_management(sday, tno, mno, sstatus)
+        values (#{sday}, #{tno}, #{mno}, #{sstatus})
     </insert>
     <select id="selectScheduleList" resultMap="scheduleMap">
-        select sno, sDay, sStatus, s.mno, name, s.tno, tname, ts.bno, startTime, endTime, breakStartTime, breakEndTime
+        select sno, sday, sstatus, s.mno, name, s.tno, tname, ts.bno, startTime, endTime, breakStartTime, breakEndTime
         from schedule_management s
         left join time_schedule ts on s.tno = ts.tno
         left join member m on s.mno = m.mno
-        where ts.bno = #{bno} and sDay = #{sDay}
+        where ts.bno = #{bno} and sday = #{sday}
     </select>
 
     <select id="selectTime" resultMap="timeMap">
@@ -71,7 +71,7 @@
         from time_schedule t, schedule_management s
         where t.tno = s.tno
         and s.mno = #{mno}
-        and s.sDay = date(now())
+        and s.sday = date(now())
     </select>
 
 
