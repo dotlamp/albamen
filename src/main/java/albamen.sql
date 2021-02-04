@@ -141,7 +141,7 @@ create table work_management(/*당일근무여부*/
                                 bno int comment '회사시퀀스(회사테이블)',
                                 startTime time comment '출근시간',
                                 endTime time comment '퇴근시간',
-                                addTime time comment '초과시간',
+                                overTime time comment '초과시간',
                                 startStatus int comment '0결근1정상2지각',
                                 endStatus int comment '0미퇴근1정상',
                                 constraint work_management_wno_pk primary key (wno),
