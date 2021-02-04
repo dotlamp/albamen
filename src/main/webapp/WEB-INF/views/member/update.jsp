@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -20,7 +21,7 @@
         // 취소
         $(".cencle").on("click", function(){
 
-            location.href = "workCheck";
+            location.href = "workList";
 
         })
 
@@ -47,16 +48,16 @@
 
 </script>
 <body>
-<c:out value="${member}"/>
+<jsp:include page="../includes/navbar.jsp"></jsp:include>
 <section id="container">
-    <form action="/updateMember" method="post" >
+    <form action="/member/updateMember" method="post" >
         <div class="form-group has-feedback">
             <label class="control-label" for="id">아이디</label>
             <input class="form-control" type="text" id="id" name="id" value="${member.id}" readonly />
         </div>
         <div class="form-group has-feedback">
             <label class="control-label" for="password">패스워드</label>
-            <input class="form-control" type="password" id="password" name="password" value="${member.password}"/>
+            <input class="form-control" type="password" id="password" name="password" value=""/>
         </div>
         <div class="form-group has-feedback">
             <label class="control-label" for="name" >성명</label>
@@ -70,7 +71,7 @@
         <div class="form-group has-feedback">
             <label class="control-label" for="regDate">입사일</label>
            <fmt:formatDate var ="regDate" value="${member.regDate}" pattern="yyyy-MM-dd"/>
-            <input class="form-control" type="text" id="regDate"  value="${regDate}" readonly/>
+            <input class="form-control" type="text" id="regDate" value="${regDate}" readonly/>
         </div>
         <div class="form-group has-feedback">
             <label class="control-label" for="mstatus" >상태</label>
@@ -83,14 +84,20 @@
         </div>
         <div class="form-group has-feedback">
             <label class="control-label" for="cno" >회사명</label>
-            <input class="form-control" type="text" id="cno" name="cno" value="${member.companyList}" readonly/>
+            <input class="form-control" type="text" id="cno" value="${company.name}" readonly/>
+        </div>
+        <div class="form-group has-feedback">
+            <label class="control-label" for="bno" >지점명</label>
+            <c:forEach items="${company.branchList}" var="branch">
+            <input class="form-control" type="text" id="bno" value="${branch.bname}" readonly/>
+            </c:forEach>
         </div>
         <div class="form-group has-feedback">
             <button class="btn btn-success" type="submit" id="submit">회원정보수정</button>
             <button class="cencle btn btn-danger" type="button">취소</button>
         </div>
+        <security:csrfInput/>
     </form>
-</section>
 
 </body>
 

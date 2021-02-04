@@ -67,7 +67,6 @@
 <table>
 
 <tr>
-    <th>번호</th>
     <th>날짜</th>
     <th>출근시간</th>
     <th>퇴근시간</th>
@@ -80,7 +79,6 @@
     <c:when test="${fn:length(work.work_mList)>0}">
         <c:forEach items="${work.work_mList}" var="work">
             <tr>
-                <td><c:out value='${work.wno}'/></td>
                 <td><fmt:formatDate pattern="yyyy-MM-dd[E]" value="${work.wday}"/> </td>
                 <td><fmt:formatDate pattern="a hh:mm:ss" value="${work.startTime}"/> </td>
                 <td>
@@ -95,11 +93,11 @@
                 </td>
                 <td>
                     <c:choose>
-                        <c:when test="${work.addTime eq null}">
+                        <c:when test="${work.overTime eq null}">
                             <c:out value="-"/>
                         </c:when>
                         <c:otherwise>
-                            <fmt:formatDate pattern="a hh:mm:ss" value="${work.addTime}"/>
+                            <c:out value="${work.overTime}"/>
                         </c:otherwise>
                     </c:choose>
                 </td>
@@ -120,6 +118,9 @@
                         <c:when test="${work.endstatus eq 1}" >
                             정상
                         </c:when>
+                        <c:when test="${work.endstatus eq 2}" >
+                            조기퇴근
+                        </c:when>
                         <c:otherwise>
                             -
                         </c:otherwise>
@@ -137,14 +138,14 @@
     </c:choose>
 
     <form action="/member/insertWork" method="post">
-        <input type="text" id ="mno" name="mno" value="${member.mno}"/>
-        <input type="text" id ="bno" name="bno" value="${member.bno}"/>
+        <input type="hidden" id ="mno" name="mno" value="${member.mno}"/>
+        <input type="hidden" id ="bno" name="bno" value="${member.bno}"/>
         <button type = "submit" id="on" name="on">출근</button>
         <security:csrfInput/>
     </form>
     <form action="/member/updateWork" method="post">
-        <input type="text" id = "mno1" name="mno" value="${member.mno}"/>
-        <input type="text" id = "bno1" name="bno" value="${member.bno}"/>
+        <input type="hidden" id = "mno1" name="mno" value="${member.mno}"/>
+        <input type="hidden" id = "bno1" name="bno" value="${member.bno}"/>
         <button type = "submit" id="off" name="off" >퇴근</button>
         <security:csrfInput/>
     </form>
