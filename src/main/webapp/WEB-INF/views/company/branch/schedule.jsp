@@ -197,8 +197,6 @@
     function scList() {
         var bno = $('#bno').val();
         var scDay = $('#scDay').val();
-        console.log(bno);
-        console.log(scDay);
         $.ajax({
             url: '/company/branch/scheduleList',
             type: 'post',

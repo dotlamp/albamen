@@ -87,8 +87,8 @@ public class BranchController {
     @PreAuthorize("isAuthenticated() and #albamen.company.searchBranchList(#bno)")
     @RequestMapping(value = "/scheduleList", method = RequestMethod.POST)
     public void postScheduleList(@AuthenticationPrincipal Albamen albamen,
-                            @RequestParam("bno") int bno, String sDay, Model model){
-        model.addAttribute("scList", scheduleService.selectScheduleList(bno, sDay));
+                            @RequestParam("bno") int bno, String sday, Model model){
+        model.addAttribute("scList", scheduleService.selectScheduleList(bno, sday));
     }
 
     @PreAuthorize("isAuthenticated() and #albamen.company.searchBranchList(#bno)")

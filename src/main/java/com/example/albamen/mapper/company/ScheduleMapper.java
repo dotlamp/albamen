@@ -12,7 +12,7 @@ import java.util.List;
 public interface ScheduleMapper {
     /* schdule */
     void insertSchedule(ScheduleDTO scheduleDTO); //근무 일정 입력
-    List<ScheduleDTO> selectScheduleList(int bno, String sDay); //근무 일정 조회
+    List<ScheduleDTO> selectScheduleList(int bno, String sday); //근무 일정 조회
 
     /* time */
     TimeDTO selectTime(int tno); //근무 시간 조회

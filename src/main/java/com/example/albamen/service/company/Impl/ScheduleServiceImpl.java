@@ -32,8 +32,8 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    public List<ScheduleDTO> selectScheduleList(int bno, String sDay) {
-        return scheduleMapper.selectScheduleList(bno, sDay);
+    public List<ScheduleDTO> selectScheduleList(int bno, String sday) {
+        return scheduleMapper.selectScheduleList(bno, sday);
     }
 
     @Override
