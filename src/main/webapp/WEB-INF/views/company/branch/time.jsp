@@ -18,6 +18,7 @@
     <input type="submit" id="timeAdd" value="추가하기">
 </form>
 <hr>
+
 <c:if test="${!empty timeList}">
 <table>
     <table>
@@ -40,6 +41,11 @@
         </tr>
     </c:forEach>
 </table>
+</c:if>
+<c:if test="${empty timeList}">
+    <div>
+        근무 시간이 없습니다.
+    </div>
 </c:if>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
