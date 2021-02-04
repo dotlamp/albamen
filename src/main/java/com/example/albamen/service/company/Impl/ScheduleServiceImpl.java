@@ -16,14 +16,20 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     private ScheduleMapper scheduleMapper;
 
-    @Override
-    public void insertSchedule(ScheduleDTO scheduleDTO) {
-        scheduleMapper.insertSchedule(scheduleDTO);
-    }
-
     @Autowired
     public void setScheduleMapper(ScheduleMapper scheduleMapper) {
         this.scheduleMapper = scheduleMapper;
+    }
+
+    @Override
+    public void insertSchedule(ScheduleDTO scheduleDTO) {
+        if (scheduleDTO.getTno() > 0){
+            log.info("-------------------------------------------O");
+            scheduleMapper.insertSchedule(scheduleDTO);
+        }else{
+            log.info("-------------------------------------------X");
+            scheduleMapper.insertScheduleNULL(scheduleDTO);
+        }
     }
 
     @Override
@@ -32,8 +38,18 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    public List<ScheduleDTO> selectScheduleList(int bno, String sday) {
-        return scheduleMapper.selectScheduleList(bno, sday);
+    public List<ScheduleDTO> selectScheduleListDay(int bno, String sday) {
+        return scheduleMapper.selectScheduleListDay(bno, sday);
+    }
+
+    @Override
+    public List<ScheduleDTO> selectScheduleListMonth(int bno, String month) {
+        return scheduleMapper.selectScheduleListMonth(bno, month);
+    }
+
+    @Override
+    public boolean deleteSchdule(int sno) {
+        return scheduleMapper.deleteSchdule(sno);
     }
 
     @Override

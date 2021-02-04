@@ -8,11 +8,13 @@ import java.sql.Time;
 import java.util.List;
 
 @Mapper
-
 public interface ScheduleMapper {
     /* schdule */
     void insertSchedule(ScheduleDTO scheduleDTO); //근무 일정 입력
-    List<ScheduleDTO> selectScheduleList(int bno, String sday); //근무 일정 조회
+    void insertScheduleNULL(ScheduleDTO scheduleDTO); //근무 일정 입력
+    List<ScheduleDTO> selectScheduleListDay(int bno, String sday); //근무 일정 조회(일별)
+    List<ScheduleDTO> selectScheduleListMonth(int bno, String month); //근무 일정 조회(월별)
+    boolean deleteSchdule(int sno); //근무 일정 삭제
 
     /* time */
     TimeDTO selectTime(int tno); //근무 시간 조회

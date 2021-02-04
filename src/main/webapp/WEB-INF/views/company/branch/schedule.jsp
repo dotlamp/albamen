@@ -113,7 +113,7 @@
     <input type="hidden" id="mno" name="mno">
     <input type="text" id="name" name="name" readonly>
     <input type="button" value="멤버선택" onclick="memberList(${branch.bno})">
-    <input type="hidden" id="tno" name="tno">
+    <input type="hidden" id="tno" name="tno" value="0">
     <input type="text" id="tname" name="tname" readonly>
     <input type="button" value="근무시간선택" onclick="timeList(${branch.bno})">
     <input type="radio" name="sstatus" value="1" checked>근무
@@ -214,6 +214,25 @@
         }); //ajax
     }
 
+    function remove(b, s){
+        $.ajax({
+            url: '/company/branch/removeSchedule',
+            type: 'post',
+            dataType: 'text',
+            data: {bno: b, sno: s},
+            beforeSend: function(xhr){
+                xhr.setRequestHeader("${_csrf.headerName}", "${_csrf.token}");
+            },
+            success: function (data) {
+                // console.log("success");
+            },
+            error: function () {
+                // console.log("error");
+            }
+        });//ajax
+        location.href = location.href;
+    }
+
     function prevmonth() {
 
         if($("#thisMonth").text().indexOf('월')==-1){
@@ -275,9 +294,8 @@
         month = month >= 10 ? month : '0' + month;  //month 두자리로 저장
         var day = date.getDate();                   //d
         day = day >= 10 ? day : '0' + day;          //day 두자리로 저장
-        return year + '' + month + '' + day;
+        return year + '-' + month + '-' + day;
     }
-
     function buildCalender(day){
         $( '#calendar_table').empty();
         // 현재 날짜와 현재 달에 1일의 날짜 객체 생성
@@ -285,11 +303,41 @@
         var y = date.getFullYear();
         var m = date.getMonth();
         var d = date.getDate();
-
+        var bno = $('#bno').val();
+        $.ajax({
+            url: '/company/branch/scheduleListMonth',
+            type: 'post',
+            dataType: 'json',
+            data: {bno: bno, month: m+1},
+            beforeSend: function(xhr){
+                xhr.setRequestHeader("${_csrf.headerName}", "${_csrf.token}");
+            },
+            success: function (data) {
+                for(var i=0; i<data.length; i++){
+                    var ajaxDay = data[i].sday.substring(8,10);
+                    if(ajaxDay<10){
+                        ajaxDay=ajaxDay%10;
+                    }
+                    if(data[i].tno > 0){ //근무중
+                        if(getFormatDate(new Date()) == data[i].sday){ //당일
+                            $(".m"+(m+1)+"_"+(ajaxDay)).append("<br><t class='fa-sm text-dark font-weight-bold'>"+data[i].memberList[0].name+"["+data[i].timeList[0].tname+"]"+"</t>");
+                        }else if (getFormatDate(new Date()) > data[i].sday){ //전날
+                            $(".m"+(m+1)+"_"+(ajaxDay)).append("<br><t class='fa-sm gray'>"+data[i].memberList[0].name+"["+data[i].timeList[0].tname+"]"+"</t>");
+                        }else if (getFormatDate(new Date()) < data[i].sday){ //다음날
+                            $(".m"+(m+1)+"_"+(ajaxDay)).append("<br><t class='fa-sm text-dark'>"+data[i].memberList[0].name+"["+data[i].timeList[0].tname+"]"+"</t>");
+                        }
+                    }else{ //휴가
+                        $(".m"+(m+1)+"_"+(ajaxDay)).append("<br><t class='fa-sm gray font-weight-bold'>"+data[i].memberList[0].name+"[휴가]"+"</t>");
+                    }
+                }
+            },
+            error: function () {
+                // console.log("error");
+            }
+        });//ajax
         if(y==new Date().getFullYear()&&m==new Date().getMonth()){
             d = new Date().getDate();
         }
-
         //현재 년(y)월(m)의 1일(1)의 요일
         var theDate = new Date(y,m,1);
         //요일
@@ -393,14 +441,7 @@
         }
         $("#calendar_table").append(calendar);
 
-        if(d!=1){
-            $(".m"+(m+1)+"_"+(d-1)).append("<br><t class='fa-sm gray'>A</t><br><t class='fa-sm gray'>B</t>");
-            $(".m"+(m+1)+"_"+d).append("<br><t class='fa-sm text-dark font-weight-bold'>C</t>");
-        }else{
-            $(".m"+(m+1)+"_"+d).append("<br><t class='fa-sm text-dark'>D</t>");
-        }
 
-        $(".m"+(m+1)+"_"+(d+1)).append("<br><t class='fa-sm text-dark'>E</t>")
     }
 
     buildCalender(new Date());

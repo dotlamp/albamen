@@ -27,19 +27,38 @@
     <resultMap id="memberMap" type="com.example.albamen.dto.member.MemberDTO">
         <id property="mno" column="mno"/>
         <result property="name" column="name"/>
+        <result property="cno" column="cno"/>
+        <result property="bno" column="bno"/>
     </resultMap>
 
     <insert id="insertSchedule">
         insert into schedule_management(sday, tno, mno, sstatus)
-        values (#{sday}, #{tno}, #{mno}, #{sstatus})
+        values (#{sday}, #{tno}, #{mno}, 1)
     </insert>
-    <select id="selectScheduleList" resultMap="scheduleMap">
-        select sno, sday, sstatus, s.mno, name, s.tno, tname, ts.bno, startTime, endTime, breakStartTime, breakEndTime
+    <insert id="insertScheduleNULL">
+        insert into schedule_management(sday, mno, sstatus)
+        values (#{sday}, #{mno}, #{sstatus})
+    </insert>
+    <select id="selectScheduleListDay" resultMap="scheduleMap">
+        select sno, sday, sstatus, s.mno, name, s.tno, tname, m.bno, startTime, endTime, breakStartTime, breakEndTime
         from schedule_management s
         left join time_schedule ts on s.tno = ts.tno
         left join member m on s.mno = m.mno
-        where ts.bno = #{bno} and sday = #{sday}
+        where m.bno = #{bno} and sday = #{sday}
+        order by sDay asc, sstatus desc, startTime asc, endTime asc
     </select>
+    <select id="selectScheduleListMonth" resultMap="scheduleMap">
+        select sno, sday, sstatus, s.mno, name, s.tno, tname, m.bno, startTime, endTime, breakStartTime, breakEndTime
+        from schedule_management s
+        left join time_schedule ts on s.tno = ts.tno
+        left join member m on s.mno = m.mno
+        where m.bno = #{bno} and month(sday) = #{month}
+        order by sDay asc, sstatus desc, startTime asc, endTime asc
+    </select>
+    <delete id="deleteSchdule">
+        delete from schedule_management
+        where sno = #{sno}
+    </delete>
 
     <select id="selectTime" resultMap="timeMap">
         select tno, bno, tname, startTime, endTime, breakStartTime, breakEndTime
@@ -55,15 +74,17 @@
         set tname = #{tname}, startTime = #{startTime}, endTime = #{endTime}, breakStartTime = #{breakStartTime}, breakEndTime = #{breakEndTime}
     </update>
     
-    <delete id="deleteTime">
-        delete from time_schedule
-        where tno = #{tno}
-    </delete>
+    <update id="deleteTime">
+        update time_schedule
+        set bno = #{bno, jdbcType=VARCHAR}
+        where tno =#{tno}
+    </update>
 
-    <select id="selectTimeList" resultMap="timeMap">
+    <select id="selectTimeList" resultMap="timeMap" >
         select tno, tname, bno, startTime, endTime, breakStartTime, breakEndTime
         from time_schedule
         where bno = #{bno}
+        order by startTime asc, endTime asc;
     </select>
 
     <select id="selectTSchedule" resultMap="scheduleMap">

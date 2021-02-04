@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/company/branch")
 @AllArgsConstructor
@@ -86,9 +88,23 @@ public class BranchController {
     }
     @PreAuthorize("isAuthenticated() and #albamen.company.searchBranchList(#bno)")
     @RequestMapping(value = "/scheduleList", method = RequestMethod.POST)
-    public void postScheduleList(@AuthenticationPrincipal Albamen albamen,
+    public void postScheduleListDay(@AuthenticationPrincipal Albamen albamen,
                             @RequestParam("bno") int bno, String sday, Model model){
-        model.addAttribute("scList", scheduleService.selectScheduleList(bno, sday));
+        model.addAttribute("scList", scheduleService.selectScheduleListDay(bno, sday));
+    }
+    @PreAuthorize("isAuthenticated() and #albamen.company.searchBranchList(#bno)")
+    @RequestMapping(value = "/removeSchedule", method = RequestMethod.POST)
+    public void removeSchedule(@AuthenticationPrincipal Albamen albamen,
+                                   @RequestParam("bno") int bno, @RequestParam("sno") int sno){
+        scheduleService.deleteSchdule(sno);
+    }
+    @PreAuthorize("isAuthenticated() and #albamen.company.searchBranchList(#bno)")
+    @RequestMapping(value = "/scheduleListMonth", method = RequestMethod.POST)
+    @ResponseBody
+    public List<ScheduleDTO> postScheduleListMonth(@AuthenticationPrincipal Albamen albamen,
+                                                   @RequestParam("bno") int bno, String month, Model model){
+        List<ScheduleDTO> list = scheduleService.selectScheduleListMonth(bno, month);
+        return list;
     }
 
     @PreAuthorize("isAuthenticated() and #albamen.company.searchBranchList(#bno)")
