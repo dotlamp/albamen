@@ -26,7 +26,7 @@
         <result property="bno" column="bno"/>
         <result property="startTime" column="startTime"/>
         <result property="endTime" column="endTime"/>
-        <result property="addTime" column="addTime"/>
+        <result property="overTime" column="overTime"/>
         <result property="startstatus" column="startstatus"/>
         <result property="endstatus" column="endstatus"/>
 
@@ -76,7 +76,7 @@
     </select>
 <!--    출근입력-->
     <insert id="insertWork">
-        insert into work_management(mno,wDay,bno,startTime,endTime,addTime,startstatus, endstatus)
+        insert into work_management(mno,wDay,bno,startTime,endTime,overTime,startstatus, endstatus)
         select #{mno},now(),#{bno},now(),null,null,#{startstatus},0
         where not exists(
         select wDay from work_management
@@ -84,7 +84,7 @@
     </insert>
     <!--    퇴근입력-->
     <update id="updateWork">
-        update work_management set endTime = now()
+        update work_management set endTime = now(), overTime = ${overTime}, endstatus = ${endstatus}
         where wDay=date(now())
         and endTime is null
         and mno = #{mno}
