@@ -45,6 +45,9 @@ public class MemberServiceImpl implements MemberService{
 
     @Override
     public void updateMember(MemberDTO dto) {
+        String rowPs = dto.getPassword();
+        String encPs = new BCryptPasswordEncoder().encode(rowPs);
+        dto.setPassword(encPs);
         memberMapper.updateMember(dto);
     }
 
