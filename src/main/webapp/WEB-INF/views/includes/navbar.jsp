@@ -56,10 +56,10 @@
     <div class="collapse navbar-collapse text-left text-white">
         <ol>
             <li>
-                <a href="workList">출퇴근</a>
+                <a href="/member/workList">출퇴근</a>
             </li>
             <li>
-                <a href="update">회원수정</a>
+                <a href="/member/update">회원수정</a>
             </li>
         </ol>
     </div>
