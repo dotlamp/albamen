@@ -25,8 +25,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
 import java.security.Principal;
+import java.sql.Timestamp;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 @Controller
 @RequestMapping("/member")
@@ -90,27 +93,19 @@ public class MemberController {
         model.addAttribute("branch", branchDTO);
         MemberDTO memberDTO_1 = memberService.workList(memberDTO.getId());
         model.addAttribute("work", memberDTO_1);
-//        ScheduleDTO scheduleDTO = scheduleService.selectTSchedule(memberDTO.getMno());
-//        model.addAttribute("schedule", scheduleDTO);
     }
 
     //출근입력
     @RequestMapping(value = "/insertWork")
-    public String insertWork(Principal principal,Work_MDTO dto){
-
-        MemberDTO memberDTO = memberService.selectMember(principal.getName());
-        ScheduleDTO scheduleDTO = scheduleService.selectTSchedule(memberDTO.getMno());
-        TimeDTO timeDTO = scheduleService.selectTime(scheduleDTO.getTno());
-        System.out.println("sssssssssssssssssss"+scheduleDTO);
-        System.out.println("tttttttttttttttttttttt"+timeDTO);
-        String time1 = timeDTO.getStartTime();
-        System.out.println("출근시작시간==================="+time1);
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-        Date now = new Date();
-        String time2 = sdf.format(now);
-        int compare = time2.compareTo(time1);
-        System.out.println("현재시간==================="+time2);
-        System.out.println("============================"+compare);
+    public String insertWork(Work_MDTO dto){
+        ScheduleDTO scheduleDTO = scheduleService.selectTSchedule(dto.getMno()); //스케줄 정보
+        TimeDTO timeDTO = scheduleService.selectTime(scheduleDTO.getTno()); //시간스케줄
+        String starttime = timeDTO.getStartTime(); //지정출근시간
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss.SSS");
+        Date now = new Date(); //현재시간
+        String nowtime = sdf.format(now);
+        int compare = nowtime.compareTo(starttime);
+        //time2가 클때 1, 작으면 -1
         if(compare>=0){
             compare=2;
             dto.setStartstatus(compare);
@@ -118,28 +113,57 @@ public class MemberController {
             compare=1;
             dto.setStartstatus(compare);
         }
-
         memberService.insertWork(dto);
         return "redirect:workList";
     }
+    //퇴근입력
     @RequestMapping(value = "/updateWork")
-    public String updateWork(Work_MDTO dto){
+    public String updateWork(Work_MDTO dto) throws ParseException {
+        ScheduleDTO scheduleDTO = scheduleService.selectTSchedule(dto.getMno()); //스케줄 정보
+        TimeDTO timeDTO = scheduleService.selectTime(scheduleDTO.getTno()); //시간스케줄
+        String endtime = timeDTO.getEndTime();
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+        Date now = new Date();
+        String nowtime = sdf.format(now);
+        int compare = nowtime.compareTo(endtime);
+        //compare=1 정상, compare=2 조기퇴근
+        if(compare>=0){
+            compare=1;
+            dto.setEndstatus(compare);
+            Date nowtime1 = sdf.parse(nowtime); //현재시간 date로변환
+            Date endtime1 = sdf.parse(endtime); //퇴근지정시간 date로변환
+            long overtime = nowtime1.getTime()-endtime1.getTime(); //시간차이 계산
+            String addtime = String.format("%02d:%02d:%02d",
+                    TimeUnit.MILLISECONDS.toHours(overtime),
+                    TimeUnit.MILLISECONDS.toMinutes(overtime) -
+                            TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(overtime)),
+                    TimeUnit.MILLISECONDS.toSeconds(overtime) -
+                            TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(overtime)));
+            dto.setOverTime('"'+addtime+'"');
+
+        }else{
+            compare=2;
+            dto.setEndstatus(compare);
+            dto.setOverTime(null);
+        }
         memberService.updateWork(dto);
         return "redirect:workList";
     }
 
     //회원정보수정
     @RequestMapping(value = "/update", method = RequestMethod.GET)
-    public String updateMemberView(@ModelAttribute MemberDTO dto){
-//        memberService.loginMember(dto);
-        return "update";
+    public String updateMemberView(Principal principal, Model model){
+        MemberDTO memberDTO = memberService.selectMember(principal.getName());
+        model.addAttribute("member",memberDTO);
+        CompanyDTO companyDTO = companyService.getCBranch(memberDTO.getBno());
+        model.addAttribute("company",companyDTO);
+        return "member/update";
     }
 
     @RequestMapping(value = "/updateMember", method = RequestMethod.POST)
-    public String updateMember(MemberDTO dto, HttpSession session){
+    public String updateMember(MemberDTO dto){
         memberService.updateMember(dto);
-        session.invalidate();
-        return "redirect:/login";
+        return "redirect:update";
     }
     @RequestMapping("/login")
     public String login(){
