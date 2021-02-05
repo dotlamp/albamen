@@ -69,11 +69,23 @@
     <update id="updateMember">
         update member set password = #{password}, tel = #{tel} where id = #{id}
     </update>
-    <select id="workList" resultMap="memberMap">
-        select *
+    <select id="workList" resultMap="memberMap" >
+        select rm,aa.wno, aa.wDay, aa.mno,aa.bno,aa.startTime,aa.endTime,aa.overTime,aa.startStatus,aa.endStatus
+        from(
+        select @rownum := @rownum+1 as rm, a.*
+        from
+        (select w.wno, w.wDay, w.mno,w.bno,w.startTime,w.endTime,w.overTime,w.startStatus,w.endStatus
         from member m, work_management w
-        where m.mno = w.mno and m.id = #{id}
-        order by wno desc
+        where m.mno = w.mno and m.id = #{id} and w.bno = #{bno}
+        order by w.wno desc) a) aa,(select @rownum:=0) b
+        where rm between ((#{pageNum}-1)*#{amount})+1 and (#{pageNum}*#{amount})
+    </select>
+    <select id="getTotalCount" resultType="int" >
+        select count(w.wno)
+        from member m, work_management w
+        where m.mno = w.mno
+        and w.bno = #{bno}
+        and m.id = #{id}
     </select>
 <!--    출근입력-->
     <insert id="insertWork">

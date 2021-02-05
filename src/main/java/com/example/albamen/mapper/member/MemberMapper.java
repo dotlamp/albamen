@@ -32,9 +32,10 @@ public interface MemberMapper {
     List<MemberDTO> selectBranchOfMember(int bno);
 
     //출퇴근 기록
-    MemberDTO workList(String id);
+    MemberDTO workList(String id, int bno, int pageNum, int amount);
     void insertWork(Work_MDTO dto);
     void updateWork(Work_MDTO dto);
+    int getTotalCount(Criteria cri,int bno,String id);
 
     void insertAccountInfo(AccountDTO accountDTO); //계좌 정보 입력
     boolean deleteAccountInfo(int mno); //계좌 정보 삭제

@@ -3,10 +3,13 @@ package com.example.albamen.service.member.Impl;
 import com.example.albamen.dto.member.AccountDTO;
 import com.example.albamen.dto.member.MemberDTO;
 import com.example.albamen.dto.member.Work_MDTO;
+import com.example.albamen.dto.page.Criteria;
 import com.example.albamen.mapper.member.MemberMapper;
 import com.example.albamen.service.member.MemberService;
 import lombok.extern.log4j.Log4j2;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.parameters.P;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -53,8 +56,8 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
-    public MemberDTO workList(String id) {
-        return memberMapper.workList(id);
+    public MemberDTO workList(String id, int bno,int pageNum,int amount) {
+        return memberMapper.workList(id,bno,pageNum,amount);
     }
 
     @Override
@@ -85,5 +88,10 @@ public class MemberServiceImpl implements MemberService{
     @Override
     public AccountDTO selectAccountInfo(int mno) {
         return memberMapper.selectAccountInfo(mno);
+    }
+
+    @Override
+    public int getTotalCount(Criteria cri, int bno, String id) {
+        return memberMapper.getTotalCount(cri,bno,id);
     }
 }

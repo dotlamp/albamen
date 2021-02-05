@@ -99,8 +99,7 @@ create table member_salary(/*회원급여테이블*/
                               salary int comment '당일급여액' ,
                               payday datetime comment '급여일' ,
                               pstatus int comment '0미지급1지급' ,
-                              constraint member_salary_bno_pk primary key (bno),
-                              constraint member_salary_bno_fk foreign key (bno) references member(bno),
+                              constraint member_salary_bno_fk foreign key (bno) references branch(bno),
                               constraint member_salary_mno_fk foreign key (mno) references member(mno)
 );
 /* salary_info*/

@@ -61,7 +61,7 @@
             </div>
             <div class="form-group has-feedback">
                 <button class="btn btn-success" type="submit" id="submit">등록</button>
-                <button class="cencle btn btn-danger" type="button" onclick="goBack()">취소</button>
+                <button class="cencle btn btn-danger" type="button" >취소</button>
             </div>
         </form>
     </section>
@@ -70,10 +70,4 @@
 
 </html>
 
-<script>
-    $(document).ready(function () {
-        function goBack() {
-            window.history.back();
-        }
-    }
-</script>
+

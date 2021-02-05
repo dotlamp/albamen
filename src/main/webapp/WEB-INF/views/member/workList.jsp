@@ -4,12 +4,14 @@
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <jsp:useBean id="now" class="java.util.Date"/>
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <title>albamen</title>
 </head>
+
 <script>
     function printClock() {
 
@@ -53,6 +55,12 @@
     }
 
 </script>
+<style>
+    .paging a{
+        color: black;
+    }
+
+</style>
 <body>
 
 <jsp:include page="../includes/navbar.jsp"></jsp:include>
@@ -136,6 +144,33 @@
         </tr>
     </c:otherwise>
     </c:choose>
+</table>
+    <%--페이징--%>
+    <hr>
+    <p>
+        total : <c:out value="${pageMaker.total}"/>,
+        page: <c:out value="${pageMaker.cri.pageNum}"/>,
+        amount :
+        <select class="amount">
+            <option name="amount" value="10">10</option>
+            <option name="amount" value="20">20</option>
+            <option name="amount" value="50">50</option>
+        </select>
+    </p>
+<%--페이징--%>
+    <div class="paging">
+        <p>
+            <c:if test="${pageMaker.prev}">
+                <a href="${pageMaker.startPage-1}">Previous</a>
+            </c:if>
+            <c:forEach var="num" begin="${pageMaker.startPage}" end="${pageMaker.endPage}">
+                <a href="${num}" >${num}</a>
+            </c:forEach>
+            <c:if test="${pageMaker.next}">
+                <a href="${pageMaker.endPage+1}" >Next</a>
+            </c:if>
+        </p>
+    </div>
 
     <form action="/member/insertWork" method="post">
         <input type="hidden" id ="mno" name="mno" value="${member.mno}"/>
@@ -149,7 +184,38 @@
         <button type = "submit" id="off" name="off" >퇴근</button>
         <security:csrfInput/>
     </form>
+    <form id="actionForm"  action="/member/workList" method="get">
+        <input type='hidden' name='pageNum' class='pageNum_input' value='${pageMaker.cri.pageNum }' >
+        <input type='hidden' name='amount' class='amount_input' value='${pageMaker.cri.amount }' >
+    </form>
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var actionForm = $("#actionForm");
+
+            /* 페이지 당 출력 수 조절 */
+            $('.amount').change(function () {
+                var amount_value = $("option:selected", this).val();
+                $('.amount_input').val(amount_value);
+                $('.pageNum_input').val("1");
+                actionForm.val($(this).attr("href"));
+                actionForm.submit();
+            })
+            $('.amount option').each(function () {
+                if($(this).val() == "${pageMaker.cri.amount }"){
+                    $(this).attr("selected", "selected");
+                }
+            });
+
+            /*페이징 버튼 처리 */
+            $('.paging a').click(function (e) {
+                e.preventDefault();
+                actionForm.find("input[name='pageNum']").val($(this).attr("href"));
+                actionForm.submit();
+            });
+        });
+    </script>
 
 </body>
 </html>

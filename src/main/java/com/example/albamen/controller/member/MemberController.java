@@ -7,12 +7,15 @@ import com.example.albamen.dto.company.TimeDTO;
 import com.example.albamen.dto.member.AccountDTO;
 import com.example.albamen.dto.member.MemberDTO;
 import com.example.albamen.dto.member.Work_MDTO;
+import com.example.albamen.dto.page.Criteria;
+import com.example.albamen.dto.page.PageDTO;
 import com.example.albamen.dto.security.Albamen;
 import com.example.albamen.service.company.CompanyService;
 import com.example.albamen.service.member.MemberService;
 import com.example.albamen.service.company.ScheduleService;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,14 +87,15 @@ public class MemberController {
     }
     //출퇴근기록리스트
     @RequestMapping(value ="/workList", method = RequestMethod.GET)
-    public void workList(Principal principal, Model model){
-
+    public void workList(Principal principal, Model model, Criteria cri){
         MemberDTO memberDTO = memberService.selectMember(principal.getName());
         model.addAttribute("member", memberDTO);
         BranchDTO branchDTO = companyService.getBranch(memberDTO.getBno());
         model.addAttribute("branch", branchDTO);
-        MemberDTO memberDTO_1 = memberService.workList(memberDTO.getId());
+        MemberDTO memberDTO_1 = memberService.workList(memberDTO.getId(),memberDTO.getBno(), cri.getPageNum(),cri.getAmount());
         model.addAttribute("work", memberDTO_1);
+        int total = memberService.getTotalCount(cri,memberDTO.getBno(),memberDTO.getId());
+        model.addAttribute("pageMaker", new PageDTO(cri, total, 10));
     }
 
     //출근입력
@@ -100,7 +104,7 @@ public class MemberController {
         ScheduleDTO scheduleDTO = scheduleService.selectTSchedule(dto.getMno()); //스케줄 정보
         TimeDTO timeDTO = scheduleService.selectTime(scheduleDTO.getTno()); //시간스케줄
         String starttime = timeDTO.getStartTime(); //지정출근시간
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss.SSS");
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
         Date now = new Date(); //현재시간
         String nowtime = sdf.format(now);
         int compare = nowtime.compareTo(starttime);
@@ -143,7 +147,7 @@ public class MemberController {
         }else{
             compare=2;
             dto.setEndstatus(compare);
-            dto.setOverTime(null);
+            dto.setOverTime("null");
         }
         memberService.updateWork(dto);
         return "redirect:workList";
