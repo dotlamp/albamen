@@ -31,4 +31,5 @@ public interface MemberService {
     void insertAccountInfo(AccountDTO accountDTO); //계좌 정보 입력
     boolean deleteAccountInfo(int mno); //계좌 정보 삭제
     AccountDTO selectAccountInfo(int mno); //계좌 정보 조회
+    void updateAccountInfo(String id, String bank, String account);
 }

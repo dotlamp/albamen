@@ -160,12 +160,15 @@ public class MemberController {
         model.addAttribute("member",memberDTO);
         CompanyDTO companyDTO = companyService.getCBranch(memberDTO.getBno());
         model.addAttribute("company",companyDTO);
+        AccountDTO accountDTO = memberService.selectAccountInfo(memberDTO.getMno());
+        model.addAttribute("account", accountDTO);
         return "member/update";
     }
 
     @RequestMapping(value = "/updateMember", method = RequestMethod.POST)
-    public String updateMember(MemberDTO dto){
+    public String updateMember(MemberDTO dto, AccountDTO accountDTO){
         memberService.updateMember(dto);
+        memberService.updateAccountInfo(dto.getId(),accountDTO.getBank(), accountDTO.getAccount());
         return "redirect:update";
     }
 

@@ -33,7 +33,6 @@ public class MemberServiceImpl implements MemberService{
     }
     @Override
     public List<MemberDTO> listMember(){
-        System.out.println("memberServiceimpl===========================");
        return memberMapper.listMember();
     }
     @Override
@@ -93,5 +92,10 @@ public class MemberServiceImpl implements MemberService{
     @Override
     public int getTotalCount(Criteria cri, int bno, String id) {
         return memberMapper.getTotalCount(cri,bno,id);
+    }
+
+    @Override
+    public void updateAccountInfo(String id, String bank, String account) {
+        memberMapper.updateAccountInfo(id, bank, account);
     }
 }

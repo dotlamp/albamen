@@ -92,6 +92,17 @@
             <input class="form-control" type="text" id="bno" value="${branch.bname}" readonly/>
             </c:forEach>
         </div>
+        <div>
+            <div class="form-group has-feedback">
+                <label class="control-label" for="bank" >은행</label>
+                <input class="form-control" type="text" id="bank" name= "bank" value="${account.bank}" />
+            </div>
+            <div class="form-group has-feedback">
+                <label class="control-label" for="account" >계좌번호</label>
+                <input class="form-control" type="text" id="account" name="account" value="${account.account}" />
+            </div>
+
+        </div>
         <div class="form-group has-feedback">
             <button class="btn btn-success" type="submit" id="submit">회원정보수정</button>
             <button class="cencle btn btn-danger" type="button">취소</button>

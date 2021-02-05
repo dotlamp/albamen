@@ -150,6 +150,11 @@
         insert into account_info(bank, account, mno)
         values (#{bank}, #{account}, #{mno})
     </insert>
+    <update id="updateAccountInfo">
+        update account_info a inner join member m on a.mno = m.mno
+        set a.bank = #{bank}, a.account= #{account}
+        where m.id = #{id}
+    </update>
 
 
 </mapper>
