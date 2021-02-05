@@ -1,6 +1,5 @@
 package com.example.albamen.dto.member;
 
-import com.example.albamen.dto.company.CompanyDTO;
 import com.example.albamen.dto.security.AuthDTO;
 import lombok.Data;
 
@@ -21,6 +20,7 @@ public class MemberDTO{
     private int bno;
     private List<Work_MDTO> work_mList;
     private List<AuthDTO> authList;
+    private AccountDTO accountInfo;
 
     public boolean hasAuth(String role) {
         for (AuthDTO auth : authList) {
@@ -29,5 +29,12 @@ public class MemberDTO{
             }
         }
         return false;
+    }
+    public boolean mnoCheck(int mno){
+        if(this.mno == mno){
+            return true;
+        }else{
+            return false;
+        }
     }
 }

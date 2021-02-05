@@ -17,8 +17,8 @@
         <result property="bno" column="bno"/>
         <collection property="authList" resultMap="authMap"></collection>
         <collection property="work_mList" resultMap="work_mMap"></collection>
+        <collection property="accountInfo" resultMap="accountMap"></collection>
     </resultMap>
-
     <resultMap id="work_mMap" type="com.example.albamen.dto.member.Work_MDTO">
         <id property="wno" column="wno"/>
         <result property="wday" column="wDay"/>
@@ -29,17 +29,18 @@
         <result property="overTime" column="overTime"/>
         <result property="startstatus" column="startstatus"/>
         <result property="endstatus" column="endstatus"/>
-
     </resultMap>
-
     <resultMap id="authMap" type="com.example.albamen.dto.security.AuthDTO">
         <result property="ano" column="ano"/>
         <result property="mno" column="mno"/>
         <result property="cno" column="cno"/>
         <result property="auth" column="auth"/>
     </resultMap>
-
-
+    <resultMap id="accountMap" type="com.example.albamen.dto.member.AccountDTO">
+        <id property="si_no" column="si_no"/>
+        <result property="bank" column="bank"/>
+        <result property="account" column="account"/>
+    </resultMap>
 
     <insert id="insertMember">
         insert into member(id, password, name, tel, cno, bno)
@@ -124,6 +125,19 @@
         left join auth a on m.mno = a.mno
         where bno = #{bno}
     </select>
+
+    <select id="selectAccountInfo" resultMap="accountMap">
+        select si_no, bank, account, mno from account_info
+        where mno = #{mno}
+    </select>
+    <delete id="deleteAccountInfo">
+        delete from account_info
+        where mno = #{mno}
+    </delete>
+    <insert id="insertAccountInfo">
+        insert into account_info(bank, account, mno)
+        values (#{bank}, #{account}, #{mno})
+    </insert>
 
 
 </mapper>

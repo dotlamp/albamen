@@ -1,5 +1,6 @@
 package com.example.albamen.service.member.Impl;
 
+import com.example.albamen.dto.member.AccountDTO;
 import com.example.albamen.dto.member.MemberDTO;
 import com.example.albamen.dto.member.Work_MDTO;
 import com.example.albamen.mapper.member.MemberMapper;
@@ -69,5 +70,20 @@ public class MemberServiceImpl implements MemberService{
     @Override
     public List<MemberDTO> selectBranchOfMember(int bno) {
         return memberMapper.selectBranchOfMember(bno);
+    }
+
+    @Override
+    public void insertAccountInfo(AccountDTO accountDTO) {
+        memberMapper.insertAccountInfo(accountDTO);
+    }
+
+    @Override
+    public boolean deleteAccountInfo(int mno) {
+        return memberMapper.deleteAccountInfo(mno);
+    }
+
+    @Override
+    public AccountDTO selectAccountInfo(int mno) {
+        return memberMapper.selectAccountInfo(mno);
     }
 }

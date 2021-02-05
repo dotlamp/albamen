@@ -15,7 +15,7 @@
 member
 <a href="/member/list">회원리스트</a>
 <a href="/member/workList">출퇴근리스트</a>
-
+<a href="/member/account">계좌정보</a>
 <s:authentication property="name"/>님
 <%@include file="../includes/footer.jsp" %>
 

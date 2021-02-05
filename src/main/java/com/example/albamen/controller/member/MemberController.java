@@ -4,6 +4,7 @@ import com.example.albamen.dto.company.BranchDTO;
 import com.example.albamen.dto.company.CompanyDTO;
 import com.example.albamen.dto.company.ScheduleDTO;
 import com.example.albamen.dto.company.TimeDTO;
+import com.example.albamen.dto.member.AccountDTO;
 import com.example.albamen.dto.member.MemberDTO;
 import com.example.albamen.dto.member.Work_MDTO;
 import com.example.albamen.dto.security.Albamen;
@@ -15,13 +16,11 @@ import lombok.extern.log4j.Log4j2;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.security.Principal;
@@ -165,10 +164,23 @@ public class MemberController {
         memberService.updateMember(dto);
         return "redirect:update";
     }
-    @RequestMapping("/login")
-    public String login(){
 
-        return "member/login";
+    @RequestMapping(value = "/account", method = RequestMethod.GET)
+    public void getAccount(Principal principal, Model model){
+        MemberDTO memberDTO = memberService.selectMember(principal.getName());
+        model.addAttribute("member", memberDTO);
+        model.addAttribute("account", memberService.selectAccountInfo(memberDTO.getMno()));
+    }
+    @RequestMapping(value = "/account", method = RequestMethod.POST)
+    public String postAccount(AccountDTO accountDTO){
+        memberService.insertAccountInfo(accountDTO);
+        return "redirect:/member/account/"+"?mno="+accountDTO.getMno();
+    }
 
+    @PreAuthorize("isAuthenticated() and #albamen.member.mnoCheck(#mno)")
+    @RequestMapping(value = "/removeAccount", method = RequestMethod.POST)
+    public void removeSchedule(@AuthenticationPrincipal Albamen albamen,
+                               @RequestParam("mno") int mno){
+        memberService.deleteAccountInfo(mno);
     }
 }

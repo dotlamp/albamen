@@ -1,5 +1,6 @@
 package com.example.albamen.service.member;
 
+import com.example.albamen.dto.member.AccountDTO;
 import com.example.albamen.dto.member.MemberDTO;
 import com.example.albamen.dto.member.Work_MDTO;
 
@@ -23,4 +24,8 @@ public interface MemberService {
     MemberDTO workList(String id);
     void insertWork(Work_MDTO dto);
     void updateWork(Work_MDTO dto);
+
+    void insertAccountInfo(AccountDTO accountDTO); //계좌 정보 입력
+    boolean deleteAccountInfo(int mno); //계좌 정보 삭제
+    AccountDTO selectAccountInfo(int mno); //계좌 정보 조회
 }

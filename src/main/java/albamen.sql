@@ -110,6 +110,8 @@ create table account_info(/*계좌정보*/
                             account varchar(20) not null  comment '계좌번호' ,
                             mno int comment '회원시퀀스' ,
                             constraint account_info_no_pk primary key (si_no),
+                            constraint account_info_account_uk unique key (account),
+                            constraint account_info_mno_uk unique key (mno),
                             constraint account_info_mno_fk foreign key (mno) references member(mno)
 );
 /* time_schdule */
@@ -165,3 +167,5 @@ drop table company;
 drop table member;
 
 
+insert into account_info(bank, account, mno)
+values ("123", "124", 2);
