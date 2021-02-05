@@ -94,11 +94,13 @@ create table attach( /*첨부파일 테이블*/
 create table member_salary(/*회원급여테이블*/
                               bno int not null  comment '지점시퀀스' ,
                               mno int not null  comment '회원시퀀스' ,
-                              wDay datetime comment '근무일' ,
+                              wday datetime comment '근무일' ,
                               wTime datetime comment '근무시간' ,
                               salary int comment '당일급여액' ,
-                              payDay datetime comment '급여일' ,
-                              constraint member_salary_mno_pk primary key (mno),
+                              payday datetime comment '급여일' ,
+                              pstatus int comment '0미지급1지급' ,
+                              constraint member_salary_bno_pk primary key (bno),
+                              constraint member_salary_bno_fk foreign key (bno) references member(bno),
                               constraint member_salary_mno_fk foreign key (mno) references member(mno)
 );
 /* salary_info*/
