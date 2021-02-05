@@ -48,26 +48,41 @@
     </form>
 </div>
 
+<form action="/company/branch/schedule" method="post">
+    <input type="date" id=sday" name="sday" value="">
+    <input type="hidden" id="mno" name="mno">
+    <input type="text" id="name" name="name" readonly>
+    <input type="button" value="근무자선택" onclick="memberList(${branch.bno})">
+    <input type="hidden" id="tno" name="tno" value="0">
+    <input type="text" id="tname" name="tname" readonly>
+    <input type="button" value="근무시간선택" onclick="timeList(${branch.bno})">
+    <input type="radio" name="sstatus" value="1" checked>근무
+    <input type="radio" name="sstatus" value="0">휴가
+    <input type="hidden" name="bno" value="${branch.bno}">
+    <s:csrfInput/>
+    <input type="submit" name="addSchedule" value="일정추가">
+</form>
+
 <body id="page-top" <%--onload="buildCalendar();"--%>>
 <div class="container-fluid p-0">
     <section class="resume-section p-3 p-lg-5 d-flex align-items-center" id="education">
         <div class="w-100">
             <div class="col text-left">
-                <h3 class="mb-3">2</h3>
+                <h3 class="mb-3"></h3>
                 <hr class="bg-warning">
                 <div class="row p-1">
-                    <div class="col text-left">
-                        <button class="btn btn-dark ml-3" onclick="getToday();"> TODAY </button>
-                    </div>
+<%--                    <div class="col text-left">--%>
+<%--                        <button class="btn btn-dark ml-3" onclick="getToday();"> TODAY </button>--%>
+<%--                    </div>--%>
                     <div class="col text-center">
                         <button class="btn btn-outline-warning mr-2" onclick="prevmonth();"> < </button>
                         <a class="fa-lg" id="yyyymm"><t id="thisYear"><%=year%></t>년 <t id="thisMonth"><%=month%>월</t></a>
                         <button class="btn btn-outline-warning ml-2" onclick="nextmonth();"> > </button>
                     </div>
-                    <div class="col text-right">
-                        <button class="btn btn-dark" onclick="monthly();"> MONTH </button>
-                        <button class="btn btn-dark" onclick="weekly(<%=year%>,<%=month%>,<%=day%>,null);"> WEEK </button>
-                    </div>
+<%--                    <div class="col text-right">--%>
+<%--                        <button class="btn btn-dark" onclick="monthly();"> MONTH </button>--%>
+<%--                        <button class="btn btn-dark" onclick="weekly(<%=year%>,<%=month%>,<%=day%>,null);"> WEEK </button>--%>
+<%--                    </div>--%>
                 </div>
             </div>
             <div class="row pr-1 pl-1 mt-3">
@@ -108,79 +123,61 @@
     </section>
 </div>
 
-<form action="/company/branch/schedule" method="post">
-    <input type="date" id=sday" name="sday" value="">
-    <input type="hidden" id="mno" name="mno">
-    <input type="text" id="name" name="name" readonly>
-    <input type="button" value="멤버선택" onclick="memberList(${branch.bno})">
-    <input type="hidden" id="tno" name="tno" value="0">
-    <input type="text" id="tname" name="tname" readonly>
-    <input type="button" value="근무시간선택" onclick="timeList(${branch.bno})">
-    <input type="radio" name="sstatus" value="1" checked>근무
-    <input type="radio" name="sstatus" value="0">휴가
-    <input type="hidden" name="bno" value="${branch.bno}">
-    <s:csrfInput/>
-    <input type="submit" name="addSchedule" value="일정추가">
-</form>
+<div id="scList"></div>
 
-근무자 확인 :
-<input type="date" id="scDay" onchange="scList();">
-<div id="scList">
+<%--<div class="modal fade bd-example-modal-lg" id="confirmmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"--%>
+<%--     aria-hidden="true">--%>
+<%--    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">--%>
+<%--        <div class="modal-content">--%>
+<%--            <div class="modal-content">--%>
+<%--                <div class="modal-header">--%>
+<%--                    <h5 class="modal-title" id="title"></h5>--%>
+<%--                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">--%>
+<%--                        <span aria-hidden="true">&times;</span>--%>
+<%--                    </button>--%>
+<%--                </div>--%>
+<%--                <div class="modal-body text-center">--%>
 
-</div>
-<div class="modal fade bd-example-modal-lg" id="confirmmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-     aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="title"></h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body text-center">
-
-                    <table class="table">
-                        <thead class="thead-dark">
-                        <tr>
-                            <th scope="col">근무타입</th>
-                            <th scope="col">이름</th>
-                            <th scope="col">근무일정</th>
-                            <th scope="col">총 근무시간</th>
-                            <th scope="col">상태</th>
-                            <th scope="col">관리</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr class="bg-warning">
-                            <th scope="row">매니저</th>
-                            <td>Larry</td>
-                            <td>13:30~21:30</td>
-                            <td>8시간</td>
-                            <td>근무중</td>
-                            <td>
-                                -
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row"><t class="type"></t> C</th>
-                            <td>Larry</td>
-                            <td>16:30~22:00</td>
-                            <td>5시간30분</td>
-                            <td>예정</td>
-                            <td>
-                                <button class="btn m-0 p-0 mr-2"><i class="fa fa-pen fa-sm text-secondary" onclick="updatebtn()"></i></button>
-                                <button class="btn m-0 p-0"><i class="fa fa-times fa-sm text-secondary" onclick="delbtn();"></i></button>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+<%--                    <table class="table">--%>
+<%--                        <thead class="thead-dark">--%>
+<%--                        <tr>--%>
+<%--                            <th scope="col">근무타입</th>--%>
+<%--                            <th scope="col">이름</th>--%>
+<%--                            <th scope="col">근무일정</th>--%>
+<%--                            <th scope="col">총 근무시간</th>--%>
+<%--                            <th scope="col">상태</th>--%>
+<%--                            <th scope="col">관리</th>--%>
+<%--                        </tr>--%>
+<%--                        </thead>--%>
+<%--                        <tbody>--%>
+<%--                        <tr class="bg-warning">--%>
+<%--                            <th scope="row">매니저</th>--%>
+<%--                            <td>Larry</td>--%>
+<%--                            <td>13:30~21:30</td>--%>
+<%--                            <td>8시간</td>--%>
+<%--                            <td>근무중</td>--%>
+<%--                            <td>--%>
+<%--                                ---%>
+<%--                            </td>--%>
+<%--                        </tr>--%>
+<%--                        <tr>--%>
+<%--                            <th scope="row"><t class="type"></t> C</th>--%>
+<%--                            <td>Larry</td>--%>
+<%--                            <td>16:30~22:00</td>--%>
+<%--                            <td>5시간30분</td>--%>
+<%--                            <td>예정</td>--%>
+<%--                            <td>--%>
+<%--                                <button class="btn m-0 p-0 mr-2"><i class="fa fa-pen fa-sm text-secondary" onclick="updatebtn()"></i></button>--%>
+<%--                                <button class="btn m-0 p-0"><i class="fa fa-times fa-sm text-secondary" onclick="delbtn();"></i></button>--%>
+<%--                            </td>--%>
+<%--                        </tr>--%>
+<%--                        </tbody>--%>
+<%--                    </table>--%>
+<%--                </div>--%>
+<%--            </div>--%>
+<%--        </div>--%>
+<%--    </div>--%>
+<%--</div>--%>
 
 <%@include file="../../includes/footer.jsp" %>
 
@@ -194,14 +191,14 @@
     function timeList(s) {
         window.open("/company/branch/timeList?bno="+s, "width=800, height=600");
     }
-    function scList() {
+    function scList(day) {
         var bno = $('#bno').val();
-        var scDay = $('#scDay').val();
+        // var scDay = $('#scDay').val();
         $.ajax({
             url: '/company/branch/scheduleList',
             type: 'post',
             dataType: 'text',
-            data: {bno: bno, sday: scDay},
+            data: {bno: bno, sday: day},
             beforeSend: function(xhr){
                 xhr.setRequestHeader("${_csrf.headerName}", "${_csrf.token}");
             },
@@ -431,8 +428,19 @@
                             holiday =  "<a class='fa-sm'> "+ solarHolidaysText[j]+"</a>";
                         }
                     }
-
-                    calendar +="<td class='"+tdClass+"' style='cursor:pointer;' onclick='details("+y+","+(m+1)+","+dNum+","+k+");'>"
+                    if(m<10){
+                        var month = "0"+(m+1);
+                    }else{
+                        month = m+1;
+                    }
+                    if(dNum<10){
+                        var day = "0"+dNum;
+                    }else{
+                        day = dNum;
+                    }
+                    var nDate = "\'"+y+"-"+month+"-"+day+"\'";
+                    calendar +="<td class='"+tdClass+"' style='cursor:pointer;' " +
+                        "onclick=scList("+nDate+");>"
                         +dNum+holiday+"</td>";
                     dNum++;
                 }
