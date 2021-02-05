@@ -104,13 +104,13 @@ create table member_salary(/*회원급여테이블*/
                               constraint member_salary_mno_fk foreign key (mno) references member(mno)
 );
 /* salary_info*/
-create table salary_info(/*계좌정보*/
+create table account_info(/*계좌정보*/
                             si_no int auto_increment comment '계좌정보시퀀스' ,
                             bank varchar(20) not null  comment '은행명' ,
                             account varchar(20) not null  comment '계좌번호' ,
                             mno int comment '회원시퀀스' ,
-                            constraint salary_info_no_pk primary key (si_no),
-                            constraint salary_info_mno_fk foreign key (mno) references member(mno)
+                            constraint account_info_no_pk primary key (si_no),
+                            constraint account_info_mno_fk foreign key (mno) references member(mno)
 );
 /* time_schdule */
 create table time_schedule(/*근무시간*/
@@ -155,7 +155,7 @@ create table work_management(/*당일근무여부*/
 drop table work_management;
 drop table schedule_management;
 drop table time_schedule;
-drop table salary_info;
+drop table account_info;
 drop table member_salary;
 drop table attach;
 drop table persistent_logins;

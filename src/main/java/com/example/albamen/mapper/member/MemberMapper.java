@@ -1,5 +1,6 @@
 package com.example.albamen.mapper.member;
 
+import com.example.albamen.dto.member.AccountDTO;
 import com.example.albamen.dto.member.MemberDTO;
 import com.example.albamen.dto.member.Work_MDTO;
 import com.example.albamen.dto.page.Criteria;
@@ -34,4 +35,7 @@ public interface MemberMapper {
     MemberDTO workList(String id);
     void insertWork(Work_MDTO dto);
     void updateWork(Work_MDTO dto);
+
+    void insertAccountInfo(AccountDTO accountDTO); //계좌정보입력
+    boolean deleteAccountInfo(int mno); //계좌정보삭제
 }
