@@ -92,10 +92,12 @@ create table attach( /*첨부파일 테이블*/
 );
 /* salary */
 create table member_salary(/*회원급여테이블*/
+                              bno int not null  comment '지점시퀀스' ,
                               mno int not null  comment '회원시퀀스' ,
                               wDay datetime comment '근무일' ,
                               wTime datetime comment '근무시간' ,
                               salary int comment '당일급여액' ,
+                              payDay datetime comment '급여일' ,
                               constraint member_salary_mno_pk primary key (mno),
                               constraint member_salary_mno_fk foreign key (mno) references member(mno)
 );
@@ -104,7 +106,6 @@ create table salary_info(/*계좌정보*/
                             si_no int auto_increment comment '계좌정보시퀀스' ,
                             bank varchar(20) not null  comment '은행명' ,
                             account varchar(20) not null  comment '계좌번호' ,
-                            payDay datetime comment '급여일' ,
                             mno int comment '회원시퀀스' ,
                             constraint salary_info_no_pk primary key (si_no),
                             constraint salary_info_mno_fk foreign key (mno) references member(mno)
@@ -124,14 +125,13 @@ create table time_schedule(/*근무시간*/
 /* schedule_management */
 create table schedule_management(/*일정관리*/
                                     sno int auto_increment comment '일정관리시퀀스' ,
-                                    sDay date comment '지정일',
+                                    sday date comment '지정일',
                                     tno int comment '근무시간시퀀스(근무시간테이블)' ,
                                     mno int comment '회원시퀀스(회원테이블)' ,
-                                    sStatus int comment '0휴가1근무',
+                                    sstatus int comment '0휴가1근무',
                                     constraint schedule_management_sno_pk primary key (sno),
                                     constraint schedule_management_tno_fk foreign key (tno) references time_schedule(tno),
                                     constraint schedule_management_mno_fk foreign key (mno) references member(mno)
-
 );
 /* work_managemanet */
 create table work_management(/*당일근무여부*/
@@ -162,25 +162,4 @@ drop table branch;
 drop table company;
 drop table member;
 
-create table time_schedule2(/*근무시간*/
-                              startTime time comment '출근시간' ,
-                              endTime time comment '퇴근시간' ,
-                              breakTime time comment '휴게시간'
-);
 
-drop table time_schedule2;
-insert into time_schedule2
-values ("09:30", "18:30", "00:10");
-select * from time_schedule2;
-select (endTime-startTime)/10000 as time from time_schedule2;
-
-select * from time_schedule;
-
-select s.*, t.*
-from schedule_management s
-left join time_schedule t on s.tno = t.tno
-where bno = 3 and sDay = '2021-02-04';
-
-select sno, sDay, sStatus, mno, s.tno, tname, bno, startTime, endTime, breakStartTime, breakEndTime
-from schedule_management s
-         left join time_schedule ts on s.tno = ts.tno;
