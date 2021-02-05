@@ -54,7 +54,7 @@ public class BranchController {
         return "redirect:/";
     }
 
-    @PreAuthorize("isAuthenticated() and #albamen.company.searchBranchList(#bno)")
+    @PreAuthorize("isAuthenticated() and #albamen.company.searchBranchList(#bno) or #albamen.member.bnoCheck(#bno)")
     @RequestMapping(value = "/manage", method = RequestMethod.GET)
     public String postBranch(@AuthenticationPrincipal Albamen albamen,
                              @RequestParam("bno") int bno, Model model){
@@ -62,7 +62,7 @@ public class BranchController {
         return "company/branch/manage";
     }
 
-    @PreAuthorize("isAuthenticated() and #albamen.company.searchBranchList(#bno)")
+    @PreAuthorize("isAuthenticated() and #albamen.company.searchBranchList(#bno) or #albamen.member.bnoCheck(#bno)")
     @RequestMapping(value = "/modify", method = RequestMethod.GET)
     public void getBranchModify(@AuthenticationPrincipal Albamen albamen,
                                 @RequestParam("bno") int bno, Model model){
@@ -75,7 +75,7 @@ public class BranchController {
         return "redirect:/company/branch/manage"+"?bno="+branchDTO.getBno();
     }
 
-    @PreAuthorize("isAuthenticated() and #albamen.company.searchBranchList(#bno)")
+    @PreAuthorize("isAuthenticated() and #albamen.company.searchBranchList(#bno) or #albamen.member.bnoCheck(#bno)")
     @RequestMapping(value = "/schedule", method = RequestMethod.GET)
     public void getSchedule(@AuthenticationPrincipal Albamen albamen,
                             @RequestParam("bno") int bno, Model model){
@@ -86,19 +86,19 @@ public class BranchController {
         scheduleService.insertSchedule(scheduleDTO);
         return "redirect:/company/branch/schedule"+"?bno="+bno;
     }
-    @PreAuthorize("isAuthenticated() and #albamen.company.searchBranchList(#bno)")
+    @PreAuthorize("isAuthenticated() and #albamen.company.searchBranchList(#bno) or #albamen.member.bnoCheck(#bno)")
     @RequestMapping(value = "/scheduleList", method = RequestMethod.POST)
     public void postScheduleListDay(@AuthenticationPrincipal Albamen albamen,
                             @RequestParam("bno") int bno, String sday, Model model){
         model.addAttribute("scList", scheduleService.selectScheduleListDay(bno, sday));
     }
-    @PreAuthorize("isAuthenticated() and #albamen.company.searchBranchList(#bno)")
+    @PreAuthorize("isAuthenticated() and #albamen.company.searchBranchList(#bno) or #albamen.member.bnoCheck(#bno)")
     @RequestMapping(value = "/removeSchedule", method = RequestMethod.POST)
     public void removeSchedule(@AuthenticationPrincipal Albamen albamen,
                                    @RequestParam("bno") int bno, @RequestParam("sno") int sno){
         scheduleService.deleteSchdule(sno);
     }
-    @PreAuthorize("isAuthenticated() and #albamen.company.searchBranchList(#bno)")
+    @PreAuthorize("isAuthenticated() and #albamen.company.searchBranchList(#bno) or #albamen.member.bnoCheck(#bno)")
     @RequestMapping(value = "/scheduleListMonth", method = RequestMethod.POST)
     @ResponseBody
     public List<ScheduleDTO> postScheduleListMonth(@AuthenticationPrincipal Albamen albamen,
@@ -107,7 +107,7 @@ public class BranchController {
         return list;
     }
 
-    @PreAuthorize("isAuthenticated() and #albamen.company.searchBranchList(#bno)")
+    @PreAuthorize("isAuthenticated() and #albamen.company.searchBranchList(#bno) or #albamen.member.bnoCheck(#bno)")
     @RequestMapping(value = "/time", method = RequestMethod.GET)
     public void getTime(@AuthenticationPrincipal Albamen albamen,
                         @RequestParam("bno") int bno, Model model){
@@ -131,7 +131,7 @@ public class BranchController {
 
 
 
-    @PreAuthorize("isAuthenticated() and #albamen.company.searchBranchList(#bno)")
+    @PreAuthorize("isAuthenticated() and #albamen.company.searchBranchList(#bno) or #albamen.member.bnoCheck(#bno)")
     @RequestMapping(value = "/member", method = RequestMethod.GET)
     public void postBranchOfMember(@AuthenticationPrincipal Albamen albamen,
                                    @RequestParam("bno") int bno, Model model){
