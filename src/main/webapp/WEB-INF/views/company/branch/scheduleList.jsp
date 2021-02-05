@@ -19,7 +19,6 @@
                 <td><c:out value="${timeList.startTime}"/>~<c:out value="${timeList.endTime}"/></td>
                 <td><c:out value="${timeList.breakStartTime}"/>~<c:out value="${timeList.breakEndTime}"/></td>
             <td><c:if test="${schedule.sstatus eq 1}">근무</c:if><c:if test="${schedule.sstatus eq 0}">휴가</c:if></td>
-            <td>${memberList.bno}</td>
             <td><input type="button" value="remove" onclick="remove('${memberList.bno}', '${schedule.sno}');"></td>
             <td><input type="button" id="modify" value="modify X" onclick="modify('${memberList.bno}', '${schedule.sno}');"></td>
 <%--                <td style="display: none"><c:out value="${schedule.tno}"/></td>--%>
