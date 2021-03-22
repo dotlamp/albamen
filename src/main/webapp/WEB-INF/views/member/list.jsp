@@ -43,7 +43,6 @@
 <%--        </c:forEach>--%>
 
     </tr>
-<c:out value='${member}'/>
-<c:out value='${company}'/>
+</table>
 </body>
 </html>
